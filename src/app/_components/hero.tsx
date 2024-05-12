@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { Wave } from "./wave";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Icons } from "@/components/icons";
+import { auth } from "../_actions/auth";
 
 const Hero = () => {
   return (
@@ -23,11 +22,9 @@ const Hero = () => {
             favoris, créez votre watchlist, notez différents séries et films...
           </h3>
           <div>
-            <Button asChild>
-              <Link href="/register" className="text-lg">
-                S'inscrire
-              </Link>
-            </Button>
+            <form action={auth}>
+              <Button type="submit">S'inscrire</Button>
+            </form>
           </div>
         </div>
       </div>

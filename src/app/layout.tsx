@@ -3,6 +3,7 @@ import "./globals.css";
 import { Sora } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Header } from "./_components/header";
+import { Toaster } from "@/components/ui/toaster";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,7 +26,8 @@ export default function RootLayout({
         )}
       >
         <Header />
-        {children}
+        <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   );
