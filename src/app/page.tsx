@@ -9,7 +9,7 @@ import { Icons } from "@/components/icons";
 
 export default function Accueil() {
   return (
-    <main>
+    <>
       <section className="w-full">
         <Hero />
       </section>
@@ -41,7 +41,6 @@ export default function Accueil() {
           </div>
           <CardHeader>
             <CardTitle>Sauvegardez</CardTitle>
-            
           </CardHeader>
           <CardContent>
             Vous avez beaucoup trop de choses à visionner et vous avez peur
@@ -68,6 +67,6 @@ export default function Accueil() {
           </CardContent>
         </CardComponent>
       </section>
-    </main>
+    </>
   );
 }
