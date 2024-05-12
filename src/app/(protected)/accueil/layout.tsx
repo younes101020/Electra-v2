@@ -10,5 +10,5 @@ export default function AccueilLayout({
   const isLoggedIn = cookieStore.get("access_token");
   console.log(isLoggedIn)
   if (!isLoggedIn) redirect("/");
-  return <section>{children}</section>;
+  return children;
 }
