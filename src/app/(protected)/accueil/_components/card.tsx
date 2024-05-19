@@ -22,12 +22,12 @@ export function Card({ className, ...props }: CardProps) {
         />
       </CardContent>
       <CardFooter className="flex flex-col items-start p-4 bg-background/50 w-full bottom-0 absolute">
-        <div className="flex text-primary gap-1">
-            <Icons.star size={40} strokeWidth={1} />
-            <Icons.star size={40} strokeWidth={1} />
-            <Icons.star size={40} strokeWidth={1} />
-            <Icons.star size={40} strokeWidth={1} />
-            <Icons.star size={40} strokeWidth={1} />
+        <div className="flex text-primary gap-1 cursor-pointer">
+            <Icons.star size={40} strokeWidth={1} className="hover:scale-110 fill-primary" />
+            <Icons.star size={40} strokeWidth={1} className="hover:scale-110 fill-primary" />
+            <Icons.star size={40} strokeWidth={1} className="hover:scale-110 fill-primary" />
+            <Icons.star size={40} strokeWidth={1} className="hover:scale-110" />
+            <Icons.star size={40} strokeWidth={1} className="hover:scale-110" />
         </div>
         <div className="flex gap-4">
           <h2 className="text-primary font-semibold italic text-7xl">

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Sora } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Header } from "./_components/header";
 import { Toaster } from "@/components/ui/toaster";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-sans" });
@@ -25,8 +24,7 @@ export default function RootLayout({
           sora.variable
         )}
       >
-        <Header />
-        <main>{children}</main>
+        {children}
         <Toaster />
       </body>
     </html>
