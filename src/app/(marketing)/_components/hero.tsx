@@ -23,7 +23,7 @@ const Hero = () => {
           </h3>
           <div>
             <form action={auth}>
-              <Button type="submit">S'inscrire</Button>
+              <Button type="submit">Commencer</Button>
             </form>
           </div>
         </div>

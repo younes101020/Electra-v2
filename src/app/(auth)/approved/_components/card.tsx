@@ -9,11 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { Icons } from "@/components/icons";
 import fetcher from "@/utils/http";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
+import { confirmAuth } from "../_actions/confirmAuth";
 
 interface ICreds {
   access_token: string;
@@ -23,28 +24,8 @@ interface ICreds {
 type CardProps = React.ComponentProps<typeof ConfirmCard> & ICreds;
 
 export function Card({ className, ...props }: CardProps) {
-    const router = useRouter()
-  const { toast } = useToast();
-  const handleClick = async () => {
-    const res = await fetcher(
-      `${process.env.NEXT_PUBLIC_BASEURL}/api/approved`,
-      {
-        body: JSON.stringify({
-          account_id: props.account_id,
-          access_token: props.access_token,
-        }),
-      }
-    );
-    if (!res.ok) {
-      toast({
-        title: "Connexion impossible",
-        description:
-          "Un problème s'est produit lors de la tentative de validation, veuillez retourner à la page principal et pour vous reconnecter",
-        action: <Link href={"/"}>Page principal</Link>,
-      });
-    }
-    router.push('/accueil')
-  };
+  // see: https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#passing-additional-arguments
+  const confirmLastAuthStep = confirmAuth.bind(null, props);
   return (
     <ConfirmCard className={cn("w-[380px]", className)} {...props}>
       <CardHeader>
@@ -54,9 +35,11 @@ export function Card({ className, ...props }: CardProps) {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full" onClick={handleClick}>
-          <Icons.check className="mr-2 h-4 w-4" /> Valider
-        </Button>
+        <form action={confirmLastAuthStep}>
+          <Button className="w-full" type="submit">
+            <Icons.check className="mr-2 h-4 w-4" /> Valider
+          </Button>
+        </form>
       </CardFooter>
     </ConfirmCard>
   );

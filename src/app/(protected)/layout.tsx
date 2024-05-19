@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Header } from "./_components/header";
 
 export default function AccueilLayout({
   children,
@@ -8,7 +9,12 @@ export default function AccueilLayout({
 }) {
   const cookieStore = cookies();
   const isLoggedIn = cookieStore.get("access_token");
-  console.log(isLoggedIn)
+  console.log(isLoggedIn);
   if (!isLoggedIn) redirect("/");
-  return children;
+  return (
+    <>
+      <Header />
+      <main>{children}</main>
+    </>
+  );
 }
