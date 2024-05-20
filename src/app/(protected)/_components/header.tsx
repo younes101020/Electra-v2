@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { UserAccountNav } from "./user-account-nav";
 
-const Header = () => {
+const Header = ({ username }: { username: string }) => {
+  console.log(username)
   return (
     <header className="flex justify-between px-44 py-2">
       <Link href="/accueil">
@@ -9,9 +10,8 @@ const Header = () => {
       </Link>
       <UserAccountNav
         user={{
-          name: "test test",
+          name: username,
           image: null,
-          email: "test@gmail.com",
         }}
       />
     </header>

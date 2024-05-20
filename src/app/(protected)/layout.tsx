@@ -2,6 +2,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Header } from "./_components/header";
 
+interface IAccountDetails {
+  user: { name: string; username: string };
+}
+
 export default function AccueilLayout({
   children,
 }: {
@@ -9,11 +13,12 @@ export default function AccueilLayout({
 }) {
   const cookieStore = cookies();
   const isLoggedIn = cookieStore.get("access_token");
-  console.log(isLoggedIn);
   if (!isLoggedIn) redirect("/");
+  const usernameCookie = cookieStore.get("username");
+  const username = usernameCookie?.value;
   return (
     <>
-      <Header />
+      <Header username={username!} />
       <main>{children}</main>
     </>
   );
