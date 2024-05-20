@@ -7,7 +7,9 @@ type IHeaders =
 
 function updateOptions(options: IHeaders, url: string) {
   const update = { ...options };
-  update.method = "POST";
+  if (!update.method) {
+    update.method = "POST";
+  }
   if (!url.startsWith(process.env.NEXT_PUBLIC_BASEURL!)) {
     update.headers = {
       ...update.headers,
