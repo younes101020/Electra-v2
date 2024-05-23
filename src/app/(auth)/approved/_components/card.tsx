@@ -9,11 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
 import { Icons } from "@/components/icons";
-import fetcher from "@/utils/http";
-import { useToast } from "@/components/ui/use-toast";
-import Link from "next/link";
 import { confirmAuth } from "../_actions/confirmAuth";
 
 interface ICreds {

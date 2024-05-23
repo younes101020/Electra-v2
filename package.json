@@ -2,10 +2,11 @@
   "name": "electra",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -19,6 +20,8 @@
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
