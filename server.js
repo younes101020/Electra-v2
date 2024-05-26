@@ -14,8 +14,21 @@ app.prepare().then(() => {
 
   const io = new Server(httpServer);
 
+  let users = [];
+
   io.on("connection", (socket) => {
-    // ...
+    socket.on("newUser", (data) => {
+      users.push(data);
+      io.emit("newUserResponse", users);
+    });
+    socket.on("message", (data) => {
+      io.emit("messageResponse", data);
+    });
+    socket.on("disconnect", () => {
+      users = users.filter((user) => user.socketID !== socket.id);
+      io.emit("newUserResponse", users);
+      socket.disconnect();
+    });
   });
 
   httpServer

@@ -14,7 +14,10 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-type CardProps = React.ComponentProps<typeof ConfirmCard> & { messages: Array<string> };
+type CardProps = React.ComponentProps<typeof ConfirmCard> & {
+  messages: Array<string>;
+  users: Array<{ id: string; username: string }>;
+};
 
 function Card({ className, ...props }: CardProps) {
   return (
@@ -26,10 +29,19 @@ function Card({ className, ...props }: CardProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ul>
+        <div>
+          <ul>
+            {props.users.map((user) => (
+              <li key={user.id}>{user.username}</li>
+            ))}
+          </ul>
+          <ul>
             {/* TODO: GENERATE ID FOR EACH MSG SERVER SIDE AND USE IT ON KEY INSTEAD OF INDEX */}
-            {props.messages.map((msg,i) => <li key={i}>{msg}</li>)}
-        </ul>
+            {props.messages.map((msg, i) => (
+              <li key={i}>{msg}</li>
+            ))}
+          </ul>
+        </div>
       </CardContent>
       <CardFooter>
         <form
@@ -51,16 +63,21 @@ function Card({ className, ...props }: CardProps) {
 export default function SpacePage() {
   const [isConnected, setIsConnected] = useState(false);
   const [transport, setTransport] = useState("N/A");
-  const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState([])
+  const [users, setUsers] = useState([]);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    socket.on("newUserResponse", (data) => setUsers(data));
+  }, [socket, users]);
 
   useEffect(() => {
     function onFooEvent(value: string) {
-        setMessages(messages.concat(value));
+      setMessages(messages.concat(value));
     }
-    socket.on('message', onFooEvent);
+    socket.on("messageResponse", onFooEvent);
     return () => {
-      socket.off('message', onFooEvent);
+      socket.off("messageResponse", onFooEvent);
     };
   }, [message]);
 
@@ -68,6 +85,8 @@ export default function SpacePage() {
     if (socket.connected) {
       onConnect();
     }
+
+    socket.emit("newUser", { username: "younes", socketID: socket.id });
 
     function onConnect() {
       setIsConnected(true);
@@ -97,7 +116,7 @@ export default function SpacePage() {
       <p>Status: {isConnected ? "connected" : "disconnected"}</p>
       <p>Transport: {transport}</p>
       <div className="w-full flex justify-center">
-        <Card />
+        <Card messages={messages} users={users} />
       </div>
     </div>
   );
