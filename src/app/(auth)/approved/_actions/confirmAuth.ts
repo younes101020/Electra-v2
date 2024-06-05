@@ -15,18 +15,12 @@ export async function confirmAuth(payload: {
       error: validatedPayload.error.flatten().fieldErrors,
     };
   }
-  const response = await fetcher(
+  const accountDetails = await fetcher(
     `https://api.themoviedb.org/4/account/${validatedPayload.data.account_id}`,
     {
       method: "GET",
     }
   );
-  if (!response.ok) {
-    throw new Error(
-      "Une erreur s'est produite lors de la tentative d'authentification, veuillez réessayer"
-    );
-  }
-  const accountDetails = await response.json();
   cookies().set("access_token", validatedPayload.data.access_token);
   cookies().set("account_id", validatedPayload.data.account_id);
   cookies().set("username", accountDetails.username);

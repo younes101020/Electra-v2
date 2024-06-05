@@ -6,11 +6,17 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Icons } from "@/components/icons";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getShowsFn, showQueryKeys } from "@/utils/api/shows";
 
 type CardProps = React.ComponentProps<typeof OneCard>;
 
 export function Card({ className, ...props }: CardProps) {
   const [animation, setAnimation] = useState(false);
+  const { data: shows } = useQuery({
+    queryKey: showQueryKeys.all,
+    queryFn: getShowsFn,
+  });
   return (
     <OneCard className="!relative">
       <CardContent className="!p-0">
@@ -21,19 +27,31 @@ export function Card({ className, ...props }: CardProps) {
           alt="Picture of the first position show"
         />
       </CardContent>
-      <CardFooter className="flex flex-col items-start p-4 bg-background/50 w-full bottom-0 absolute">
-        <div className="flex text-primary gap-1 cursor-pointer">
-            <Icons.star size={40} strokeWidth={1} className="hover:scale-110 fill-primary" />
-            <Icons.star size={40} strokeWidth={1} className="hover:scale-110 fill-primary" />
-            <Icons.star size={40} strokeWidth={1} className="hover:scale-110 fill-primary" />
-            <Icons.star size={40} strokeWidth={1} className="hover:scale-110" />
-            <Icons.star size={40} strokeWidth={1} className="hover:scale-110" />
+      <CardFooter className="absolute bottom-0 flex w-full flex-col items-start bg-background/50 p-4">
+        <div className="flex cursor-pointer gap-1 text-primary">
+          <Icons.star
+            size={40}
+            strokeWidth={1}
+            className="fill-primary hover:scale-110"
+          />
+          <Icons.star
+            size={40}
+            strokeWidth={1}
+            className="fill-primary hover:scale-110"
+          />
+          <Icons.star
+            size={40}
+            strokeWidth={1}
+            className="fill-primary hover:scale-110"
+          />
+          <Icons.star size={40} strokeWidth={1} className="hover:scale-110" />
+          <Icons.star size={40} strokeWidth={1} className="hover:scale-110" />
         </div>
         <div className="flex gap-4">
-          <h2 className="text-primary font-semibold italic text-7xl">
-            #1 <span className=" font-thin text-7xl">/</span>
+          <h2 className="text-7xl font-semibold italic text-primary">
+            #1 <span className="text-7xl font-thin">/</span>
           </h2>
-          <div className="h-full mt-auto flex gap-2">
+          <div className="mt-auto flex h-full gap-2">
             <Button asChild>
               <Link href="/space" className="flex gap-2">
                 <Icons.message size={20} /> / Space
