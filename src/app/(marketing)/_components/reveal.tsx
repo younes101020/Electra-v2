@@ -27,8 +27,8 @@ export function CanvasRevealEffectDemo3() {
               animationSpeed={5}
               containerClassName="bg-transparent"
               colors={[
-                [255, 255, 0],
-                [139, 92, 246],
+                [255, 204, 21],
+                [51, 23, 6],
               ]}
               opacities={[0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 1]}
               dotSize={2}
