@@ -7,7 +7,8 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:deploy": "dotenv -e .env.production -- npx prisma migrate deploy"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",
@@ -15,9 +16,11 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@react-three/fiber": "^8.16.6",
+    "@tanstack/react-query": "^5.40.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.2.6",
+    "dotenv-cli": "^7.4.2",
+    "framer-motion": "^11.2.10",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "prisma": "^5.14.0",

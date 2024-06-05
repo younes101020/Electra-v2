@@ -22,6 +22,11 @@ function updateOptions(options: IHeaders, url: string) {
   return update;
 }
 
-export default function fetcher(url: string, options: IHeaders = {}) {
-  return fetch(url, updateOptions(options, url));
+export default async function fetcher(url: string, options: IHeaders = {}) {
+  const response = await fetch(url, updateOptions(options, url));
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  const result = await response.json();
+  return result;
 }

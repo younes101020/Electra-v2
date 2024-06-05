@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { auth } from "../_actions/auth";
 
-const Header = () => {
+const Header = async () => {
+  const session = await auth()
   return (
     <header className="flex justify-between px-44 py-2">
       <Link href="/">
