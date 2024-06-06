@@ -11,10 +11,10 @@ export async function auth() {
       body: JSON.stringify({
         redirect_to: `${process.env.NEXT_PUBLIC_BASEURL}/approved`,
       }),
-    }
+    },
   );
   cookies().set("request_token", data.request_token);
   redirect(
-    `https://www.themoviedb.org/auth/access?request_token=${data.request_token}`
+    `https://www.themoviedb.org/auth/access?request_token=${data.request_token}`,
   );
 }
