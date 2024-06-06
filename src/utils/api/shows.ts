@@ -1,5 +1,18 @@
 import fetcher from "@/utils/http";
 
+export interface IShowResponse {
+  pages: {
+    results: {
+      id: number;
+      title: string;
+      vote_average: string;
+      poster_path: string;
+    }[];
+    total_pages: number;
+    total_results: number;
+  }[];
+}
+
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
 // https://tkdodo.eu/blog/leveraging-the-query-function-context#query-key-factories
@@ -12,9 +25,9 @@ export const showQueryKeys = {
   infinite: () => [...showQueryKeys.all, "infinite"] as const,
 };
 
-export const getShowsFn = async () => {
+export const getShowsFn = async ({ page }: { page: number }) => {
   const shows = await fetcher(
-    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc",
+    `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_average.desc`,
     { method: "GET" },
   );
   return shows;

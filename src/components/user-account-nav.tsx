@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "./user-avatar";
 import { useTransition } from "react";
-import { logout } from "../_actions/logout";
+import { logout } from "../app/(protected)/_actions/logout";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: any;

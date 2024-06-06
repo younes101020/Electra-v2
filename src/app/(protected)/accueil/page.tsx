@@ -11,9 +11,10 @@ import { getShowsFn, showQueryKeys } from "@/utils/api/shows";
 export default async function Accueil() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: showQueryKeys.all,
-    queryFn: getShowsFn,
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
+    queryFn: ({ pageParam }) => getShowsFn({ page: pageParam }),
+    initialPageParam: 1,
   });
   return (
     <section className="flex min-h-screen flex-col items-center justify-between p-24">

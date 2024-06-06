@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { UserAccountNav } from "./user-account-nav";
+import { UserAccountNav } from "../../../components/user-account-nav";
 
 const Header = ({ username }: { username: string }) => {
-  console.log(username)
+  console.log(username);
   return (
     <header className="flex justify-between px-44 py-2">
       <Link href="/accueil">
