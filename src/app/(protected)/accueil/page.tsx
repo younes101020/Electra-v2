@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { Card } from "./_components/card";
+import { Shows } from "./_components/card";
 import fetcher from "@/utils/http";
 import {
   HydrationBoundary,
@@ -19,7 +19,7 @@ export default async function Accueil() {
   return (
     <section className="flex min-h-screen flex-col items-center justify-between p-24">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Card />
+        <Shows />
       </HydrationBoundary>
     </section>
   );

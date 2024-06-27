@@ -25,6 +25,7 @@ function updateOptions(options: IHeaders, url: string) {
 export default async function fetcher(url: string, options: IHeaders = {}) {
   const response = await fetch(url, updateOptions(options, url));
   if (!response.ok) {
+    console.log(await response.text(), "ok")
     throw new Error(response.statusText);
   }
   const result = await response.json();

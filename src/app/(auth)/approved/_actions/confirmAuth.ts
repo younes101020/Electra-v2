@@ -15,6 +15,7 @@ export async function confirmAuth(payload: {
       error: validatedPayload.error.flatten().fieldErrors,
     };
   }
+  console.log("data:", validatedPayload)
   const accountDetails = await fetcher(
     `https://api.themoviedb.org/4/account/${validatedPayload.data.account_id}`,
     {
