@@ -30,7 +30,7 @@ const ShowCard = ({
           alt="Picture of the first position show"
         />
       </CardContent>
-      <CardFooter className="absolute bottom-0 flex w-full flex-col gap-2 items-start bg-background/50 p-4">
+      <CardFooter className="absolute bottom-0 flex w-full flex-col items-start gap-2 bg-background/50 p-4">
         <div className="flex cursor-pointer gap-1 text-primary">
           {Array.from({ length: 5 }).map((_, index) => (
             <Icons.star
@@ -44,7 +44,10 @@ const ShowCard = ({
         <div className="flex gap-4">
           {placeNumber && (
             <h2 className={`${fontSize} font-semibold italic text-primary`}>
-              #{placeNumber} <span className={`${fontSize} font-thin`}>/</span>
+              #{placeNumber}{" "}
+              {placeNumber === 1 && (
+                <span className={`${fontSize} font-thin`}>/</span>
+              )}
             </h2>
           )}
 
