@@ -75,7 +75,7 @@ export function Shows() {
           <section
             className={
               pageIndex === 0
-                ? "grid grid-cols-7 grid-rows-6 gap-4"
+                ? "grid grid-cols-8 grid-rows-8 gap-4 lg:grid-cols-7 lg:grid-rows-4"
                 : "flex flex-wrap gap-4 pt-4"
             }
           >
@@ -83,23 +83,23 @@ export function Shows() {
               .slice(0, 5)
               .map(({ poster_path, title, vote_average, id }, index) =>
                 index === 0 && pageIndex === 0 ? (
-                  <div className="col-span-3 row-span-6">
+                  <div className="col-span-8 row-span-3 lg:col-span-3 lg:row-span-4">
                     <ShowCard placeNumber={1} poster_path={poster_path} />
                   </div>
                 ) : index === 1 && pageIndex === 0 ? (
-                  <div className="col-span-2 col-start-4 row-span-3">
+                  <div className="col-span-4 col-start-1 row-span-2 row-start-4 lg:col-span-2 lg:col-start-4 lg:row-start-1">
                     <ShowCard placeNumber={2} poster_path={poster_path} />
                   </div>
                 ) : index === 2 && pageIndex === 0 ? (
-                  <div className="col-span-2 col-start-4 row-span-3 row-start-4">
+                  <div className="col-span-4 col-start-5 row-span-2 row-start-4 lg:col-span-2 lg:col-start-6 lg:row-start-1">
                     <ShowCard placeNumber={3} poster_path={poster_path} />
                   </div>
                 ) : index === 3 && pageIndex === 0 ? (
-                  <div className="col-span-2 col-start-6 row-span-3 row-start-1">
+                  <div className="col-span-4 col-start-1 row-span-2 row-start-6 lg:col-span-2 lg:col-start-4 lg:row-start-3">
                     <ShowCard placeNumber={4} poster_path={poster_path} />
                   </div>
                 ) : index === 4 && pageIndex === 0 ? (
-                  <div className="col-span-2 col-start-6 row-span-3 row-start-4">
+                  <div className="col-span-4 col-start-5 row-span-2 row-start-6 lg:col-span-2 lg:col-start-6 lg:row-start-3">
                     <ShowCard placeNumber={5} poster_path={poster_path} />
                   </div>
                 ) : (
