@@ -15,7 +15,7 @@ function updateOptions(options: IHeaders, url: string) {
       ...update.headers,
       accept: "application/json",
       "content-type": "application/json",
-      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
     };
   }
 

@@ -1,18 +1,37 @@
 "use client";
 
 import { useIntersectionObserver } from "usehooks-ts";
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import {
+  FetchNextPageOptions,
+  InfiniteQueryObserverResult,
   useInfiniteQuery,
   type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import { IShowResponse, getShowsFn, showQueryKeys } from "@/utils/api/shows";
 import { ErrorResponse } from "@/utils/api";
 import { ShowCard } from "./card";
+import { Spinner } from "@/components/ui/spinner";
 
-const Section = (props: { section: ReactElement }) => {
+const Section = ({
+  children,
+  className,
+  fetchNextPage,
+  isFetching,
+}: {
+  children: ReactNode;
+  className: string;
+  isFetching: boolean;
+  fetchNextPage: (
+    options?: FetchNextPageOptions | undefined,
+  ) => Promise<InfiniteQueryObserverResult<IShowResponse, ErrorResponse>>;
+}) => {
   const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0.5,
+    threshold: 1,
+    onChange: (isIntersecting) => {
+      console.log(isFetching);
+      if (isIntersecting && !isFetching) fetchNextPage();
+    },
   });
 
   console.log({
@@ -20,17 +39,9 @@ const Section = (props: { section: ReactElement }) => {
   });
 
   return (
-    <div
-      ref={ref}
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        border: "1px dashed #000",
-        fontSize: "2rem",
-      }}
-    >
-      <div style={{ margin: "auto" }}>{props.section}</div>
-    </div>
+    <section ref={ref} className={className}>
+      {children}
+    </section>
   );
 };
 
@@ -39,12 +50,12 @@ export function Shows() {
     data: shows,
     fetchNextPage,
     hasNextPage,
+    isFetching,
   }: UseInfiniteQueryResult<IShowResponse, ErrorResponse> = useInfiniteQuery({
     queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
     queryFn: ({ pageParam }) => getShowsFn({ page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      console.log(lastPage.length);
       if (lastPage.length === 0) {
         return undefined;
       }
@@ -57,39 +68,57 @@ export function Shows() {
       return firstPageParam - 1;
     },
   });
-  console.log(shows!.pages[0].results);
   return (
     <>
-      {shows?.pages.map(({ results }, pageIndex) =>
-        results
-          .slice(0, 5)
-          .map(({ poster_path, title, vote_average, id }, index) =>
-            index === 0 && pageIndex === 0 ? (
-              <div className="col-span-3 row-span-4">
-                <ShowCard placeNumber={1} poster_path={poster_path} />
-              </div>
-            ) : index === 1 && pageIndex === 0 ? (
-              <div className="col-span-2 col-start-4 row-span-2">
-                <ShowCard placeNumber={2} poster_path={poster_path} />
-              </div>
-            ) : index === 2 && pageIndex === 0 ? (
-              <div className="col-span-2 col-start-6 row-span-2">
-                <ShowCard placeNumber={3} poster_path={poster_path} />
-              </div>
-            ) : index === 3 && pageIndex === 0 ? (
-              <div className="col-span-2 col-start-4 row-span-2 row-start-3">
-                <ShowCard placeNumber={4} poster_path={poster_path} />
-              </div>
-            ) : index === 4 && pageIndex === 0 ? (
-              <div className="col-span-2 col-start-6 row-span-2 row-start-3">
-                <ShowCard placeNumber={5} poster_path={poster_path} />
-              </div>
-            ) : (
-              <div className="col-span-2 row-span-2">
-                <ShowCard poster_path={poster_path} />
-              </div>
-            ),
-          ),
+      {shows?.pages.map(({ results }, pageIndex) => (
+        <>
+          <section
+            className={
+              pageIndex === 0
+                ? "grid grid-cols-7 grid-rows-6 gap-4"
+                : "flex flex-wrap gap-4 pt-4"
+            }
+          >
+            {results
+              .slice(0, 5)
+              .map(({ poster_path, title, vote_average, id }, index) =>
+                index === 0 && pageIndex === 0 ? (
+                  <div className="col-span-3 row-span-6">
+                    <ShowCard placeNumber={1} poster_path={poster_path} />
+                  </div>
+                ) : index === 1 && pageIndex === 0 ? (
+                  <div className="col-span-2 col-start-4 row-span-3">
+                    <ShowCard placeNumber={2} poster_path={poster_path} />
+                  </div>
+                ) : index === 2 && pageIndex === 0 ? (
+                  <div className="col-span-2 col-start-4 row-span-3 row-start-4">
+                    <ShowCard placeNumber={3} poster_path={poster_path} />
+                  </div>
+                ) : index === 3 && pageIndex === 0 ? (
+                  <div className="col-span-2 col-start-6 row-span-3 row-start-1">
+                    <ShowCard placeNumber={4} poster_path={poster_path} />
+                  </div>
+                ) : index === 4 && pageIndex === 0 ? (
+                  <div className="col-span-2 col-start-6 row-span-3 row-start-4">
+                    <ShowCard placeNumber={5} poster_path={poster_path} />
+                  </div>
+                ) : (
+                  <div className="flex">
+                    <ShowCard poster_path={poster_path} />
+                  </div>
+                ),
+              )}
+          </section>
+        </>
+      ))}
+      {hasNextPage && (
+        <Section
+          className="flex h-28 w-full items-end justify-center"
+          fetchNextPage={fetchNextPage}
+          isFetching={isFetching}
+        >
+          <Spinner />
+        </Section>
       )}
     </>
   );

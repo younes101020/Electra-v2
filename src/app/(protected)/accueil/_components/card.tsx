@@ -21,7 +21,7 @@ const ShowCard = ({
   const fontSize = placeNumber === 1 ? "text-7xl" : "text-3xl";
 
   return (
-    <Card className={cn("!relative", className)}>
+    <Card className={cn("!relative h-full", className)}>
       <CardContent className="!p-0">
         <Image
           src={`https://image.tmdb.org/t/p/original${poster_path}`}
@@ -30,7 +30,7 @@ const ShowCard = ({
           alt="Picture of the first position show"
         />
       </CardContent>
-      <CardFooter className="absolute bottom-0 flex w-full flex-col items-start bg-background/50 p-4">
+      <CardFooter className="absolute bottom-0 flex w-full flex-col gap-2 items-start bg-background/50 p-4">
         <div className="flex cursor-pointer gap-1 text-primary">
           {Array.from({ length: 5 }).map((_, index) => (
             <Icons.star
