@@ -6,7 +6,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import defaultImage from "@/../public/img/no-image.png";
-import { useMutation } from "@tanstack/react-query";
+import { UseQueryResult, useMutation } from "@tanstack/react-query";
 import { toggleBookmarkShowsFn } from "@/utils/api/favorite";
 
 const ShowCard = ({
@@ -17,6 +17,7 @@ const ShowCard = ({
   id,
   account_id,
   vote_average,
+  refetch,
 }: {
   className?: string;
   placeNumber?: number;
@@ -25,9 +26,14 @@ const ShowCard = ({
   vote_average: number;
   account_id: string;
   id: number;
+  refetch: (options: {
+    throwOnError: boolean;
+    cancelRefetch: boolean;
+  }) => Promise<UseQueryResult>;
 }) => {
   const mutation = useMutation({
     mutationFn: toggleBookmarkShowsFn,
+    onSuccess: () => refetch({ cancelRefetch: true, throwOnError: true }),
   });
   const [animation, setAnimation] = useState(false);
   const imageSize = placeNumber === 1 ? 550 : 225;
