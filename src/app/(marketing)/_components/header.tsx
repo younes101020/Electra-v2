@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { auth } from "@/utils/auth";
 import { UserAccountNav } from "@/components/user-account-nav";
+import { auth as checkAuth } from "@/utils/auth";
+import { auth } from "../_actions/auth";
 
 const Header = async () => {
-  const session = auth();
+  const session = checkAuth();
   return (
     <header className="flex justify-between px-44 py-2">
       <Link href="/">

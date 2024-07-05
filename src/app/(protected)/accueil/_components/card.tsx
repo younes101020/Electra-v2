@@ -5,29 +5,37 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import defaultImage from "@/../public/img/no-image.png";
 
 const ShowCard = ({
   className,
   placeNumber,
   poster_path,
+  vote_average,
 }: {
   className?: string;
   placeNumber?: number;
   poster_path: string;
+  vote_average: number;
 }) => {
   const [animation, setAnimation] = useState(false);
   const imageSize = placeNumber === 1 ? 550 : 225;
   const starSize = placeNumber === 1 ? 40 : 20;
   const fontSize = placeNumber === 1 ? "text-7xl" : "text-3xl";
-
+  const rating = Math.floor(vote_average / 2);
+  console.log(rating);
   return (
     <Card className={cn("!relative h-full", className)}>
-      <CardContent className="!p-0">
+      <CardContent className="flex justify-center !p-0">
         <Image
-          src={`https://image.tmdb.org/t/p/original${poster_path}`}
-          width={imageSize}
-          height={imageSize}
-          alt="Picture of the first position show"
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/original${poster_path}`
+              : defaultImage
+          }
+          width={poster_path ? imageSize : undefined}
+          height={poster_path ? imageSize : undefined}
+          alt="Picture of the show cover"
         />
       </CardContent>
       <CardFooter className="absolute bottom-0 flex w-full flex-col items-start gap-2 bg-background/50 p-4">
@@ -37,7 +45,7 @@ const ShowCard = ({
               key={index + 1}
               size={starSize}
               strokeWidth={1}
-              className="fill-primary hover:scale-110"
+              className={`${rating < index + 1 ? "fill-primary/25" : "fill-primary"} hover:scale-110`}
             />
           ))}
         </div>

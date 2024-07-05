@@ -8,11 +8,11 @@ export default function AccueilLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const username = auth();
-  if (!username) redirect("/");
+  // const username = auth();
+  // if (!username) redirect("/");
   return (
     <>
-      <Header username={username!} />
+      {/* <Header username={username!} /> */}
       <main>
         <RQCProviders>{children}</RQCProviders>
       </main>
