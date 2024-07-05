@@ -68,7 +68,7 @@ export function Shows({ account_id }: { account_id: string }) {
       return firstPageParam - 1;
     },
   });
-  const { data: favoriteShowIds } = useQuery({
+  const { data: favoriteShowIds, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
   });
@@ -97,6 +97,7 @@ export function Shows({ account_id }: { account_id: string }) {
                     key={id}
                   >
                     <ShowCard
+                      refetch={refetch}
                       isFav={favoriteShowIds.some(
                         (favId: number) => id === favId,
                       )}
@@ -113,6 +114,7 @@ export function Shows({ account_id }: { account_id: string }) {
                     className="col-span-4 col-start-1 row-span-2 row-start-4 lg:col-span-2 lg:col-start-4 lg:row-start-1"
                   >
                     <ShowCard
+                      refetch={refetch}
                       isFav={favoriteShowIds.some(
                         (favId: number) => id === favId,
                       )}
@@ -129,6 +131,7 @@ export function Shows({ account_id }: { account_id: string }) {
                     className="col-span-4 col-start-5 row-span-2 row-start-4 lg:col-span-2 lg:col-start-6 lg:row-start-1"
                   >
                     <ShowCard
+                      refetch={refetch}
                       isFav={favoriteShowIds.some(
                         (favId: number) => id === favId,
                       )}
@@ -145,6 +148,7 @@ export function Shows({ account_id }: { account_id: string }) {
                     className="col-span-4 col-start-1 row-span-2 row-start-6 lg:col-span-2 lg:col-start-4 lg:row-start-3"
                   >
                     <ShowCard
+                      refetch={refetch}
                       isFav={favoriteShowIds.some(
                         (favId: number) => id === favId,
                       )}
@@ -161,6 +165,7 @@ export function Shows({ account_id }: { account_id: string }) {
                     className="col-span-4 col-start-5 row-span-2 row-start-6 lg:col-span-2 lg:col-start-6 lg:row-start-3"
                   >
                     <ShowCard
+                      refetch={refetch}
                       isFav={favoriteShowIds.some(
                         (favId: number) => id === favId,
                       )}
@@ -174,6 +179,7 @@ export function Shows({ account_id }: { account_id: string }) {
                 ) : (
                   <div key={id}>
                     <ShowCard
+                      refetch={refetch}
                       isFav={favoriteShowIds.some(
                         (favId: number) => id === favId,
                       )}

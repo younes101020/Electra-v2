@@ -21,7 +21,6 @@ export const getBookmarkShowsFn = async ({
 }: {
   accountId: string;
 }) => {
-  console.log("okqsdgfsdfhg");
   const shows = await fetcher(
     `${process.env.NEXT_PUBLIC_BASETMDBURL}/account/${accountId}/favorite/movies`,
     {
