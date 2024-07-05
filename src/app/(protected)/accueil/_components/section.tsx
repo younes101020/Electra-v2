@@ -6,12 +6,17 @@ import {
   FetchNextPageOptions,
   InfiniteQueryObserverResult,
   useInfiniteQuery,
+  useQuery,
   type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
-import { IShowResponse, getShowsFn, showQueryKeys } from "@/utils/api/shows";
+import { IShowResponse, getShowsFn, showQueryKeys } from "@/utils/api";
 import { ErrorResponse } from "@/utils/api";
 import { ShowCard } from "./card";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  favoriteShowQueryKeys,
+  getBookmarkShowsFn,
+} from "@/utils/api/favorite";
 
 const Section = ({
   children,
@@ -33,10 +38,6 @@ const Section = ({
     },
   });
 
-  console.log({
-    isIntersecting,
-  });
-
   return (
     <section ref={ref} className={className}>
       {children}
@@ -44,7 +45,7 @@ const Section = ({
   );
 };
 
-export function Shows() {
+export function Shows({ account_id }: { account_id: string }) {
   const {
     data: shows,
     fetchNextPage,
@@ -66,6 +67,10 @@ export function Shows() {
       }
       return firstPageParam - 1;
     },
+  });
+  const { data: favoriteShowIds } = useQuery({
+    queryKey: favoriteShowQueryKeys.all,
+    queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
   });
   return (
     <>
@@ -92,6 +97,11 @@ export function Shows() {
                     key={id}
                   >
                     <ShowCard
+                      isFav={favoriteShowIds.some(
+                        (favId: number) => id === favId,
+                      )}
+                      account_id={account_id}
+                      id={id}
                       placeNumber={1}
                       poster_path={poster_path}
                       vote_average={parseInt(vote_average)}
@@ -103,6 +113,11 @@ export function Shows() {
                     className="col-span-4 col-start-1 row-span-2 row-start-4 lg:col-span-2 lg:col-start-4 lg:row-start-1"
                   >
                     <ShowCard
+                      isFav={favoriteShowIds.some(
+                        (favId: number) => id === favId,
+                      )}
+                      account_id={account_id}
+                      id={id}
                       placeNumber={2}
                       poster_path={poster_path}
                       vote_average={parseInt(vote_average)}
@@ -114,6 +129,11 @@ export function Shows() {
                     className="col-span-4 col-start-5 row-span-2 row-start-4 lg:col-span-2 lg:col-start-6 lg:row-start-1"
                   >
                     <ShowCard
+                      isFav={favoriteShowIds.some(
+                        (favId: number) => id === favId,
+                      )}
+                      account_id={account_id}
+                      id={id}
                       placeNumber={3}
                       poster_path={poster_path}
                       vote_average={parseInt(vote_average)}
@@ -125,6 +145,11 @@ export function Shows() {
                     className="col-span-4 col-start-1 row-span-2 row-start-6 lg:col-span-2 lg:col-start-4 lg:row-start-3"
                   >
                     <ShowCard
+                      isFav={favoriteShowIds.some(
+                        (favId: number) => id === favId,
+                      )}
+                      account_id={account_id}
+                      id={id}
                       placeNumber={4}
                       poster_path={poster_path}
                       vote_average={parseInt(vote_average)}
@@ -136,6 +161,11 @@ export function Shows() {
                     className="col-span-4 col-start-5 row-span-2 row-start-6 lg:col-span-2 lg:col-start-6 lg:row-start-3"
                   >
                     <ShowCard
+                      isFav={favoriteShowIds.some(
+                        (favId: number) => id === favId,
+                      )}
+                      account_id={account_id}
+                      id={id}
                       placeNumber={5}
                       poster_path={poster_path}
                       vote_average={parseInt(vote_average)}
@@ -144,6 +174,11 @@ export function Shows() {
                 ) : (
                   <div key={id}>
                     <ShowCard
+                      isFav={favoriteShowIds.some(
+                        (favId: number) => id === favId,
+                      )}
+                      account_id={account_id}
+                      id={id}
                       poster_path={poster_path}
                       vote_average={parseInt(vote_average)}
                     />

@@ -6,24 +6,34 @@ import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import defaultImage from "@/../public/img/no-image.png";
+import { useMutation } from "@tanstack/react-query";
+import { toggleBookmarkShowsFn } from "@/utils/api/favorite";
 
 const ShowCard = ({
   className,
   placeNumber,
   poster_path,
+  isFav,
+  id,
+  account_id,
   vote_average,
 }: {
   className?: string;
   placeNumber?: number;
   poster_path: string;
+  isFav: boolean;
   vote_average: number;
+  account_id: string;
+  id: number;
 }) => {
+  const mutation = useMutation({
+    mutationFn: toggleBookmarkShowsFn,
+  });
   const [animation, setAnimation] = useState(false);
   const imageSize = placeNumber === 1 ? 550 : 225;
   const starSize = placeNumber === 1 ? 40 : 20;
   const fontSize = placeNumber === 1 ? "text-7xl" : "text-3xl";
   const rating = Math.floor(vote_average / 2);
-  console.log(rating);
   return (
     <Card className={cn("!relative h-full", className)}>
       <CardContent className="flex justify-center !p-0">
@@ -70,11 +80,34 @@ const ShowCard = ({
               onAnimationEnd={() => setAnimation(false)}
               className={animation ? "*:animate-wiggle" : ""}
             >
-              <Icons.addBookmark size={20} />
+              {isFav ? (
+                <Icons.rmvBookmark
+                  size={20}
+                  onClick={() => {
+                    mutation.mutate({
+                      accountId: account_id,
+                      showId: id,
+                      favorite: false,
+                    });
+                  }}
+                />
+              ) : (
+                <Icons.addBookmark
+                  size={20}
+                  onClick={() => {
+                    mutation.mutate({
+                      accountId: account_id,
+                      showId: id,
+                      favorite: true,
+                    });
+                  }}
+                />
+              )}
             </Button>
           </div>
         </div>
       </CardFooter>
+      s
     </Card>
   );
 };
