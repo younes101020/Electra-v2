@@ -1,18 +1,5 @@
 import fetcher from "@/utils/http";
 
-export interface IShowResponse {
-  pages: {
-    results: {
-      id: number;
-      title: string;
-      vote_average: string;
-      poster_path: string;
-    }[];
-    total_pages: number;
-    total_results: number;
-  }[];
-}
-
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
 // https://tkdodo.eu/blog/leveraging-the-query-function-context#query-key-factories

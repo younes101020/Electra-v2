@@ -19,6 +19,7 @@ const updateOptions = (options: IHeaders) => {
     update.method = "POST";
   }
   update.headers = {
+    Authorization: "Bearer " + process.env.NEXT_PUBLIC_TMDB_ACCESS_TOKEN,
     "Content-Type": "application/json",
   };
   return update;
@@ -27,6 +28,7 @@ const updateOptions = (options: IHeaders) => {
 const baseFetch = async (url: URL, options: IHeaders) => {
   const response = await fetch(url, updateOptions(options));
   if (!response.ok) {
+    console.log(url.href);
     throw new Error(await response.text());
   }
   const result = await response.json();

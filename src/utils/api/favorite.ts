@@ -1,36 +1,58 @@
 import fetcher from "@/utils/http";
-
-export interface IShowResponse {
-  pages: {
-    results: {
-      id: number;
-      title: string;
-      vote_average: string;
-      poster_path: string;
-    }[];
-    total_pages: number;
-    total_results: number;
-  }[];
-}
+import { Show } from ".";
 
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
 // https://tkdodo.eu/blog/leveraging-the-query-function-context#query-key-factories
 
-export const showQueryKeys = {
+export const favoriteShowQueryKeys = {
   all: ["favorite"] as const,
-  detail: (id: number) => [...showQueryKeys.all, id] as const,
-  pagination: (options: { pageIndex: number; pageSize: number }) =>
-    [...showQueryKeys.all, options] as const,
-  infinite: () => [...showQueryKeys.all, "infinite"] as const,
 };
 
-export const bookmarkShowsFn = async ({
+/**
+ * This function get all the favorites shows ids of a specific account
+ *
+ * @param accountId - The account identifier
+ * @returns All the favorite shows ids
+ *
+ */
+export const getBookmarkShowsFn = async ({
   accountId,
-  showId,
 }: {
   accountId: string;
-  showId: string;
+}) => {
+  console.log("okqsdgfsdfhg");
+  const shows = await fetcher(
+    `${process.env.NEXT_PUBLIC_BASETMDBURL}/account/${accountId}/favorite/movies`,
+    {
+      method: "GET",
+    },
+    {
+      tmdbContext: {
+        api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
+      },
+    },
+  );
+  const favIds = shows.results.map((show: Show) => show.id);
+  return favIds;
+};
+
+/**
+ * This function set show to account favorite list
+ *
+ * @param accountId - The account identifier
+ * @param showId - The show identifier
+ * @returns Boolean that indicate if adding to favorites was done correctly
+ *
+ */
+export const toggleBookmarkShowsFn = async ({
+  accountId,
+  showId,
+  favorite,
+}: {
+  accountId: string;
+  showId: number;
+  favorite: boolean;
 }) => {
   const shows = await fetcher(
     `${process.env.NEXT_PUBLIC_BASETMDBURL}/account/${accountId}/favorite`,
@@ -38,7 +60,7 @@ export const bookmarkShowsFn = async ({
       body: JSON.stringify({
         media_id: showId,
         media_type: "movie",
-        favorite: true,
+        favorite,
       }),
     },
     {
@@ -47,4 +69,5 @@ export const bookmarkShowsFn = async ({
       },
     },
   );
+  return shows.success;
 };
