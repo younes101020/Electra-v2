@@ -19,6 +19,10 @@ export interface IRQShowResponse {
   }[];
 }
 
+export interface IRQFavoriteShowResponse {
+  results: number[];
+}
+
 export interface ITMDBShowResponse {
   page: number;
   results: Show[];

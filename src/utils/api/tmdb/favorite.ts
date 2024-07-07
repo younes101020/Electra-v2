@@ -1,5 +1,5 @@
 import fetcher from "@/utils/http";
-import { Show } from ".";
+import { IRQFavoriteShowResponse, Show } from ".";
 
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
@@ -21,18 +21,12 @@ export const getBookmarkShowsFn = async ({
 }: {
   accountId: string;
 }) => {
-  const shows = await fetcher(
-    `${process.env.NEXT_PUBLIC_BASETMDBURL}/account/${accountId}/favorite/movies`,
+  const favIds = await fetcher<IRQFavoriteShowResponse>(
+    `${process.env.NEXT_PUBLIC_BASEURL}/account/${accountId}/favorite/movies`,
     {
       method: "GET",
     },
-    {
-      tmdbContext: {
-        api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
-      },
-    },
   );
-  const favIds = shows.results.map((show: Show) => show.id);
   return favIds;
 };
 
@@ -68,5 +62,5 @@ export const toggleBookmarkShowsFn = async ({
       },
     },
   );
-  return shows.success;
+  return "shows.success";
 };

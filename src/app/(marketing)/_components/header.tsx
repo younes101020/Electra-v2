@@ -20,7 +20,7 @@ const Header = async () => {
         />
       ) : (
         <form action={auth}>
-          <Button type="submit">S'authentifier</Button>
+          <Button type="submit">S&apos;authentifier</Button>
         </form>
       )}
     </header>
