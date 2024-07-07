@@ -7,7 +7,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import defaultImage from "@/../public/img/no-image.png";
 import { UseQueryResult, useMutation } from "@tanstack/react-query";
-import { toggleBookmarkShowsFn } from "@/utils/api/favorite";
+import { toggleBookmarkShowsFn } from "@/utils/api/tmdb/favorite";
 
 const ShowCard = ({
   className,

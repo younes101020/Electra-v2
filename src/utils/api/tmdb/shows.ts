@@ -1,4 +1,5 @@
 import fetcher from "@/utils/http";
+import { ITMDBErrorResponse, ITMDBShowResponse } from ".";
 
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
@@ -12,15 +13,10 @@ export const showQueryKeys = {
   infinite: () => [...showQueryKeys.all, "infinite"] as const,
 };
 
-export const getShowsFn = async ({ page }: { page: number }) => {
+export const getRQShowsFn = async ({ page }: { page: number }) => {
   const shows = await fetcher(
-    `${process.env.NEXT_PUBLIC_BASETMDBURL}/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_average.desc`,
+    `${process.env.NEXT_PUBLIC_BASEURL}/movies/${page}`,
     { method: "GET" },
-    {
-      tmdbContext: {
-        api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
-      },
-    },
   );
   return shows;
 };

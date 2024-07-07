@@ -4,17 +4,17 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { getShowsFn, showQueryKeys } from "@/utils/api/shows";
+import { getShowsFn, showQueryKeys } from "@/utils/api/tmdb/shows";
 import { cookies } from "next/headers";
 import {
   favoriteShowQueryKeys,
   getBookmarkShowsFn,
-} from "@/utils/api/favorite";
+} from "@/utils/api/tmdb/favorite";
 
 export default async function Accueil() {
   const queryClient = new QueryClient();
   const account_id = cookies().get("account_id")?.value!;
-  console.log(account_id)
+  console.log(account_id);
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),

@@ -1,4 +1,4 @@
-export interface ErrorResponse {
+export interface ITMDBErrorResponse {
   success: boolean;
   status_code: number;
   status_message: string;
@@ -11,7 +11,7 @@ export interface Show {
   poster_path: string;
 }
 
-export interface IShowResponse {
+export interface IRQShowResponse {
   pages: {
     results: Show[];
     total_pages: number;
@@ -19,4 +19,11 @@ export interface IShowResponse {
   }[];
 }
 
-export { getShowsFn, showQueryKeys } from "./shows";
+export interface ITMDBShowResponse {
+  page: number;
+  results: Show[];
+  total_pages: 617;
+  total_results: 12331;
+}
+
+export { getRQShowsFn, showQueryKeys } from "./shows";
