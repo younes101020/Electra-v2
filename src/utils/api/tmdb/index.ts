@@ -22,8 +22,8 @@ export interface IRQShowResponse {
 export interface ITMDBShowResponse {
   page: number;
   results: Show[];
-  total_pages: 617;
-  total_results: 12331;
+  total_pages: number;
+  total_results: number;
 }
 
 export { getRQShowsFn, showQueryKeys } from "./shows";

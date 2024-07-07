@@ -1,18 +1,32 @@
 import { ITMDBShowResponse } from "@/utils/api/tmdb";
 import fetcher from "@/utils/http";
+import { unstable_cache } from "next/cache";
 
-export const revalidate = 30;
-
-// Only the 50 first movies pages will benefite of the nextjs caching feature
-export function generateStaticParams() {
-  const pages = Array.from({ length: 50 }, (v, i) => i + 1);
-  return pages;
-}
-
+/**
+ * This endpoint return a list of movies including title, poster, average grades and id movie
+ * Only one information is requested and this is the number of the page to retrieve.
+ * Each page contains 20 movies
+ *
+ * Note: The movies cache has a lifespan of 30 seconds
+ */
 export async function GET({ params }: { params: { page: string } }) {
   try {
+    const movies = await getCachedMovies(params.page);
+    return Response.json(movies);
+  } catch (error) {
+    if (error instanceof Error)
+      return Response.json({ error: error.message }, { status: 400 });
+    return Response.json({ error }, { status: 502 });
+  }
+}
+
+const getCachedMovies = async (page: string) =>
+  unstable_cache(async (page) => getMovies(page), [page], { revalidate: 30 });
+
+const getMovies = async (page: string) => {
+  try {
     const shows = await fetcher<ITMDBShowResponse>(
-      `${process.env.NEXT_PUBLIC_BASETMDBURL}/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${params.page}&sort_by=vote_average.desc`,
+      `${process.env.NEXT_PUBLIC_BASETMDBURL}/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_average.desc`,
       { method: "GET" },
       {
         tmdbContext: {
@@ -20,7 +34,6 @@ export async function GET({ params }: { params: { page: string } }) {
         },
       },
     );
-    // Return only the used data to decrease bandwidth
     const filteredShows = shows.results.map(
       ({ id, vote_average, title, poster_path }) => {
         id;
@@ -29,10 +42,8 @@ export async function GET({ params }: { params: { page: string } }) {
         poster_path;
       },
     );
-    return Response.json({ ...shows, results: filteredShows });
+    return { ...shows, results: filteredShows };
   } catch (error) {
-    if (error instanceof Error)
-      return Response.json({ error: error.message }, { status: 400 });
-    return Response.json({ error }, { status: 502 });
+    throw error;
   }
-}
+};
