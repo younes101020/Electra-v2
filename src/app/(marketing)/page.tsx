@@ -27,8 +27,8 @@ export default function Accueil() {
             <CardTitle>Discutez</CardTitle>
           </CardHeader>
           <CardContent>
-            Grand admirateur d'un film ou d'une série en particulier ? Alors
-            rejoignez un espace où vous trouverez d'autres personnes partageant
+            Grand admirateur d&apos;un film ou d&apos;une série en particulier ? Alors
+            rejoignez un espace où vous trouverez d&apos;autres personnes partageant
             la même obsession que vous !
           </CardContent>
         </CardComponent>
@@ -45,7 +45,7 @@ export default function Accueil() {
           </CardHeader>
           <CardContent>
             Vous avez beaucoup trop de choses à visionner et vous avez peur
-            d'oublier ? Pas de souci, ajoutez du contenu cinématographique à
+            d&apos;oublier ? Pas de souci, ajoutez du contenu cinématographique à
             votre liste de visionnage et consultez-la à tout moment.
           </CardContent>
         </CardComponent>
@@ -62,9 +62,9 @@ export default function Accueil() {
           </CardHeader>
           <CardContent>
             Influencez le référencement des différents contenus
-            cinématographiques au sein de l'application en donnant une notation
+            cinématographiques au sein de l&apos;application en donnant une notation
             en étoiles. Plus un film ou une série obtient une haute note
-            d'étoiles, mieux il est référencé.
+            d&apos;étoiles, mieux il est référencé.
           </CardContent>
         </CardComponent>
       </section>

@@ -1,3 +1,5 @@
+import { ITMDBErrorResponse, ITMDBShowResponse } from "./api/tmdb";
+
 type IHeaders =
   | {
       method: string;
@@ -11,29 +13,10 @@ type ICtx = {
     session_id?: string;
     account_id?: string;
   };
+  nextproxyContext?: {};
 };
 
-const updateOptions = (options: IHeaders) => {
-  const update = { ...options };
-  if (!update.method) {
-    update.method = "POST";
-  }
-  update.headers = {
-    Authorization: "Bearer " + process.env.NEXT_PUBLIC_TMDB_ACCESS_TOKEN,
-    "Content-Type": "application/json",
-  };
-  return update;
-};
-
-const baseFetch = async (url: URL, options: IHeaders) => {
-  const response = await fetch(url, updateOptions(options));
-  if (!response.ok) {
-    console.log(url.href);
-    throw new Error(await response.text());
-  }
-  const result = await response.json();
-  return result;
-};
+type ICtxName = keyof ICtx;
 
 /**
  * This function constructs urls according to the calling context
@@ -44,19 +27,68 @@ const baseFetch = async (url: URL, options: IHeaders) => {
  * @returns The result of the fetch call in json format
  *
  */
-export default async function fetcher(
+export default async function fetcher<IData>(
   url: string,
   options: IHeaders = {},
-  ctx: ICtx,
-) {
-  if (ctx.tmdbContext) {
-    const showUrl = new URL(url);
-    showUrl.searchParams.set("api_key", ctx?.tmdbContext?.api_key);
-    // In the case of account id retrieval, we need to supply the session id
-    if (ctx?.tmdbContext?.session_id) {
-      showUrl.searchParams.set("session_id", ctx?.tmdbContext?.session_id);
+  ctx: ICtx = {},
+): Promise<IData> {
+  try {
+    if (ctx && ctx.tmdbContext) {
+      const showUrl = new URL(url);
+      showUrl.searchParams.set("api_key", ctx?.tmdbContext?.api_key);
+      // In the case of account id retrieval, we need to supply the session id
+      if (ctx?.tmdbContext?.session_id) {
+        showUrl.searchParams.set("session_id", ctx?.tmdbContext?.session_id);
+      }
+      const tmdbResponse = await baseFetch<
+        ITMDBShowResponse,
+        ITMDBErrorResponse
+      >(showUrl, options, "tmdbContext");
+      const tmdbErrorResponse = tmdbResponse as ITMDBErrorResponse;
+      if (tmdbErrorResponse.success === false)
+        throw Error(tmdbErrorResponse.status_message);
+      return tmdbResponse as IData;
     }
-    const response = await baseFetch(showUrl, options);
-    return response;
+    const showsResponse = await baseFetch<
+      ITMDBShowResponse,
+      ITMDBErrorResponse
+    >(url, options, "nextproxyContext");
+    return showsResponse as IData;
+  } catch (error) {
+    throw error;
   }
 }
+
+const baseFetch = async <IData, IError>(
+  url: URL | string,
+  options: IHeaders,
+  ctxName: ICtxName,
+): Promise<IData | IError> => {
+  try {
+    const response = await fetch(url, updateOptions(options, ctxName));
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    if (error instanceof Error) throw Error(error.message);
+    throw Error(typeof error === "string" ? error : "Unhandled error");
+  }
+};
+
+const updateOptions = (options: IHeaders, ctxName: ICtxName) => {
+  const update = { ...options };
+  if (!update.method) {
+    update.method = "POST";
+  }
+  switch (ctxName) {
+    case "tmdbContext":
+      update.headers = {
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_TMDB_ACCESS_TOKEN,
+        "Content-Type": "application/json",
+      };
+      break;
+  }
+  return update;
+};

@@ -9,14 +9,14 @@ import {
   useQuery,
   type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
-import { IShowResponse, getShowsFn, showQueryKeys } from "@/utils/api";
-import { ErrorResponse } from "@/utils/api";
+import { IShowResponse, getShowsFn, showQueryKeys } from "@/utils/api/tmdb";
+import { ErrorResponse } from "@/utils/api/tmdb";
 import { ShowCard } from "./card";
 import { Spinner } from "@/components/ui/spinner";
 import {
   favoriteShowQueryKeys,
   getBookmarkShowsFn,
-} from "@/utils/api/favorite";
+} from "@/utils/api/tmdb/favorite";
 
 const Section = ({
   children,
