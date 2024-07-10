@@ -9,8 +9,12 @@ import {
   useQuery,
   type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
-import { IShowResponse, getShowsFn, showQueryKeys } from "@/utils/api/tmdb";
-import { ErrorResponse } from "@/utils/api/tmdb";
+import {
+  IRQShowResponse,
+  getRQShowsFn,
+  showQueryKeys,
+  IRQErrorResponse,
+} from "@/utils/api/tmdb";
 import { ShowCard } from "./card";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -29,7 +33,7 @@ const Section = ({
   isFetching: boolean;
   fetchNextPage: (
     options?: FetchNextPageOptions | undefined,
-  ) => Promise<InfiniteQueryObserverResult<IShowResponse, ErrorResponse>>;
+  ) => Promise<InfiniteQueryObserverResult<IRQShowResponse, IRQErrorResponse>>;
 }) => {
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 1,
@@ -51,12 +55,15 @@ export function Shows({ account_id }: { account_id: string }) {
     fetchNextPage,
     hasNextPage,
     isFetching,
-  }: UseInfiniteQueryResult<IShowResponse, ErrorResponse> = useInfiniteQuery({
+  }: UseInfiniteQueryResult<
+    IRQShowResponse,
+    IRQErrorResponse
+  > = useInfiniteQuery({
     queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
-    queryFn: ({ pageParam }) => getShowsFn({ page: pageParam }),
+    queryFn: ({ pageParam = 1 }) => getRQShowsFn({ page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (lastPage.length === 0) {
+      if (lastPage.results.length === 0) {
         return undefined;
       }
       return lastPageParam + 1;
@@ -98,9 +105,12 @@ export function Shows({ account_id }: { account_id: string }) {
                   >
                     <ShowCard
                       refetch={refetch}
-                      isFav={favoriteShowIds.some(
-                        (favId: number) => id === favId,
-                      )}
+                      isFav={
+                        favoriteShowIds?.results! &&
+                        favoriteShowIds.results.some(
+                          (favId: number) => id === favId,
+                        )
+                      }
                       account_id={account_id}
                       id={id}
                       placeNumber={1}
@@ -115,9 +125,12 @@ export function Shows({ account_id }: { account_id: string }) {
                   >
                     <ShowCard
                       refetch={refetch}
-                      isFav={favoriteShowIds.some(
-                        (favId: number) => id === favId,
-                      )}
+                      isFav={
+                        favoriteShowIds?.results! &&
+                        favoriteShowIds.results.some(
+                          (favId: number) => id === favId,
+                        )
+                      }
                       account_id={account_id}
                       id={id}
                       placeNumber={2}
@@ -132,9 +145,12 @@ export function Shows({ account_id }: { account_id: string }) {
                   >
                     <ShowCard
                       refetch={refetch}
-                      isFav={favoriteShowIds.some(
-                        (favId: number) => id === favId,
-                      )}
+                      isFav={
+                        favoriteShowIds?.results! &&
+                        favoriteShowIds.results.some(
+                          (favId: number) => id === favId,
+                        )
+                      }
                       account_id={account_id}
                       id={id}
                       placeNumber={3}
@@ -149,9 +165,12 @@ export function Shows({ account_id }: { account_id: string }) {
                   >
                     <ShowCard
                       refetch={refetch}
-                      isFav={favoriteShowIds.some(
-                        (favId: number) => id === favId,
-                      )}
+                      isFav={
+                        favoriteShowIds?.results! &&
+                        favoriteShowIds.results.some(
+                          (favId: number) => id === favId,
+                        )
+                      }
                       account_id={account_id}
                       id={id}
                       placeNumber={4}
@@ -166,9 +185,12 @@ export function Shows({ account_id }: { account_id: string }) {
                   >
                     <ShowCard
                       refetch={refetch}
-                      isFav={favoriteShowIds.some(
-                        (favId: number) => id === favId,
-                      )}
+                      isFav={
+                        favoriteShowIds?.results! &&
+                        favoriteShowIds.results.some(
+                          (favId: number) => id === favId,
+                        )
+                      }
                       account_id={account_id}
                       id={id}
                       placeNumber={5}
@@ -180,9 +202,12 @@ export function Shows({ account_id }: { account_id: string }) {
                   <div key={id}>
                     <ShowCard
                       refetch={refetch}
-                      isFav={favoriteShowIds.some(
-                        (favId: number) => id === favId,
-                      )}
+                      isFav={
+                        favoriteShowIds?.results! &&
+                        favoriteShowIds.results.some(
+                          (favId: number) => id === favId,
+                        )
+                      }
                       account_id={account_id}
                       id={id}
                       poster_path={poster_path}

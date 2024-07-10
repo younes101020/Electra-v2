@@ -4,6 +4,10 @@ export interface ITMDBErrorResponse {
   status_message: string;
 }
 
+export interface IRQErrorResponse {
+  error: string;
+}
+
 export interface Show {
   id: number;
   title: string;
