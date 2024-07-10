@@ -1,5 +1,5 @@
 import fetcher from "@/utils/http";
-import { ITMDBErrorResponse, ITMDBShowResponse } from ".";
+import { ITMDBShowResponse } from ".";
 
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
@@ -14,7 +14,7 @@ export const showQueryKeys = {
 };
 
 export const getRQShowsFn = async ({ page }: { page: number }) => {
-  const shows = await fetcher(
+  const shows = await fetcher<ITMDBShowResponse>(
     `${process.env.NEXT_PUBLIC_BASEURL}/movies/${page}`,
     { method: "GET" },
   );

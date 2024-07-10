@@ -37,6 +37,7 @@ export default async function fetcher<IData>(
       const showUrl = new URL(url);
       showUrl.searchParams.set("api_key", ctx?.tmdbContext?.api_key);
       // In the case of account id retrieval, we need to supply the session id
+      // reminder: session_id is only needed for mutation purpose like adding ratings
       if (ctx?.tmdbContext?.session_id) {
         showUrl.searchParams.set("session_id", ctx?.tmdbContext?.session_id);
       }
