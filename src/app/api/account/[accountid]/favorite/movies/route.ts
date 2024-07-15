@@ -8,7 +8,10 @@ import { unstable_cache } from "next/cache";
  *
  * Note: The favorite ids movie is cached indefinitely
  */
-export async function GET({ params }: { params: { accountid: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { accountid: string } },
+) {
   try {
     const favIds = await getCachedFavoriteMovieIds(params.accountid);
     return Response.json(favIds);
@@ -19,23 +22,26 @@ export async function GET({ params }: { params: { accountid: string } }) {
   }
 }
 
-const getCachedFavoriteMovieIds = async (accountId: string) =>
-  unstable_cache(
+const getCachedFavoriteMovieIds = async (accountId: string) => {
+  const cachedFavs = unstable_cache(
     async (accountId) => getFavoriteMovieIds(accountId),
     [accountId],
     { tags: [accountId, "favorite"] },
   );
+  const favs = await cachedFavs(accountId);
+  return favs;
+};
 
 const getFavoriteMovieIds = async (accountId: string) => {
   try {
     const favShows = await fetcher<ITMDBShowResponse>(
-      `${process.env.NEXT_PUBLIC_BASETMDBURL}/account/${accountId}/favorite/movies`,
+      `${process.env.BASETMDBURL}/account/${accountId}/favorite/movies`,
       {
         method: "GET",
       },
       {
         tmdbContext: {
-          api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
+          api_key: process.env.TMDB_API_KEY!,
         },
       },
     );

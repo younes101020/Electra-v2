@@ -86,7 +86,7 @@ const updateOptions = (options: IHeaders, ctxName: ICtxName) => {
   switch (ctxName) {
     case "tmdbContext":
       update.headers = {
-        Authorization: "Bearer " + process.env.NEXT_PUBLIC_TMDB_ACCESS_TOKEN,
+        Authorization: "Bearer " + process.env.TMDB_ACCESS_TOKEN,
         "Content-Type": "application/json",
       };
       break;
