@@ -9,7 +9,10 @@ import { unstable_cache } from "next/cache";
  *
  * Note: The movies cache has a lifespan of 30 seconds
  */
-export async function GET({ params }: { params: { page: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { page: string } },
+) {
   try {
     const movies = await getCachedMovies(params.page);
     return Response.json(movies);
@@ -20,27 +23,32 @@ export async function GET({ params }: { params: { page: string } }) {
   }
 }
 
-const getCachedMovies = async (page: string) =>
-  unstable_cache(async (page) => getMovies(page), [page], { revalidate: 30 });
+const getCachedMovies = async (page: string) => {
+  const cachedMovies = unstable_cache(async (page) => getMovies(page), [page], {
+    revalidate: 30,
+  });
+  const movies = await cachedMovies(page);
+  return movies;
+};
 
 const getMovies = async (page: string) => {
   try {
     const shows = await fetcher<ITMDBShowResponse>(
-      `${process.env.NEXT_PUBLIC_BASETMDBURL}/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_average.desc`,
+      `${process.env.BASETMDBURL}/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_average.desc`,
       { method: "GET" },
       {
         tmdbContext: {
-          api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
+          api_key: process.env.TMDB_API_KEY!,
         },
       },
     );
     const filteredShows = shows.results.map(
-      ({ id, vote_average, title, poster_path }) => {
-        id;
-        vote_average;
-        title;
-        poster_path;
-      },
+      ({ id, vote_average, title, poster_path }) => ({
+        id,
+        vote_average,
+        title,
+        poster_path,
+      }),
     );
     return { ...shows, results: filteredShows };
   } catch (error) {

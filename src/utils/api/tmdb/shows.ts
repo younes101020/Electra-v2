@@ -15,7 +15,7 @@ export const showQueryKeys = {
 
 export const getRQShowsFn = async ({ page }: { page: number }) => {
   const shows = await fetcher<ITMDBShowResponse>(
-    `${process.env.NEXT_PUBLIC_BASEURL}/movies/${page}`,
+    `${process.env.NEXT_PUBLIC_BASEURL}/api/movies/${page}`,
     { method: "GET" },
   );
   return shows;

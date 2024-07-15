@@ -97,30 +97,30 @@ export function Shows({ account_id }: { account_id: string }) {
                 pageIndex === 0 ? 0 : undefined,
                 pageIndex === 0 ? 5 : undefined,
               )
-              .map(({ poster_path, title, vote_average, id }, index) =>
+              .map((show, index) =>
                 index === 0 && pageIndex === 0 ? (
                   <div
                     className="col-span-8 row-span-3 lg:col-span-3 lg:row-span-4"
-                    key={id}
+                    key={show.id}
                   >
                     <ShowCard
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
                         favoriteShowIds.results.some(
-                          (favId: number) => id === favId,
+                          (favId: number) => show.id === favId,
                         )
                       }
                       account_id={account_id}
-                      id={id}
+                      id={show.id}
                       placeNumber={1}
-                      poster_path={poster_path}
-                      vote_average={parseInt(vote_average)}
+                      poster_path={show.poster_path}
+                      vote_average={parseInt(show.vote_average)}
                     />
                   </div>
                 ) : index === 1 && pageIndex === 0 ? (
                   <div
-                    key={id}
+                    key={show.id}
                     className="col-span-4 col-start-1 row-span-2 row-start-4 lg:col-span-2 lg:col-start-4 lg:row-start-1"
                   >
                     <ShowCard
@@ -128,19 +128,19 @@ export function Shows({ account_id }: { account_id: string }) {
                       isFav={
                         favoriteShowIds?.results! &&
                         favoriteShowIds.results.some(
-                          (favId: number) => id === favId,
+                          (favId: number) => show.id === favId,
                         )
                       }
                       account_id={account_id}
-                      id={id}
+                      id={show.id}
                       placeNumber={2}
-                      poster_path={poster_path}
-                      vote_average={parseInt(vote_average)}
+                      poster_path={show.poster_path}
+                      vote_average={parseInt(show.vote_average)}
                     />
                   </div>
                 ) : index === 2 && pageIndex === 0 ? (
                   <div
-                    key={id}
+                    key={show.id}
                     className="col-span-4 col-start-5 row-span-2 row-start-4 lg:col-span-2 lg:col-start-6 lg:row-start-1"
                   >
                     <ShowCard
@@ -148,19 +148,19 @@ export function Shows({ account_id }: { account_id: string }) {
                       isFav={
                         favoriteShowIds?.results! &&
                         favoriteShowIds.results.some(
-                          (favId: number) => id === favId,
+                          (favId: number) => show.id === favId,
                         )
                       }
                       account_id={account_id}
-                      id={id}
+                      id={show.id}
                       placeNumber={3}
-                      poster_path={poster_path}
-                      vote_average={parseInt(vote_average)}
+                      poster_path={show.poster_path}
+                      vote_average={parseInt(show.vote_average)}
                     />
                   </div>
                 ) : index === 3 && pageIndex === 0 ? (
                   <div
-                    key={id}
+                    key={show.id}
                     className="col-span-4 col-start-1 row-span-2 row-start-6 lg:col-span-2 lg:col-start-4 lg:row-start-3"
                   >
                     <ShowCard
@@ -168,19 +168,19 @@ export function Shows({ account_id }: { account_id: string }) {
                       isFav={
                         favoriteShowIds?.results! &&
                         favoriteShowIds.results.some(
-                          (favId: number) => id === favId,
+                          (favId: number) => show.id === favId,
                         )
                       }
                       account_id={account_id}
-                      id={id}
+                      id={show.id}
                       placeNumber={4}
-                      poster_path={poster_path}
-                      vote_average={parseInt(vote_average)}
+                      poster_path={show.poster_path}
+                      vote_average={parseInt(show.vote_average)}
                     />
                   </div>
                 ) : index === 4 && pageIndex === 0 ? (
                   <div
-                    key={id}
+                    key={show.id}
                     className="col-span-4 col-start-5 row-span-2 row-start-6 lg:col-span-2 lg:col-start-6 lg:row-start-3"
                   >
                     <ShowCard
@@ -188,30 +188,30 @@ export function Shows({ account_id }: { account_id: string }) {
                       isFav={
                         favoriteShowIds?.results! &&
                         favoriteShowIds.results.some(
-                          (favId: number) => id === favId,
+                          (favId: number) => show.id === favId,
                         )
                       }
                       account_id={account_id}
-                      id={id}
+                      id={show.id}
                       placeNumber={5}
-                      poster_path={poster_path}
-                      vote_average={parseInt(vote_average)}
+                      poster_path={show.poster_path}
+                      vote_average={parseInt(show.vote_average)}
                     />
                   </div>
                 ) : (
-                  <div key={id}>
+                  <div key={show.id}>
                     <ShowCard
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
                         favoriteShowIds.results.some(
-                          (favId: number) => id === favId,
+                          (favId: number) => show.id === favId,
                         )
                       }
                       account_id={account_id}
-                      id={id}
-                      poster_path={poster_path}
-                      vote_average={parseInt(vote_average)}
+                      id={show.id}
+                      poster_path={show.poster_path}
+                      vote_average={parseInt(show.vote_average)}
                     />
                   </div>
                 ),

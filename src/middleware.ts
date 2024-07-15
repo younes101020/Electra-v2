@@ -5,6 +5,13 @@ import {
   RequestCookies,
   ResponseCookies,
 } from "next/dist/server/web/spec-extension/cookies";
+import { ITMDBAccoundDetails, ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
+import { setUserCookie, verifyAuth } from "./lib/misc/auth";
+
+// Apply middleware on these path only
+export const config = {
+  matcher: ["/approved/:path*", "/accueil", "/api/account"],
+};
 
 /**
  * Copy cookies from the Set-Cookie header of the response to the Cookie header of the request,
@@ -36,39 +43,51 @@ function applySetCookie(req: NextRequest, res: NextResponse) {
 }
 
 export async function middleware(request: NextRequest) {
-  // TMDB Session generation
-  // application of this procedure: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id
-  const request_token = request.nextUrl.searchParams.get("request_token");
+  if (request.nextUrl.pathname.startsWith("/approved")) {
+    // TMDB Session generation
+    // application of this procedure: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id
+    const request_token = request.nextUrl.searchParams.get("request_token");
+    try {
+      const session = await fetcher<ITMDBNewAuthSessionResp>(
+        `${process.env.BASETMDBURL}/authentication/session/new`,
+        { body: JSON.stringify({ request_token: request_token }) },
+        {
+          tmdbContext: {
+            api_key: process.env.TMDB_API_KEY!,
+          },
+        },
+      );
+      const accountDetails = await fetcher<ITMDBAccoundDetails>(
+        `${process.env.BASETMDBURL}/account`,
+        { method: "GET" },
+        {
+          tmdbContext: {
+            api_key: process.env.TMDB_API_KEY!,
+            session_id: session.session_id,
+          },
+        },
+      );
+      const response = NextResponse.redirect(new URL("/accueil", request.url));
+      const responseWithJWT = await setUserCookie(response, accountDetails);
+      // Apply those cookies to the request
+      applySetCookie(request, responseWithJWT);
+      return responseWithJWT;
+    } catch (error) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+  // User authentication checking
   try {
-    const session = await fetcher(
-      `${process.env.NEXT_PUBLIC_BASETMDBURL}/authentication/session/new`,
-      { body: JSON.stringify({ request_token: request_token }) },
-      {
-        tmdbContext: {
-          api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
-        },
-      },
-    );
-    const accountDetails = await fetcher(
-      `${process.env.NEXT_PUBLIC_BASETMDBURL}/account`,
-      { method: "GET" },
-      {
-        tmdbContext: {
-          api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
-          session_id: session.session_id,
-        },
-      },
-    );
-    const response = NextResponse.rewrite(new URL("/accueil", request.url));
-    response.cookies.set("account_id", accountDetails.id);
-    // Apply those cookies to the request
-    applySetCookie(request, response);
-    return response;
+    await verifyAuth(request);
   } catch (error) {
-    return NextResponse.redirect(new URL("/", request.url));
+    if (error instanceof Error) console.error(error.message);
+    if (request.nextUrl.pathname.startsWith("api/account")) {
+      return NextResponse.json(
+        { error: "authentication required" },
+        { status: 401 },
+      );
+    } else {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 }
-
-export const config = {
-  matcher: "/approved/:path*",
-};

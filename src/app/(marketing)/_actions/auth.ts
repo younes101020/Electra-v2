@@ -1,18 +1,19 @@
 "use server";
 
+import { ITMDBNewAuthTokenResp } from "@/utils/api/tmdb";
 import fetcher from "@/utils/http";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function auth() {
-  const data = await fetcher(
-    process.env.NEXT_PUBLIC_BASETMDBURL + "/authentication/token/new",
+  const data = await fetcher<ITMDBNewAuthTokenResp>(
+    process.env.BASETMDBURL + "/authentication/token/new",
     {
       method: "GET",
     },
     {
       tmdbContext: {
-        api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
+        api_key: process.env.TMDB_API_KEY!,
       },
     },
   );
