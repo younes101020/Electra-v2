@@ -35,7 +35,8 @@
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.164.1",
     "usehooks-ts": "^3.1.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",

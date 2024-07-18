@@ -5,12 +5,12 @@ import {
   RequestCookies,
   ResponseCookies,
 } from "next/dist/server/web/spec-extension/cookies";
-import { ITMDBAccoundDetails, ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
+import { ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
 import { setUserCookie, verifyAuth } from "./lib/misc/auth";
 
 // Apply middleware on these path only
 export const config = {
-  matcher: ["/approved/:path*", "/accueil", "/api/account"],
+  matcher: ["/approved/:path*", "/accueil", "/api/account/:path*"],
 };
 
 /**
@@ -57,18 +57,8 @@ export async function middleware(request: NextRequest) {
           },
         },
       );
-      const accountDetails = await fetcher<ITMDBAccoundDetails>(
-        `${process.env.BASETMDBURL}/account`,
-        { method: "GET" },
-        {
-          tmdbContext: {
-            api_key: process.env.TMDB_API_KEY!,
-            session_id: session.session_id,
-          },
-        },
-      );
       const response = NextResponse.redirect(new URL("/accueil", request.url));
-      const responseWithJWT = await setUserCookie(response, accountDetails);
+      const responseWithJWT = await setUserCookie(response, session.session_id);
       // Apply those cookies to the request
       applySetCookie(request, responseWithJWT);
       return responseWithJWT;
@@ -76,9 +66,20 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
-  // User authentication checking
   try {
-    await verifyAuth(request);
+    const user = await verifyAuth(request);
+    /**
+     * Append tmdb `session_id` to request pathname so that the `/api/account/(appending_session_id)/details` endpoint could read it for retrieving user account details from tmdb service
+     */
+    console.log(
+      request.nextUrl.pathname.endsWith("/details"),
+      request.nextUrl.pathname,
+    );
+    if (request.nextUrl.pathname.endsWith("/details")) {
+      return NextResponse.rewrite(
+        new URL(`/api/account/${user.session_id}/details`, request.url),
+      );
+    }
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
     if (request.nextUrl.pathname.startsWith("api/account")) {

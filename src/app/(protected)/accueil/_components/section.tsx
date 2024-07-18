@@ -1,7 +1,7 @@
 "use client";
 
 import { useIntersectionObserver } from "usehooks-ts";
-import { ReactNode } from "react";
+import { Fragment, ReactNode } from "react";
 import {
   FetchNextPageOptions,
   InfiniteQueryObserverResult,
@@ -43,9 +43,11 @@ const Section = ({
   });
 
   return (
-    <section ref={ref} className={className}>
-      {children}
-    </section>
+    <Fragment>
+      <section ref={ref} className={className} key={Date.now()}>
+        {children}
+      </section>
+    </Fragment>
   );
 };
 

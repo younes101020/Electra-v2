@@ -2,9 +2,9 @@ import type { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { SignJWT, jwtVerify } from "jose";
 import { getJwtSecretKey } from "./constants";
-import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 
 interface UserJwtPayload {
+  session_id: string;
   jti: string;
   iat: number;
 }
@@ -33,8 +33,8 @@ export async function verifyAuth(req: NextRequest) {
 /**
  * Adds the user token cookie to a response.
  */
-export async function setUserCookie(res: NextResponse, userDetails: ITMDBAccoundDetails) {
-  const token = await new SignJWT({userDetails})
+export async function setUserCookie(res: NextResponse, session_id: string) {
+  const token = await new SignJWT({ session_id })
     .setProtectedHeader({ alg: "HS256" })
     .setJti(nanoid())
     .setIssuedAt()

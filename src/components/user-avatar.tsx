@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icons } from "@/components/icons";
 
 interface UserAvatarProps extends AvatarProps {
-  user: { image: string; name: string };
+  user: { image: string | null; name: string };
 }
 
 export function UserAvatar({ user, ...props }: UserAvatarProps) {
