@@ -10,14 +10,25 @@ import {
   favoriteShowQueryKeys,
   getBookmarkShowsFn,
 } from "@/utils/api/tmdb/favorite";
-import { redirect } from "next/navigation";
+import { verifyAuth } from "@/lib/misc/auth";
+import fetcher from "@/utils/http";
+import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 
 export default async function Accueil() {
   const queryClient = new QueryClient();
-  const account_details_str = cookies().get("account_details")?.value!;
-  if (!account_details_str) redirect("/");
-  const account_details = JSON.parse(account_details_str);
-  console.log(account_details)
+  const jwt = cookies().get("user_token")?.value!;
+  const payload = await verifyAuth({ cookieValue: jwt });
+  const accountDetails = await fetcher<ITMDBAccoundDetails>(
+    `${process.env.BASETMDBURL}/account`,
+    { method: "GET" },
+    {
+      tmdbContext: {
+        api_key: process.env.TMDB_API_KEY!,
+        session_id: payload.session_id,
+      },
+    },
+  );
+  const tmdbAccoundId = accountDetails.id.toString();
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
@@ -26,13 +37,13 @@ export default async function Accueil() {
     }),
     queryClient.prefetchQuery({
       queryKey: favoriteShowQueryKeys.all,
-      queryFn: () => getBookmarkShowsFn({ accountId: account_details.id }),
+      queryFn: () => getBookmarkShowsFn({ accountId: tmdbAccoundId }),
     }),
   ]);
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Shows account_id={account_details.id!} />
+        <Shows account_id={tmdbAccoundId!} />
       </HydrationBoundary>
     </div>
   );

@@ -1,7 +1,6 @@
-import { verifyAuth } from "@/lib/misc/auth";
 import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 import fetcher from "@/utils/http";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 /**
  * In this endpoint the ``accountid`` dynamic segment represent tmdb ``session_id``

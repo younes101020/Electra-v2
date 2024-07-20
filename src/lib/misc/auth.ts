@@ -2,6 +2,7 @@ import type { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { SignJWT, jwtVerify } from "jose";
 import { getJwtSecretKey } from "./constants";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 interface UserJwtPayload {
   session_id: string;
@@ -13,10 +14,16 @@ export class AuthError extends Error {}
 
 /**
  * Verifies the user's JWT token and returns its payload if it's valid.
+ * You can pass it either the request object or directly the value of the cookie
  */
-export async function verifyAuth(req: NextRequest) {
-  const token = req.cookies.get("user_token")?.value;
-
+export async function verifyAuth({
+  req,
+  cookieValue,
+}: {
+  req?: NextRequest;
+  cookieValue?: string;
+}) {
+  const token = req ? req.cookies.get("user_token")?.value : cookieValue;
   if (!token) throw new AuthError("Missing user token");
 
   try {
