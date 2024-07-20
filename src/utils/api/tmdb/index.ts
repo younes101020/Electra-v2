@@ -48,7 +48,7 @@ export interface ITMDBAccoundDetails {
       hash: string;
     };
     tmdb: {
-      avatar_path: string;
+      avatar_path: string | null;
     };
   };
   id: number;

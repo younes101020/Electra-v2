@@ -1,5 +1,7 @@
 import fetcher from "@/utils/http";
-import { IRQFavoriteShowResponse, Show } from ".";
+import { IRQFavoriteShowResponse, ITMDBErrorResponse, Show } from ".";
+
+type ITMDBFavoriteMutationResponse = { result: ITMDBErrorResponse };
 
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
@@ -39,16 +41,14 @@ export const getBookmarkShowsFn = async ({
  *
  */
 export const toggleBookmarkShowsFn = async ({
-  accountId,
   showId,
   favorite,
 }: {
-  accountId: string;
   showId: number;
   favorite: boolean;
 }) => {
-  const shows = await fetcher(
-    `${process.env.BASETMDBURL}/api/account/${accountId}/favorite`,
+  const shows = await fetcher<ITMDBFavoriteMutationResponse>(
+    `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/favorite/movies`,
     {
       body: JSON.stringify({
         media_id: showId,
@@ -56,11 +56,6 @@ export const toggleBookmarkShowsFn = async ({
         favorite,
       }),
     },
-    {
-      tmdbContext: {
-        api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY!,
-      },
-    },
   );
-  return "shows.success";
+  return shows.result;
 };

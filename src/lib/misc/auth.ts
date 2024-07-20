@@ -2,9 +2,10 @@ import type { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { SignJWT, jwtVerify } from "jose";
 import { getJwtSecretKey } from "./constants";
-import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 interface UserJwtPayload {
+  session_id: string;
   jti: string;
   iat: number;
 }
@@ -13,10 +14,16 @@ export class AuthError extends Error {}
 
 /**
  * Verifies the user's JWT token and returns its payload if it's valid.
+ * You can pass it either the request object or directly the value of the cookie
  */
-export async function verifyAuth(req: NextRequest) {
-  const token = req.cookies.get("user_token")?.value;
-
+export async function verifyAuth({
+  req,
+  cookieValue,
+}: {
+  req?: NextRequest;
+  cookieValue?: string;
+}) {
+  const token = req ? req.cookies.get("user_token")?.value : cookieValue;
   if (!token) throw new AuthError("Missing user token");
 
   try {
@@ -33,8 +40,8 @@ export async function verifyAuth(req: NextRequest) {
 /**
  * Adds the user token cookie to a response.
  */
-export async function setUserCookie(res: NextResponse, userDetails: ITMDBAccoundDetails) {
-  const token = await new SignJWT({userDetails})
+export async function setUserCookie(res: NextResponse, session_id: string) {
+  const token = await new SignJWT({ session_id })
     .setProtectedHeader({ alg: "HS256" })
     .setJti(nanoid())
     .setIssuedAt()

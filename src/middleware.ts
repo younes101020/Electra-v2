@@ -5,13 +5,17 @@ import {
   RequestCookies,
   ResponseCookies,
 } from "next/dist/server/web/spec-extension/cookies";
-import { ITMDBAccoundDetails, ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
+import { ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
 import { setUserCookie, verifyAuth } from "./lib/misc/auth";
 
 // Apply middleware on these path only
 export const config = {
-  matcher: ["/approved/:path*", "/accueil", "/api/account"],
+  matcher: ["/approved/:path*", "/accueil", "/api/account/:path*", "/"],
 };
+
+// Since these endpoint is reached we have to rewrite the url to include the `session_id`
+// Reminder:  `session_id` is a sensitive data (see: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id)
+const rewritingEndpoint = ["/details", "/movies"];
 
 /**
  * Copy cookies from the Set-Cookie header of the response to the Cookie header of the request,
@@ -44,8 +48,9 @@ function applySetCookie(req: NextRequest, res: NextResponse) {
 
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/approved")) {
-    // TMDB Session generation
-    // application of this procedure: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id
+    /**
+     * Application of this procedure: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id
+     */
     const request_token = request.nextUrl.searchParams.get("request_token");
     try {
       const session = await fetcher<ITMDBNewAuthSessionResp>(
@@ -57,18 +62,8 @@ export async function middleware(request: NextRequest) {
           },
         },
       );
-      const accountDetails = await fetcher<ITMDBAccoundDetails>(
-        `${process.env.BASETMDBURL}/account`,
-        { method: "GET" },
-        {
-          tmdbContext: {
-            api_key: process.env.TMDB_API_KEY!,
-            session_id: session.session_id,
-          },
-        },
-      );
       const response = NextResponse.redirect(new URL("/accueil", request.url));
-      const responseWithJWT = await setUserCookie(response, accountDetails);
+      const responseWithJWT = await setUserCookie(response, session.session_id);
       // Apply those cookies to the request
       applySetCookie(request, responseWithJWT);
       return responseWithJWT;
@@ -76,9 +71,32 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
-  // User authentication checking
   try {
-    await verifyAuth(request);
+    const user = await verifyAuth({ req: request });
+    /**
+     * Append tmdb `session_id` to request pathname so that the `/api/account/(appending_session_id)/details` endpoint could read it for retrieving user account details from tmdb service
+     */
+    const shouldRewrite = rewritingEndpoint.some((endpoint) =>
+      request.nextUrl.pathname.endsWith(endpoint),
+    );
+    if (shouldRewrite) {
+      const extractSessionIDPlaceholder = request.nextUrl.pathname
+        .slice(request.nextUrl.pathname.indexOf("session_id_placeholder"))
+        .split("/")
+        .slice(1)
+        .join("/");
+      return NextResponse.rewrite(
+        new URL(
+          `/api/account/${user.session_id}/${extractSessionIDPlaceholder}`,
+          request.url,
+        ),
+      );
+    } else if (request.nextUrl.pathname === "/") {
+      /**
+       * Redirect user to `accueil` if he tried to access landing page while being authentified
+       */
+      return NextResponse.rewrite(new URL(`/accueil`, request.url));
+    }
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
     if (request.nextUrl.pathname.startsWith("api/account")) {
@@ -86,7 +104,7 @@ export async function middleware(request: NextRequest) {
         { error: "authentication required" },
         { status: 401 },
       );
-    } else {
+    } else if (request.nextUrl.pathname !== "/") {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

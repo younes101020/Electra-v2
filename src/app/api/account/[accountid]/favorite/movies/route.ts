@@ -1,10 +1,9 @@
 import { ITMDBShowResponse } from "@/utils/api/tmdb";
 import fetcher from "@/utils/http";
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 /**
  * This endpoint returns a list of ids, each id is related to a specific movie that has been added to favorites
- * Only one information is requested and this is the account id where we will retrieve the ids movie that have been added to favorites
  *
  * Note: The favorite ids movie is cached indefinitely
  */
@@ -51,3 +50,39 @@ const getFavoriteMovieIds = async (accountId: string) => {
     throw error;
   }
 };
+
+/**
+ * This endpoint remove/add movies to favorite
+ * Three thing are required inside the body: `media_id`, `media_type` and a boolean which indicates whether or not we should include the content to the favorite
+ *
+ * Note: user favorite cache is reset each time this endpoint is reached
+ */
+export async function POST(
+  request: Request,
+  { params }: { params: { accountid: string } },
+) {
+  try {
+    const { media_id, media_type, favorite } = await request.json();
+    const result = await fetcher<ITMDBShowResponse>(
+      `${process.env.BASETMDBURL}/account/${params.accountid}/favorite`,
+      {
+        body: JSON.stringify({
+          media_id,
+          media_type,
+          favorite,
+        }),
+      },
+      {
+        tmdbContext: {
+          api_key: process.env.TMDB_API_KEY!,
+        },
+      },
+    );
+    [params.accountid, "favorite"].forEach((tag) => revalidateTag(tag));
+    return Response.json({ revalidate: true, result });
+  } catch (error) {
+    if (error instanceof Error)
+      return Response.json({ error: error.message }, { status: 400 });
+    return Response.json({ error }, { status: 502 });
+  }
+}
