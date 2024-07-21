@@ -15,8 +15,10 @@ export async function GET(
     const favIds = await getCachedFavoriteMovieIds(params.accountid);
     return Response.json(favIds);
   } catch (error) {
-    if (error instanceof Error)
+    if (error instanceof Error) {
+      console.error(error.message);
       return Response.json({ error: error.message }, { status: 400 });
+    }
     return Response.json({ error }, { status: 502 });
   }
 }
