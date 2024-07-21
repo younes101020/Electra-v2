@@ -24,7 +24,7 @@ export const getBookmarkShowsFn = async ({
   accountId: string;
 }) => {
   const favIds = await fetcher<IRQFavoriteShowResponse>(
-    `${process.env.NEXT_PUBLIC_BASEURL}/api/account/${accountId}/favorite/movies`,
+    `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/favorite/movies`,
     {
       method: "GET",
     },
