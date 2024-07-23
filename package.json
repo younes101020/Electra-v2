@@ -9,10 +9,12 @@
     "commitlint": "commitlint --edit",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
-    "migrate:deploy": "dotenv -e .env.production -- npx prisma migrate deploy",
+    "migrate:deploy": "npx prisma migrate deploy",
+    "migrate:initdev": "dotenv -e .env.development -- npx prisma migrate dev --name database_initialization",
     "prepare": "husky"
   },
   "dependencies": {
+    "@prisma/client": "5.15.0",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-slot": "^1.0.2",

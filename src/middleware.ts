@@ -10,7 +10,13 @@ import { setUserCookie, verifyAuth } from "./lib/misc/auth";
 
 // Apply middleware on these path only
 export const config = {
-  matcher: ["/approved/:path*", "/accueil", "/api/account/:path*", "/"],
+  matcher: [
+    "/approved/:path*",
+    "/accueil",
+    "/api/account/:path*",
+    "/",
+    "/space/:path*",
+  ],
 };
 
 // Since these endpoint is reached we have to rewrite the url to include the `session_id`
@@ -80,6 +86,15 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname.endsWith(endpoint),
     );
     if (shouldRewrite) {
+      // Since `space` is the only rewritingEndpoint of type page and not route handler, is managed separately
+      if (request.nextUrl.pathname.includes("/space")) {
+        return NextResponse.rewrite(
+          new URL(
+            `${request.nextUrl.pathname}/${user.session_id}`,
+            request.url,
+          ),
+        );
+      }
       const extractSessionIDPlaceholder = request.nextUrl.pathname
         .slice(request.nextUrl.pathname.indexOf("session_id_placeholder"))
         .split("/")
@@ -99,7 +114,7 @@ export async function middleware(request: NextRequest) {
     }
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
-    if (request.nextUrl.pathname.startsWith("api/account")) {
+    if (request.nextUrl.pathname.startsWith("/api")) {
       return NextResponse.json(
         { error: "authentication required" },
         { status: 401 },
