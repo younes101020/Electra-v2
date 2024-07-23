@@ -1,6 +1,5 @@
 <a id="readme-top"></a>
 
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -15,7 +14,6 @@
     <br />
   </p>
 </div>
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -43,9 +41,8 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
@@ -53,24 +50,22 @@
 I wanted to create an application that would allow movie lovers to meet up and chat about their favorite films or series, and now it's done with Electra.
 
 Quick tour of the application's flagship features
-* Chat with people who like the same movies as you using Space
-* Add movies to your favorites list
-* Rate the listed films in order to improve their referencing
+
+- Chat with people who like the same movies as you using Space
+- Add movies to your favorites list
+- Rate the listed films in order to improve their referencing
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
+- [![Next][Next.js]][Next-url]
+- [![React][React.js]][React-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -79,15 +74,16 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+
+- npm
   ```sh
   npm install npm@latest -g
   ```
 
-### Installation
+### Installation (dev)
 
-1. Get a free API Key at [https://example.com](https://example.com)
-1. Clone the repo
+1. Get a free TMDB api key and access token by following this [TMDB Documentation](https://developer.themoviedb.org/docs/getting-started)
+2. Clone the repo
    ```sh
    git clone https://github.com/younes101020/electra-v2.git
    ```
@@ -95,16 +91,29 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    yarn install
    ```
-4. Enter your API in `.env`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+4. Create `.env.development` file in root path and copy the content of `.env.example` into it, make sure to fill empty variables with your credentials
+   ```bash
+   TMDB_API_KEY=""
+   TMDB_ACCESS_TOKEN=""
+   NEXT_PUBLIC_BASEURL="http://localhost:3000"
+   BASETMDBURL="https://api.themoviedb.org/3"
+   DATABASE_URL=""
+   JWT_SECRET_KEY=""
+   ```
+5. Initially your database should be empty you have to use this command to apply the prisma schema into it:
+   ```sh
+   yarn migrate:initdev
+   ```
+
+6. Lastly run the dev environment with this command and visit your [Electra](http://localhost:3000) app
+   ```sh
+   yarn migrate:initdev
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -113,9 +122,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 ## Roadmap
 
 - [ ] Integrate figma model with local data
@@ -125,16 +133,15 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Perform full text entity research
 - [ ] Init text lounge <em>Space</em> on first click for each entity
 - [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+  - [ ] Chinese
+  - [ ] Spanish
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -150,18 +157,16 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
@@ -170,27 +175,26 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+- [Choose an Open Source License](https://choosealicense.com)
+- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+- [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
+- [Malven's Grid Cheatsheet](https://grid.malven.co/)
+- [Img Shields](https://shields.io)
+- [GitHub Pages](https://pages.github.com)
+- [Font Awesome](https://fontawesome.com)
+- [React Icons](https://react-icons.github.io/react-icons/search)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
