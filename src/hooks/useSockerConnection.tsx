@@ -1,16 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { Message, User } from "@prisma/client";
+import { useState, useCallback, useEffect } from "react";
 import { Socket } from "socket.io-client";
-
-export interface User {
-  username: string;
-  socketID: string;
-}
-
-export interface Message {
-  text: string;
-  sender: string;
-  timestamp: number;
-}
 
 interface UseSocketConnectionReturn {
   isConnected: boolean;
@@ -20,18 +10,22 @@ interface UseSocketConnectionReturn {
   sendMessage: (message: string) => void;
 }
 
+/**
+ * This hook manages a socket connection and related state
+ */
 const useSocketConnection = (
   socket: Socket,
   username: string,
+  initialMessages: Message[] = [],
 ): UseSocketConnectionReturn => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [transport, setTransport] = useState<string>("N/A");
   const [users, setUsers] = useState<User[]>([]);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   const onConnect = useCallback(() => {
     setIsConnected(true);
-    setTransport(socket.io.engine.transport.name); // Note: This might need a type assertion if the Socket type doesn't include io.engine
+    setTransport(socket.io.engine.transport.name);
 
     socket.io.engine.on("upgrade", (transport: { name: string }) => {
       setTransport(transport.name);

@@ -12,7 +12,7 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui/card";
-import type { Message, User } from "@/hooks/useSockerConnection";
+import { Message, User } from "@prisma/client";
 
 type MessagesProps = React.ComponentProps<typeof Card> & {
   messages: Message[];
@@ -33,13 +33,13 @@ export function Messages({ className, ...props }: MessagesProps) {
         <div>
           <ul>
             {props.users.map((user) => (
-              <li key={user.socketID}>{user.username}</li>
+              <li key={user.id}>{user.name}</li>
             ))}
           </ul>
           <ul>
             {/* TODO: GENERATE ID FOR EACH MSG SERVER SIDE AND USE IT ON KEY INSTEAD OF INDEX */}
-            {props.messages.map((msg, i) => (
-              <li key={i}>{msg.text}</li>
+            {props.messages.map((msg) => (
+              <li key={msg.id}>{msg.content}</li>
             ))}
           </ul>
         </div>
