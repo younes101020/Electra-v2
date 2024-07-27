@@ -22,6 +22,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#sequence-diagram">Sequence diagram</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -45,7 +46,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Electra Screen Shot][product-screenshot]](https://electra.com)
 
 I wanted to create an application that would allow movie lovers to meet up and chat about their favorite films or series, and now it's done with Electra.
 
@@ -54,6 +55,14 @@ Quick tour of the application's flagship features
 - Chat with people who like the same movies as you using Space
 - Add movies to your favorites list
 - Rate the listed films in order to improve their referencing
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Sequence diagram
+
+Here is a sequence diagram for the authentication process used within the application:
+
+[![Authentication sequence diagram][sequence-diagram]](https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -101,6 +110,7 @@ This is an example of how to list things you need to use the software and how to
    JWT_SECRET_KEY=""
    ```
 5. Initially your database should be empty you have to use this command to apply the prisma schema into it:
+
    ```sh
    yarn migrate:initdev
    ```
@@ -208,6 +218,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: public/img/accueil-page-preview.png
+[sequence-diagram]: public/img/auth-sequence-diagram.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB

@@ -1,6 +1,5 @@
 "use client";
 
-import { socket } from "@/lib/socket";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -17,9 +16,10 @@ import { Message, User } from "@prisma/client";
 type MessagesProps = React.ComponentProps<typeof Card> & {
   messages: Message[];
   users: User[];
+  sendMessage: (message: string) => void;
 };
 
-export function Messages({ className, ...props }: MessagesProps) {
+export function Messages({ className, sendMessage, ...props }: MessagesProps) {
   return (
     <Card className={cn("w-[380px]", className)} {...props}>
       <CardHeader>
@@ -49,7 +49,7 @@ export function Messages({ className, ...props }: MessagesProps) {
           action=""
           onSubmit={(e) => {
             e.preventDefault();
-            socket.emit("message", (e.target as HTMLFormElement).message.value);
+            sendMessage((e.target as HTMLFormElement).message.value);
           }}
           className="flex gap-2"
         >

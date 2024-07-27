@@ -15,7 +15,6 @@ const ShowCard = ({
   poster_path,
   isFav,
   id,
-  account_id,
   vote_average,
   refetch,
 }: {
@@ -24,7 +23,6 @@ const ShowCard = ({
   poster_path: string;
   isFav: boolean;
   vote_average: number;
-  account_id: string;
   id: number;
   refetch: (options: {
     throwOnError: boolean;
@@ -77,7 +75,7 @@ const ShowCard = ({
 
           <div className="mt-auto flex h-full gap-2">
             <Button asChild>
-              <Link href="/space" className="flex gap-2">
+              <Link href={`/space/${id}`} className="flex gap-2">
                 <Icons.message size={20} /> / Space
               </Link>
             </Button>
@@ -91,7 +89,6 @@ const ShowCard = ({
                   size={20}
                   onClick={() => {
                     mutation.mutate({
-                      accountId: account_id,
                       showId: id,
                       favorite: false,
                     });
@@ -102,7 +99,6 @@ const ShowCard = ({
                   size={20}
                   onClick={() => {
                     mutation.mutate({
-                      accountId: account_id,
                       showId: id,
                       favorite: true,
                     });
@@ -113,7 +109,6 @@ const ShowCard = ({
           </div>
         </div>
       </CardFooter>
-      s
     </Card>
   );
 };
