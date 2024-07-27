@@ -17,15 +17,18 @@ const useSocketConnection = (
   socket: Socket,
   username: string,
   initialMessages: Message[] = [],
+  space: number,
 ): UseSocketConnectionReturn => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [transport, setTransport] = useState<string>("N/A");
   const [users, setUsers] = useState<User[]>([]);
+  const [spaceState, setSpaceState] = useState(0);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   const onConnect = useCallback(() => {
     setIsConnected(true);
     setTransport(socket.io.engine.transport.name);
+    setSpaceState(space);
 
     socket.io.engine.on("upgrade", (transport: { name: string }) => {
       setTransport(transport.name);
@@ -35,6 +38,7 @@ const useSocketConnection = (
   const onDisconnect = useCallback(() => {
     setIsConnected(false);
     setTransport("N/A");
+    setSpaceState(0);
   }, []);
 
   useEffect(() => {
@@ -42,7 +46,7 @@ const useSocketConnection = (
       onConnect();
     }
 
-    socket.emit("newUser", { username, socketID: socket.id });
+    socket.emit("newUser", { username, socketID: socket.id, space });
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
@@ -69,7 +73,7 @@ const useSocketConnection = (
 
   const sendMessage = useCallback(
     (message: string) => {
-      socket.emit("message", message);
+      socket.emit("message", { message, space: spaceState });
     },
     [socket],
   );

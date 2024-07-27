@@ -1,5 +1,3 @@
-import useSocketConnection from "@/hooks/useSockerConnection";
-import { Messages } from "./_components/messages";
 import fetcher from "@/utils/http";
 import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 import { db } from "@/lib/db";
@@ -11,7 +9,7 @@ export default async function SpacePage({
   params: { movieId: string; sessionId: string };
 }) {
   /**
-   * Retrieve user account detail and check if space already exist, if not create one
+   * Retrieve user account detail and check if space already exist, if not create new one and bind the user into it
    */
   const accountDetails = await fetcher<ITMDBAccoundDetails>(
     `${process.env.BASETMDBURL}/account`,
@@ -23,11 +21,13 @@ export default async function SpacePage({
       },
     },
   );
+
   const space = await db.space.findFirst({
     where: {
       showId: params.movieId,
     },
     select: {
+      id: true,
       message: {
         select: {
           content: true,
@@ -37,22 +37,26 @@ export default async function SpacePage({
       },
     },
   });
-  if (!space) {
-    await db.space.create({
-      data: {
-        showId: params.movieId,
-        users: {
-          connect: {
-            id: accountDetails.id,
+  const spaceRef = !space
+    ? await db.space.create({
+        data: {
+          showId: params.movieId,
+          users: {
+            connect: {
+              id: accountDetails.id,
+            },
           },
         },
-      },
-    });
-  }
+        select: {
+          id: true,
+        },
+      })
+    : space;
   return (
     <Chat
       initiatorUsername={accountDetails.name}
       message={space?.message ?? []}
+      space={spaceRef?.id!}
     />
   );
 }

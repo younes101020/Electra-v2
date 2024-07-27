@@ -7,6 +7,7 @@ import {
 } from "next/dist/server/web/spec-extension/cookies";
 import { ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
 import { setUserCookie, verifyAuth } from "./lib/misc/auth";
+import { IGenericResp } from "./utils/api";
 
 // Apply middleware on these path only
 export const config = {
@@ -72,6 +73,13 @@ export async function middleware(request: NextRequest) {
       const responseWithJWT = await setUserCookie(response, session.session_id);
       // Apply those cookies to the request
       applySetCookie(request, responseWithJWT);
+      // Check if user is persisted into our database if not insert it
+      await fetcher<IGenericResp>(
+        `${process.env.NEXT_PUBLIC_BASEURL}/api/auth`,
+        {
+          body: JSON.stringify({ session_id: session.session_id }),
+        },
+      );
       return responseWithJWT;
     } catch (error) {
       return NextResponse.redirect(new URL("/", request.url));
@@ -85,16 +93,13 @@ export async function middleware(request: NextRequest) {
     const shouldRewrite = rewritingEndpoint.some((endpoint) =>
       request.nextUrl.pathname.endsWith(endpoint),
     );
+    // Since `space` is the only rewritingEndpoint of type page and not route handler, we managed it separately
+    if (request.nextUrl.pathname.includes("/space")) {
+      return NextResponse.rewrite(
+        new URL(`${request.nextUrl.pathname}/${user.session_id}`, request.url),
+      );
+    }
     if (shouldRewrite) {
-      // Since `space` is the only rewritingEndpoint of type page and not route handler, is managed separately
-      if (request.nextUrl.pathname.includes("/space")) {
-        return NextResponse.rewrite(
-          new URL(
-            `${request.nextUrl.pathname}/${user.session_id}`,
-            request.url,
-          ),
-        );
-      }
       const extractSessionIDPlaceholder = request.nextUrl.pathname
         .slice(request.nextUrl.pathname.indexOf("session_id_placeholder"))
         .split("/")
