@@ -1,6 +1,6 @@
 import type { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
-import { SignJWT, jwtVerify } from "jose";
+import { JWTPayload, SignJWT, jwtVerify } from "jose";
 import { getJwtSecretKey } from "./constants";
 
 export class AuthError extends Error {}
@@ -24,7 +24,7 @@ export async function verifyAuth({
       token,
       new TextEncoder().encode(getJwtSecretKey()),
     );
-    return verified.payload;
+    return verified.payload as JWTPayload & { session_id: string };
   } catch (err) {
     throw new AuthError("Your token has expired.");
   }
