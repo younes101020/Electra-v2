@@ -2,13 +2,6 @@ import type { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { SignJWT, jwtVerify } from "jose";
 import { getJwtSecretKey } from "./constants";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-
-interface UserJwtPayload {
-  session_id: string;
-  jti: string;
-  iat: number;
-}
 
 export class AuthError extends Error {}
 
@@ -31,7 +24,7 @@ export async function verifyAuth({
       token,
       new TextEncoder().encode(getJwtSecretKey()),
     );
-    return verified.payload as UserJwtPayload;
+    return verified.payload;
   } catch (err) {
     throw new AuthError("Your token has expired.");
   }
