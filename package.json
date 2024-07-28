@@ -2,7 +2,6 @@
   "name": "electra",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
