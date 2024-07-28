@@ -2,7 +2,7 @@ import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
 import { db } from "./src/lib/db";
-import { User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -16,7 +16,7 @@ app.prepare().then(() => {
 
   const io = new Server(httpServer);
 
-  let users: User[] = [];
+  let users: Prisma.UserCreateInput[] = [];
 
   io.on("connection", (socket) => {
     socket.on("newUser", (data) => {
