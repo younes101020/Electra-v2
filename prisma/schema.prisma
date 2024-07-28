@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
@@ -20,14 +20,14 @@ model User {
 }
 
 model Space {
-  id      Int      @id @default(sequence())
+  id      Int      @id @default(autoincrement())
   showId  String   @unique
   users User[]
   message Message[]
 }
 
 model Message {
-  id        Int     @id @default(sequence())
+  id        Int     @id @default(autoincrement())
   content   String
   spaceId   Int?
   space     Space? @relation(fields: [spaceId], references: [id])
