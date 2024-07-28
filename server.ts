@@ -1,6 +1,8 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
+import { db } from "./src/lib/db";
+import { User } from "@prisma/client";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -14,19 +16,30 @@ app.prepare().then(() => {
 
   const io = new Server(httpServer);
 
-  let users = [];
+  let users: User[] = [];
 
   io.on("connection", (socket) => {
     socket.on("newUser", (data) => {
       socket.join(data.space);
       users.push(data);
-      io.to(data.space).emit("newUserResponse", users);
+      socket.to(data.space).emit("newUserResponse", users);
     });
-    socket.on("message", (data) => {
-      io.to(data.space).emit("messageResponse", data);
+    socket.on("message", async (data) => {
+      console.log('qsdflnjkflnqsdjkflqsdjk, ok')
+      await db.message.create({
+        data,
+      });
+      const allMessages = await db.message.findMany({
+        select: {
+          id: true,
+          content: true,
+          spaceId: true,
+        },
+      });
+      socket.to(data.space).emit("messageResponse", allMessages);
     });
     socket.on("disconnect", () => {
-      users = users.filter((user) => user.id !== socket.id);
+      users = users.filter((user) => user.id.toString() !== socket.id);
       io.emit("newUserResponse", users);
       socket.disconnect();
     });
