@@ -20,6 +20,7 @@ type MessagesProps = React.ComponentProps<typeof Card> & {
 };
 
 export function Messages({ className, sendMessage, ...props }: MessagesProps) {
+  console.log(props.messages)
   return (
     <Card className={cn("w-[380px]", className)} {...props}>
       <CardHeader>
@@ -46,7 +47,6 @@ export function Messages({ className, sendMessage, ...props }: MessagesProps) {
       </CardContent>
       <CardFooter>
         <form
-          action=""
           onSubmit={(e) => {
             e.preventDefault();
             sendMessage((e.target as HTMLFormElement).message.value);
