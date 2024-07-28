@@ -113,7 +113,6 @@ export function Shows({ account_id }: { account_id: string }) {
                           (favId: number) => show.id === favId,
                         )
                       }
-                      account_id={account_id}
                       id={show.id}
                       placeNumber={1}
                       poster_path={show.poster_path}
@@ -133,7 +132,6 @@ export function Shows({ account_id }: { account_id: string }) {
                           (favId: number) => show.id === favId,
                         )
                       }
-                      account_id={account_id}
                       id={show.id}
                       placeNumber={2}
                       poster_path={show.poster_path}
@@ -153,7 +151,6 @@ export function Shows({ account_id }: { account_id: string }) {
                           (favId: number) => show.id === favId,
                         )
                       }
-                      account_id={account_id}
                       id={show.id}
                       placeNumber={3}
                       poster_path={show.poster_path}
@@ -173,7 +170,6 @@ export function Shows({ account_id }: { account_id: string }) {
                           (favId: number) => show.id === favId,
                         )
                       }
-                      account_id={account_id}
                       id={show.id}
                       placeNumber={4}
                       poster_path={show.poster_path}
@@ -193,7 +189,6 @@ export function Shows({ account_id }: { account_id: string }) {
                           (favId: number) => show.id === favId,
                         )
                       }
-                      account_id={account_id}
                       id={show.id}
                       placeNumber={5}
                       poster_path={show.poster_path}
@@ -210,7 +205,6 @@ export function Shows({ account_id }: { account_id: string }) {
                           (favId: number) => show.id === favId,
                         )
                       }
-                      account_id={account_id}
                       id={show.id}
                       poster_path={show.poster_path}
                       vote_average={parseInt(show.vote_average)}
