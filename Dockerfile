@@ -71,6 +71,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/mime-db ./node_modul
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/engine.io ./node_modules/engine.io
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/base64id ./node_modules/base64id
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/engine.io-parser ./node_modules/engine.io-parser
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/debug ./node_modules/debug
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/cors ./node_modules/cors
 
 USER nextjs
 
