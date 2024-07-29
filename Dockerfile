@@ -64,6 +64,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@socket.io ./node_mo
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-adapter ./node_modules/socket.io-adapter
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-client ./node_modules/socket.io-client
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-parser ./node_modules/socket.io-parser
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/accepts ./node_modules/accepts
 
 
 USER nextjs
