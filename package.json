@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "build": "yarn migrate:deploy && npx prisma generate && next build && tsc --project tsconfig.server.json",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "prod": "yarn migrate:deploy && node server.js",
     "commitlint": "commitlint --edit",
     "start": "NODE_ENV=production node dist/server.js",
     "lint": "next lint",
