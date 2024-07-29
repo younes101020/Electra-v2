@@ -46,6 +46,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/src/lib/db ./src/lib/db
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -78,7 +79,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/ws ./node_modules/ws
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/cookie ./node_modules/cookie
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/object-assign ./node_modules/object-assign
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/vary ./node_modules/vary
-COPY --from=builder --chown=nextjs:nodejs /app/src/lib/db ./src/lib/db
 
 
 USER nextjs
