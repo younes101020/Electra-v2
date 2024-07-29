@@ -69,6 +69,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/negotiator ./node_mo
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/mime-types ./node_modules/mime-types
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/mime-db ./node_modules/mime-db
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/engine.io ./node_modules/engine.io
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/base64id ./node_modules/base64id
 
 USER nextjs
 
