@@ -74,6 +74,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/engine.io-parser ./n
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/debug ./node_modules/debug
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/cors ./node_modules/cors
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/ms ./node_modules/ms
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/cookie ./node_modules/cookie
+
 
 USER nextjs
 
