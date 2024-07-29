@@ -67,6 +67,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-parser ./n
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/accepts ./node_modules/accepts
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/negotiator ./node_modules/negotiator
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/mime-types ./node_modules/mime-types
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/mime-db ./node_modules/mime-db
 
 
 USER nextjs
