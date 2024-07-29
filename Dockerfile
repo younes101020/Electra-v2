@@ -59,6 +59,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Custom socketio server
 COPY --from=builder --chown=nextjs:nodejs /app/dist/server.js ./server.js
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/next ./node_modules/next
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io ./node_modules/socket.io
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@socket.io ./node_modules/@socket.io
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-adapter ./node_modules/socket.io-adapter
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-client ./node_modules/socket.io-client
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-parser ./node_modules/socket.io-parser
+
 
 USER nextjs
 
