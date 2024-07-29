@@ -77,6 +77,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/ms ./node_modules/ms
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/ws ./node_modules/ws
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/cookie ./node_modules/cookie
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/object-assign ./node_modules/object-assign
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/vary ./node_modules/vary
 
 
 USER nextjs
