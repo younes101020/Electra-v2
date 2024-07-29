@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
-// import { db } from "./src/lib/db";
+import { db } from "./src/lib/db";
 import { Prisma } from "@prisma/client";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -26,17 +26,17 @@ app.prepare().then(() => {
     });
     socket.on("message", async (data) => {
       console.log('qsdflnjkflnqsdjkflqsdjk, ok')
-      // await db.message.create({
-      //   data,
-      // });
-      // const allMessages = await db.message.findMany({
-      //   select: {
-      //     id: true,
-      //     content: true,
-      //     spaceId: true,
-      //   },
-      // });
-      socket.to(data.space).emit("messageResponse", {});
+      await db.message.create({
+        data,
+      });
+      const allMessages = await db.message.findMany({
+        select: {
+          id: true,
+          content: true,
+          spaceId: true,
+        },
+      });
+      socket.to(data.space).emit("messageResponse", allMessages);
     });
     socket.on("disconnect", () => {
       users = users.filter((user) => user.id.toString() !== socket.id);
