@@ -56,7 +56,7 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Custom socketio server
+# Custom socketio server needed packages
 COPY --from=builder --chown=nextjs:nodejs /app/dist/server.js ./server.js
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/next ./node_modules/next
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io ./node_modules/socket.io
@@ -66,6 +66,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-client ./n
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/socket.io-parser ./node_modules/socket.io-parser
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/accepts ./node_modules/accepts
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/negotiator ./node_modules/negotiator
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/mime-types ./node_modules/mime-types
 
 
 USER nextjs
