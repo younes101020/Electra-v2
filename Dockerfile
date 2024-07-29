@@ -46,7 +46,6 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/src/lib/db ./src/lib/db
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -56,6 +55,8 @@ RUN chown nextjs:nodejs .next
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+RUN ls
 
 # Custom socketio server needed packages
 COPY --from=builder --chown=nextjs:nodejs /app/dist/server.js ./server.js
