@@ -9,6 +9,7 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 COPY prisma ./prisma/
+COPY next.config.mjs ./next.config.mjs
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
@@ -58,6 +59,7 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --chown=nextjs:nodejs prisma ./prisma/
+COPY --chown=nextjs:nodejs next.config.mjs ./next.config.mjs
 
 # Custom socketio server needed packages
 COPY --from=builder --chown=nextjs:nodejs /app/dist/server.js ./server.js
