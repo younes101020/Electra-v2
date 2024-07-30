@@ -5,19 +5,19 @@ import { auth } from "../_actions/auth";
 
 const Hero = () => {
   return (
-    <div className="w-full relative h-[50rem]">
+    <div className="relative h-[50rem] w-full">
       <Image
         src="/img/hero_img.jpg"
         fill
         alt="Picture of the hero banner"
         className="grayscale"
       />
-      <div className="z-20 absolute bg-background/75 h-full w-full py-2 px-7 flex items-center">
-        <div className="lg:w-[50%] flex flex-col gap-4">
-          <h2 className="text-5xl font-bold text-foreground inline-flex">
+      <div className="absolute z-20 flex h-full w-full items-center bg-background/75 px-40 pb-20">
+        <div className="flex flex-col gap-4 lg:w-[70%]">
+          <h2 className="inline-flex text-5xl font-normal text-foreground">
             La plateforme préférée des cinéphiles
           </h2>
-          <h3 className="text-2xl">
+          <h3 className="text-2xl font-thin">
             Rejoignez les différentes communautés autour de vos films et séries
             favoris, créez votre watchlist, notez différents séries et films...
           </h3>
@@ -28,7 +28,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="absolute z-50 bottom-0 w-full mt-4">
+      <div className="absolute bottom-0 z-50 mt-4 w-full">
         <Wave />
       </div>
     </div>

@@ -31,6 +31,7 @@ import {
   X,
   Zap,
   type Icon as LucideIcon,
+  BadgeAlert,
 } from "lucide-react";
 
 export type Icon = typeof LucideIcon;
@@ -41,6 +42,7 @@ export const Icons = {
   close: X,
   save: ListChecks,
   spinner: Loader2,
+  bug: BadgeAlert,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,
