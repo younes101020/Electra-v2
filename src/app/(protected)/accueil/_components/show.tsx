@@ -15,12 +15,13 @@ import {
   showQueryKeys,
   IRQErrorResponse,
 } from "@/utils/api/tmdb";
-import { ShowCard } from "./card";
+import { ShowCard } from "./showcard";
 import { Spinner } from "@/components/ui/spinner";
 import {
   favoriteShowQueryKeys,
   getBookmarkShowsFn,
 } from "@/utils/api/tmdb/favorite";
+import { Form } from "./form";
 
 const Section = ({
   children,
@@ -62,7 +63,8 @@ export function Shows({ account_id }: { account_id: string }) {
     IRQErrorResponse
   > = useInfiniteQuery({
     queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
-    queryFn: ({ pageParam = 1 }) => getRQShowsFn({ page: pageParam }),
+    queryFn: ({ pageParam = 1 }) =>
+      getRQShowsFn({ type: "pagination", value: pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (lastPage.results.length === 0) {
@@ -81,8 +83,18 @@ export function Shows({ account_id }: { account_id: string }) {
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
   });
+
+  shows?.pages.map(({ results }, pageIndex) => {
+    results
+      .filter((show) => show.title !== "Deleted")
+      .map((show, i) => {
+        console.log(show, i);
+      });
+  });
+  // TODO: create state that handle if we display query result or not
   return (
-    <>
+    <div className="flex flex-col gap-10">
+      <Form />
       {shows?.pages.map(({ results }, pageIndex) => (
         <>
           <section
@@ -94,6 +106,8 @@ export function Shows({ account_id }: { account_id: string }) {
             key={pageIndex}
           >
             {results
+              // When show entity is deleted from data source tmdb change the show name into "Deleted"
+              .filter((show) => show.title !== "Deleted")
               // Take only 5 shows when this page concern the top shows
               .slice(
                 pageIndex === 0 ? 0 : undefined,
@@ -224,6 +238,6 @@ export function Shows({ account_id }: { account_id: string }) {
           <Spinner />
         </Section>
       )}
-    </>
+    </div>
   );
 }

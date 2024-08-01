@@ -1,4 +1,4 @@
-import { Shows } from "./_components/section";
+import { Shows } from "./_components/show";
 import {
   HydrationBoundary,
   QueryClient,
@@ -32,7 +32,8 @@ export default async function Accueil() {
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
-      queryFn: ({ pageParam }) => getRQShowsFn({ page: pageParam }),
+      queryFn: ({ pageParam }) =>
+        getRQShowsFn({ value: pageParam, type: "pagination" }),
       initialPageParam: 1,
     }),
     queryClient.prefetchQuery({
