@@ -7,15 +7,20 @@ import { ITMDBShowResponse } from ".";
 
 export const showQueryKeys = {
   all: ["shows"] as const,
-  detail: (id: number) => [...showQueryKeys.all, id] as const,
+  detail: (query: string) => [...showQueryKeys.all, query] as const,
   pagination: (options: { pageIndex: number; pageSize: number }) =>
     [...showQueryKeys.all, options] as const,
   infinite: () => [...showQueryKeys.all, "infinite"] as const,
 };
 
-export const getRQShowsFn = async ({ page }: { page: number }) => {
+type GetRQShowsFnProps = {
+  type: "pagination" | "query";
+  value: string | number;
+};
+
+export const getRQShowsFn = async ({ type, value }: GetRQShowsFnProps) => {
   const shows = await fetcher<ITMDBShowResponse>(
-    `${process.env.NEXT_PUBLIC_BASEURL}/api/movies/${page}`,
+    `${process.env.NEXT_PUBLIC_BASEURL}/api/movies/${type}/${type === "pagination" ? value.toString() : value}`,
     { method: "GET" },
   );
   return shows;

@@ -5,12 +5,12 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "prod": "yarn migrate:deploy && node server.js",
+    "prod": "yarn migrate:deployonprod && node server.js",
     "commitlint": "commitlint --edit",
     "start": "NODE_ENV=production node dist/server.js",
     "lint": "next lint",
-    "migrate:deploy": "npx prisma migrate deploy",
-    "migrate:initdev": "dotenv -e .env.development -- npx prisma migrate dev --name database_initialization",
+    "migrate:deployonprod": "npx prisma migrate deploy",
+    "migrate:deployondev": "dotenv -e .env.development -- npx prisma migrate deploy",
     "prepare": "husky"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@react-three/fiber": "^8.16.6",
     "@tanstack/react-query": "^5.40.1",
+    "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv-cli": "^7.4.2",
