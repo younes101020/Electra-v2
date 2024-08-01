@@ -109,15 +109,10 @@ This is an example of how to list things you need to use the software and how to
    DATABASE_URL=""
    JWT_SECRET_KEY=""
    ```
-5. Initially your database should be empty you have to use this command to apply the prisma schema into it:
+5. Initially your database should be empty you have to use this command to apply electra migrations into it:
 
    ```sh
-   yarn migrate:initdev
-   ```
-
-6. Lastly run the dev environment with this command and visit your [Electra](http://localhost:3000) app
-   ```sh
-   yarn migrate:initdev
+   yarn migrate:deployondev
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
