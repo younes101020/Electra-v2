@@ -65,6 +65,7 @@ export async function POST(
 ) {
   try {
     const { media_id, media_type, favorite } = await request.json();
+    console.log("put into favorite ? ", favorite)
     const result = await fetcher<ITMDBShowResponse>(
       `${process.env.BASETMDBURL}/account/${params.accountid}/favorite`,
       {

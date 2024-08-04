@@ -1,5 +1,5 @@
 import RQCProviders from "@/providers/reactquery";
-import { CounterStoreProvider } from "@/providers/session";
+import { SessionStoreProvider } from "@/providers/session";
 import { Metadata } from "next/types";
 import { Header } from "./_components/header";
 
@@ -15,11 +15,11 @@ export default function AccueilLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CounterStoreProvider>
+    <SessionStoreProvider>
       <Header />
       <main>
         <RQCProviders>{children}</RQCProviders>
       </main>
-    </CounterStoreProvider>
+    </SessionStoreProvider>
   );
 }

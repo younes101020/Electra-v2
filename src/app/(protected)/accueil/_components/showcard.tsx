@@ -31,7 +31,7 @@ const ShowCard = ({
 }) => {
   const mutation = useMutation({
     mutationFn: toggleBookmarkShowsFn,
-    onSuccess: () => refetch({ cancelRefetch: true, throwOnError: true }),
+    onSuccess: () => refetch({ cancelRefetch: true, throwOnError: false }),
   });
   const [animation, setAnimation] = useState(false);
   const imageSize = placeNumber === 1 ? 550 : 225;

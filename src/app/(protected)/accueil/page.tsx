@@ -1,4 +1,3 @@
-import { Shows } from "./_components/show";
 import {
   HydrationBoundary,
   QueryClient,
@@ -13,8 +12,10 @@ import {
 import { verifyAuth } from "@/lib/misc/auth";
 import fetcher from "@/utils/http";
 import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
+import { Form } from "./_components/form";
 
 export default async function Accueil() {
+  // Prefetch movie list + user favorite list from server side
   const queryClient = new QueryClient();
   const jwt = cookies().get("user_token")?.value!;
   const payload = await verifyAuth({ cookieValue: jwt });
@@ -44,7 +45,7 @@ export default async function Accueil() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Shows account_id={tmdbAccoundId!} />
+        <Form />
       </HydrationBoundary>
     </div>
   );

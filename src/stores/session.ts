@@ -7,10 +7,10 @@ import { createStore } from "zustand/vanilla";
 //   incrementCount: () => void;
 // };
 
-export type CounterStore = ITMDBAccoundDetails;
+export type SessionStore = ITMDBAccoundDetails;
 // & CounterActions;
 
-export const initCounterStore = async (): Promise<ITMDBAccoundDetails> => {
+export const initSessionStore = async (): Promise<ITMDBAccoundDetails> => {
   try {
     const user = await fetcher<ITMDBAccoundDetails>(
       process.env.NEXT_PUBLIC_BASEURL +
@@ -42,8 +42,8 @@ export const defaultInitState: ITMDBAccoundDetails = {
   username: "Anonymous",
 };
 
-export const createCounterStore = (initState: Promise<ITMDBAccoundDetails>) => {
-  const store = createStore<CounterStore>()((set) => ({
+export const createSessionStore = (initState: Promise<ITMDBAccoundDetails>) => {
+  const store = createStore<SessionStore>()((set) => ({
     ...defaultInitState,
     // decrementCount: () => set((state) => ({ count: state.count - 1 })),
     // incrementCount: () => set((state) => ({ count: state.count + 1 })),

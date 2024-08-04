@@ -1,7 +1,7 @@
 "use client";
 
 import { useIntersectionObserver } from "usehooks-ts";
-import { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode, useState } from "react";
 import {
   FetchNextPageOptions,
   InfiniteQueryObserverResult,
@@ -22,6 +22,7 @@ import {
   getBookmarkShowsFn,
 } from "@/utils/api/tmdb/favorite";
 import { Form } from "./form";
+import { useSessionStore } from "@/providers/session";
 
 const Section = ({
   children,
@@ -45,14 +46,15 @@ const Section = ({
 
   return (
     <Fragment>
-      <section ref={ref} className={className} key={Date.now()}>
+      <div ref={ref} className={className} key={Date.now()}>
         {children}
-      </section>
+      </div>
     </Fragment>
   );
 };
 
-export function Shows({ account_id }: { account_id: string }) {
+export function Shows() {
+  const { id: account_id } = useSessionStore((state) => state);
   const {
     data: shows,
     fetchNextPage,
@@ -81,20 +83,11 @@ export function Shows({ account_id }: { account_id: string }) {
   });
   const { data: favoriteShowIds, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
-    queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
+    queryFn: () => getBookmarkShowsFn({ accountId: account_id.toString() }),
   });
 
-  shows?.pages.map(({ results }, pageIndex) => {
-    results
-      .filter((show) => show.title !== "Deleted")
-      .map((show, i) => {
-        console.log(show, i);
-      });
-  });
-  // TODO: create state that handle if we display query result or not
   return (
-    <div className="flex flex-col gap-10">
-      <Form />
+    <>
       {shows?.pages.map(({ results }, pageIndex) => (
         <>
           <section
@@ -238,6 +231,6 @@ export function Shows({ account_id }: { account_id: string }) {
           <Spinner />
         </Section>
       )}
-    </div>
+    </>
   );
 }
