@@ -4,44 +4,44 @@ import { type ReactNode, createContext, useRef, useContext } from "react";
 import { useStore } from "zustand";
 
 import {
-  type CounterStore,
-  createCounterStore,
-  initCounterStore,
+  type SessionStore,
+  createSessionStore,
+  initSessionStore,
 } from "@/stores/session";
 
-export type CounterStoreApi = ReturnType<typeof createCounterStore>;
+export type SessionStoreApi = ReturnType<typeof createSessionStore>;
 
-export const CounterStoreContext = createContext<CounterStoreApi | undefined>(
+export const SessionStoreContext = createContext<SessionStoreApi | undefined>(
   undefined,
 );
 
-export interface CounterStoreProviderProps {
+export interface SessionStoreProviderProps {
   children: ReactNode;
 }
 
-export const CounterStoreProvider = ({
+export const SessionStoreProvider = ({
   children,
-}: CounterStoreProviderProps) => {
-  const storeRef = useRef<CounterStoreApi>();
+}: SessionStoreProviderProps) => {
+  const storeRef = useRef<SessionStoreApi>();
   if (!storeRef.current) {
-    storeRef.current = createCounterStore(initCounterStore());
+    storeRef.current = createSessionStore(initSessionStore());
   }
 
   return (
-    <CounterStoreContext.Provider value={storeRef.current}>
+    <SessionStoreContext.Provider value={storeRef.current}>
       {children}
-    </CounterStoreContext.Provider>
+    </SessionStoreContext.Provider>
   );
 };
 
-export const useCounterStore = <T,>(
-  selector: (store: CounterStore) => T,
+export const useSessionStore = <T,>(
+  selector: (store: SessionStore) => T,
 ): T => {
-  const counterStoreContext = useContext(CounterStoreContext);
+  const sessionStoreContext = useContext(SessionStoreContext);
 
-  if (!counterStoreContext) {
-    throw new Error(`useCounterStore must be used within CounterStoreProvider`);
+  if (!sessionStoreContext) {
+    throw new Error(`useSessionStore must be used within SessionStoreProvider`);
   }
 
-  return useStore(counterStoreContext, selector);
+  return useStore(sessionStoreContext, selector);
 };

@@ -12,11 +12,11 @@ import {
 import { UserAvatar } from "./user-avatar";
 import { useTransition } from "react";
 import { logout } from "../app/(protected)/_actions/logout";
-import { useCounterStore } from "@/providers/session";
+import { useSessionStore } from "@/providers/session";
 
 export function UserAccountNav() {
   const [pending, startTransition] = useTransition();
-  const { name, username, avatar } = useCounterStore((state) => state);
+  const { name, username, avatar } = useSessionStore((state) => state);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
