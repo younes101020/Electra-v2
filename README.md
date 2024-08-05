@@ -70,7 +70,6 @@ Here is a sequence diagram for the authentication process used within the applic
 
 - [![Next][Next.js]][Next-url]
 - [![React][React.js]][React-url]
-- [![Coolify][Coolify]][Coolify]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -132,15 +131,15 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 ## Roadmap
 
-- [ ] Integrate figma model with local data
 - [x] Database modeling into prisma schema
-- [x] Create route for catching tmdb auth
+- [x] Setup auth with extending tmdb auth
 - [x] moove auth checking from layout to middleware
-- [ ] Perform full text entity research
-- [ ] Init text lounge <em>Space</em> on first click for each entity
+- [x] Perform full text show research
+- [x] Init text lounge <em>Space</em> on first click for each entity
+- [ ] Automate the creation of specialized ai for each <em>Space</em>, the ia must be able to answer all questions relating to the current show (more ai related feature should come in the future)
 - [ ] Multi-language Support
-  - [ ] Chinese
-  - [ ] Spanish
+  - [ ] English (urgent)
+  - [x] French
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
@@ -217,6 +216,5 @@ Use this space to list resources you find helpful and would like to give credit 
 [sequence-diagram]: public/img/auth-sequence-diagram.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
-[Coolify]: https://coolify.io/coolify-transparent.svg
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
