@@ -17,6 +17,7 @@ model User {
   id      Int      @id
   name    String
   spaces  Space[]
+  messages Message[]
 }
 
 model Space {
@@ -31,4 +32,6 @@ model Message {
   content   String
   spaceId   Int?
   space     Space? @relation(fields: [spaceId], references: [id])
+  userId    Int?
+  user      User? @relation(fields: [userId], references: [id])
 }

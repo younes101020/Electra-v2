@@ -25,7 +25,6 @@ app.prepare().then(() => {
       socket.to(data.space).emit("newUserResponse", users);
     });
     socket.on("message", async (data) => {
-      console.log('qsdflnjkflnqsdjkflqsdjk, ok')
       await db.message.create({
         data,
       });
@@ -34,6 +33,11 @@ app.prepare().then(() => {
           id: true,
           content: true,
           spaceId: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
       socket.to(data.space).emit("messageResponse", allMessages);
