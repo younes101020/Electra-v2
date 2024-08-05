@@ -70,6 +70,7 @@ Here is a sequence diagram for the authentication process used within the applic
 
 - [![Next][Next.js]][Next-url]
 - [![React][React.js]][React-url]
+- [![Coolify][Coolify]][Coolify]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -216,5 +217,6 @@ Use this space to list resources you find helpful and would like to give credit 
 [sequence-diagram]: public/img/auth-sequence-diagram.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
+[Coolify]: https://coolify.io/coolify-transparent.svg
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/

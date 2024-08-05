@@ -21,7 +21,6 @@ export default async function SpacePage({
       },
     },
   );
-
   const space = await db.space.findFirst({
     where: {
       showId: params.movieId,
@@ -33,6 +32,11 @@ export default async function SpacePage({
           content: true,
           id: true,
           spaceId: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       },
     },

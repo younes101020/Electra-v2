@@ -1,42 +1,37 @@
-import { Message, User } from "@prisma/client";
+import type { User } from "@prisma/client";
+import type { Message } from "@/index";
 import { useState, useCallback, useEffect } from "react";
 import { Socket } from "socket.io-client";
 
 interface UseSocketConnectionReturn {
   isConnected: boolean;
-  transport: string;
   users: User[];
   messages: Message[];
   sendMessage: (message: string) => void;
 }
 
 /**
- * This hook manages a socket connection and related state
+ * This hook manages a socket connection and chat related state
  */
 const useSocketConnection = (
   socket: Socket,
   username: string,
   initialMessages: Message[] = [],
   space: number,
+  userId: number,
 ): UseSocketConnectionReturn => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [transport, setTransport] = useState<string>("N/A");
   const [users, setUsers] = useState<User[]>([]);
   const [spaceState, setSpaceState] = useState(space);
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [messages, setMessages] =
+    useState<Message[]>(initialMessages);
 
   const onConnect = useCallback(() => {
     setIsConnected(true);
-    setTransport(socket.io.engine.transport.name);
-
-    socket.io.engine.on("upgrade", (transport: { name: string }) => {
-      setTransport(transport.name);
-    });
   }, [socket]);
 
   const onDisconnect = useCallback(() => {
     setIsConnected(false);
-    setTransport("N/A");
     setSpaceState(0);
   }, []);
 
@@ -60,7 +55,7 @@ const useSocketConnection = (
 
   useEffect(() => {
     const onMessageResponse = (value: Message) => {
-      console.log(value)
+      console.log(value);
       setMessages((prevMessages) => [...prevMessages, value]);
     };
 
@@ -73,14 +68,13 @@ const useSocketConnection = (
 
   const sendMessage = useCallback(
     (message: string) => {
-      socket.emit("message", { content: message, spaceId: spaceState });
+      socket.emit("message", { content: message, spaceId: spaceState, userId });
     },
     [socket],
   );
 
   return {
     isConnected,
-    transport,
     users,
     messages,
     sendMessage,
