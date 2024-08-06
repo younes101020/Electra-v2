@@ -21,6 +21,8 @@ export default async function SpacePage({
       },
     },
   );
+  let spaceId;
+  
   const space = await db.space.findFirst({
     where: {
       showId: params.movieId,
@@ -35,14 +37,17 @@ export default async function SpacePage({
           user: {
             select: {
               name: true,
+              id: true,
+              image: true,
             },
           },
         },
       },
     },
   });
-  const spaceRef = !space
-    ? await db.space.create({
+  const spaceUsers = space && space.message.map((msg) => msg.user);
+  if(!space) {
+    spaceId = await db.space.create({
         data: {
           showId: params.movieId,
           users: {
@@ -55,12 +60,13 @@ export default async function SpacePage({
           id: true,
         },
       })
-    : space;
+  }
   return (
     <Chat
       initiatorUsername={accountDetails.name}
       message={space?.message ?? []}
-      space={spaceRef?.id!}
+      user={spaceUsers ?? []}
+      space={spaceId ? spaceId.id : space?.id!}
     />
   );
 }

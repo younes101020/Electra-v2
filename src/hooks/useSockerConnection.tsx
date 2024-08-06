@@ -1,11 +1,10 @@
-import type { User } from "@prisma/client";
 import type { Message } from "@/index";
 import { useState, useCallback, useEffect } from "react";
 import { Socket } from "socket.io-client";
 
 interface UseSocketConnectionReturn {
   isConnected: boolean;
-  users: User[];
+  users: Message["user"][];
   messages: Message[];
   sendMessage: (message: string) => void;
 }
@@ -16,15 +15,15 @@ interface UseSocketConnectionReturn {
 const useSocketConnection = (
   socket: Socket,
   username: string,
-  initialMessages: Message[] = [],
+  initialMessages: Message[],
+  initialUsers: Message["user"][],
   space: number,
   userId: number,
 ): UseSocketConnectionReturn => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<Message["user"][]>(initialUsers);
   const [spaceState, setSpaceState] = useState(space);
-  const [messages, setMessages] =
-    useState<Message[]>(initialMessages);
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   const onConnect = useCallback(() => {
     setIsConnected(true);
@@ -44,7 +43,7 @@ const useSocketConnection = (
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("newUserResponse", (data: User[]) => setUsers(data));
+    socket.on("newUserResponse", (data: Message["user"][]) => setUsers(data));
 
     return () => {
       socket.off("connect", onConnect);

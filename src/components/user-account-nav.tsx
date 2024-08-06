@@ -16,12 +16,17 @@ import { useSessionStore } from "@/providers/session";
 
 export function UserAccountNav() {
   const [pending, startTransition] = useTransition();
-  const { name, username, avatar } = useSessionStore((state) => state);
+  const { username, avatar } = useSessionStore((state) => state);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <UserAvatar
-          user={{ name: username, image: avatar.tmdb.avatar_path || null }}
+          user={{
+            name: username,
+            image: avatar.tmdb.avatar_path
+              ? "https://image.tmdb.org/t/p/w200" + avatar.tmdb.avatar_path
+              : null,
+          }}
           className="h-8 w-8"
         />
       </DropdownMenuTrigger>

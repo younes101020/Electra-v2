@@ -16,6 +16,7 @@ datasource db {
 model User {
   id      Int      @id
   name    String
+  image   String?
   spaces  Space[]
   messages Message[]
 }

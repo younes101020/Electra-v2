@@ -4,40 +4,47 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Card, CardFooter, CardContent } from "@/components/ui/card";
-import type { User } from "@prisma/client";
 import { useSessionStore } from "@/providers/session";
 import { UserAvatar } from "@/components/user-avatar";
 import { Message } from "@/index";
 
 type MessagesProps = React.ComponentProps<typeof Card> & {
   messages: Message[];
-  users: User[];
+  users: Message["user"][];
   sendMessage: (message: string) => void;
 };
 
 export function Messages({ className, sendMessage, ...props }: MessagesProps) {
-  const { name, username, avatar } = useSessionStore((state) => state);
+  const { username, avatar, id } = useSessionStore((state) => state);
   return (
     <Card className={cn("h-[80vh]", className)} {...props}>
       <CardContent className="w-full pt-2">
-        <div>
+        <div className="flex gap-4">
           <ul>
+            <li className="pb-2 font-medium">Utilisateurs:</li>
             {props.users.map((user) => (
-              <li key={user.id}>{user.name}</li>
+              <li key={user!.id} className="text-sm">
+                {user!.name}
+              </li>
             ))}
           </ul>
-          <ul>
+          <ul className="flex flex-1 flex-col gap-4">
             {props.messages.map((msg) => (
-              <li key={msg.id} className="flex gap-3">
+              <li
+                key={msg.id}
+                className={`flex gap-3 ${id === msg.user?.id && "self-end"}`}
+              >
                 <UserAvatar
                   user={{
                     name: username,
-                    image: avatar.tmdb.avatar_path || null,
+                    image: msg.user?.image
+                      ? "https://image.tmdb.org/t/p/w200" + msg.user?.image
+                      : null,
                   }}
-                  className="h-8 w-8 mt-2"
+                  className="mt-2 h-8 w-8"
                 />
                 <div className="flex flex-col gap-1">
-                  <p className=" font-semibold">{msg.user!.name}</p>
+                  <p className="font-semibold">{msg.user!.name}</p>
                   <p className="rounded-b-lg rounded-r-lg bg-primary p-2 text-primary-foreground">
                     {msg.content}
                   </p>
