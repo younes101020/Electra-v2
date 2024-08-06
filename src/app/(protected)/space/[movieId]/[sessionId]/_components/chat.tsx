@@ -9,15 +9,17 @@ import type { Message } from "@/index";
 interface ChatProps {
   initiatorUsername: string;
   space: number;
+  user: Message["user"][];
   message: Message[];
 }
 
-export function Chat({ initiatorUsername, message, space }: ChatProps) {
+export function Chat({ initiatorUsername, message, space, user }: ChatProps) {
   const { id: userId } = useSessionStore((state) => state);
   const { isConnected, users, messages, sendMessage } = useSocketConnection(
     socket,
     initiatorUsername,
     message,
+    user,
     space,
     userId,
   );

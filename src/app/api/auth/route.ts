@@ -27,6 +27,7 @@ export async function POST(request: Request) {
       data: {
         id: accountDetails.id,
         name: accountDetails.username,
+        image: accountDetails.avatar.tmdb.avatar_path,
       },
     });
   }

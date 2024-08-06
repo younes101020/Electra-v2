@@ -3,6 +3,8 @@ export type Message = {
   content: string;
   spaceId: number | null;
   user: {
+    id: number;
     name: string;
+    image: string | null;
   } | null;
 };
