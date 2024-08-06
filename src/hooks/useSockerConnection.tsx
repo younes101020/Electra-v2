@@ -1,4 +1,7 @@
+"use client";
+
 import type { Message } from "@/index";
+import { useSessionStore } from "@/providers/session";
 import { useState, useCallback, useEffect } from "react";
 import { Socket } from "socket.io-client";
 
@@ -18,8 +21,8 @@ const useSocketConnection = (
   initialMessages: Message[],
   initialUsers: Message["user"][],
   space: number,
-  userId: number,
 ): UseSocketConnectionReturn => {
+  const { id } = useSessionStore((state) => state);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [users, setUsers] = useState<Message["user"][]>(initialUsers);
   const [spaceState, setSpaceState] = useState(space);
@@ -39,7 +42,12 @@ const useSocketConnection = (
       onConnect();
     }
 
-    socket.emit("newUser", { username, socketID: socket.id, space });
+    socket.emit("newUser", {
+      username,
+      socketID: socket.id,
+      space,
+      id,
+    });
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
@@ -67,9 +75,9 @@ const useSocketConnection = (
 
   const sendMessage = useCallback(
     (message: string) => {
-      socket.emit("message", { content: message, spaceId: spaceState, userId });
+      socket.emit("message", { content: message, spaceId: spaceState, userId: id });
     },
-    [socket],
+    [socket, id],
   );
 
   return {
