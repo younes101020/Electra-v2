@@ -21,6 +21,7 @@ app.prepare().then(() => {
         socket.on("newUser", (data) => {
             socket.join(data.space);
             users.push(data);
+            console.log("ussseers", users)
             socket.to(data.space).emit("newUserResponse", users);
         });
         socket.on("message", async (data) => {

@@ -14,14 +14,12 @@ interface ChatProps {
 }
 
 export function Chat({ initiatorUsername, message, space, user }: ChatProps) {
-  const { id: userId } = useSessionStore((state) => state);
   const { isConnected, users, messages, sendMessage } = useSocketConnection(
     socket,
     initiatorUsername,
     message,
     user,
     space,
-    userId,
   );
   return (
     <div className="px-10">

@@ -63,7 +63,7 @@ export default async function SpacePage({
   }
   return (
     <Chat
-      initiatorUsername={accountDetails.name}
+      initiatorUsername={accountDetails.username}
       message={space?.message ?? []}
       user={spaceUsers ?? []}
       space={spaceId ? spaceId.id : space?.id!}
