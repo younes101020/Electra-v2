@@ -46,8 +46,6 @@
 
 ## About The Project
 
-[![Electra Screen Shot][product-screenshot]](https://electra.com)
-
 I wanted to create an application that would allow movie lovers to meet up and chat about their favorite films or series, and now it's done with Electra.
 
 Quick tour of the application's flagship features
@@ -60,7 +58,7 @@ Quick tour of the application's flagship features
 
 ### Sequence diagram
 
-Here is a sequence diagram for the authentication process used within the application:
+Electra extends a huge functionality from TMDB, that's why you will need a TMDB account to use the application. Here is a sequence diagram for the authentication process used within the application:
 
 [![Authentication sequence diagram][sequence-diagram]](https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id)
 
@@ -69,7 +67,14 @@ Here is a sequence diagram for the authentication process used within the applic
 ### Built With
 
 - [![Next][Next.js]][Next-url]
-- [![React][React.js]][React-url]
+- [![Socketio][Socket.io]][Socket-io]
+- [![React Query][React-Query]][React-Query]
+- [![Prisma][Prisma]][Prisma]
+- [![TailwindCSS][TailwindCSS]][TailwindCSS]
+- [![Yarn][Yarn]][Yarn]
+- [![Nodemon][Nodemon]][Nodemon]
+- [![Context-API][Context-API]][Context-API]
+- [![Postgres][Postgres]][Postgres]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -174,26 +179,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-- [Choose an Open Source License](https://choosealicense.com)
-- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-- [Malven's Grid Cheatsheet](https://grid.malven.co/)
-- [Img Shields](https://shields.io)
-- [GitHub Pages](https://pages.github.com)
-- [Font Awesome](https://fontawesome.com)
-- [React Icons](https://react-icons.github.io/react-icons/search)
+Younes Fakallah - [@untilsw](https://twitter.com/untilsw)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -212,9 +198,15 @@ Use this space to list resources you find helpful and would like to give credit 
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: public/img/accueil-page-preview.png
 [sequence-diagram]: public/img/auth-sequence-diagram.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Socket.io]: https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101
+[Prisma]: https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white
+[Yarn]: https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white
 [Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[Context-API]: https://img.shields.io/badge/Context--Api-000000?style=for-the-badge&logo=react
+[Nodemon]: https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD
+[TailwindCSS]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
+[React-Query]: https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white
 [React-url]: https://reactjs.org/
+[Postgres]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
