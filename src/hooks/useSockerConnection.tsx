@@ -2,12 +2,19 @@
 
 import type { Message } from "@/index";
 import { useSessionStore } from "@/providers/session";
-import { useState, useCallback, useEffect } from "react";
+import {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  MutableRefObject,
+} from "react";
 import { Socket } from "socket.io-client";
 
 interface UseSocketConnectionReturn {
   isConnected: boolean;
   users: Message["user"][];
+  messagesEndRef: MutableRefObject<HTMLDivElement | null>;
   messages: Message[];
   sendMessage: (message: string) => void;
 }
@@ -17,16 +24,21 @@ interface UseSocketConnectionReturn {
  */
 const useSocketConnection = (
   socket: Socket,
-  username: string,
   initialMessages: Message[],
   initialUsers: Message["user"][],
   space: number,
 ): UseSocketConnectionReturn => {
-  const { id } = useSessionStore((state) => state);
+  const { id, username, avatar } = useSessionStore((state) => state);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [users, setUsers] = useState<Message["user"][]>(initialUsers);
   const [spaceState, setSpaceState] = useState(space);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(scrollToBottom, [messages]);
 
   const onConnect = useCallback(() => {
     setIsConnected(true);
@@ -62,7 +74,6 @@ const useSocketConnection = (
 
   useEffect(() => {
     const onMessageResponse = (value: Message) => {
-      console.log(value);
       setMessages((prevMessages) => [...prevMessages, value]);
     };
 
@@ -75,7 +86,18 @@ const useSocketConnection = (
 
   const sendMessage = useCallback(
     (message: string) => {
-      socket.emit("message", { content: message, spaceId: spaceState, userId: id });
+      socket.emit("message", {
+        message: {
+          content: message,
+          spaceId: spaceState,
+          user: { name: username, image: avatar.tmdb.avatar_path, id },
+        },
+        insertToDB: {
+          content: message,
+          spaceId: spaceState,
+          userId: id,
+        },
+      });
     },
     [socket, id],
   );
@@ -83,6 +105,7 @@ const useSocketConnection = (
   return {
     isConnected,
     users,
+    messagesEndRef,
     messages,
     sendMessage,
   };

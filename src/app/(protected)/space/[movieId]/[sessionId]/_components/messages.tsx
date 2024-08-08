@@ -7,18 +7,20 @@ import { Card, CardFooter, CardContent } from "@/components/ui/card";
 import { useSessionStore } from "@/providers/session";
 import { UserAvatar } from "@/components/user-avatar";
 import { Message } from "@/index";
+import { MutableRefObject, useRef } from "react";
 
 type MessagesProps = React.ComponentProps<typeof Card> & {
   messages: Message[];
+  messagesEndRef: MutableRefObject<HTMLDivElement | null>;
   users: Message["user"][];
   sendMessage: (message: string) => void;
 };
 
-export function Messages({ className, sendMessage, ...props }: MessagesProps) {
+export function Messages({ className, sendMessage, messagesEndRef, ...props }: MessagesProps) {
   const { username, avatar, id } = useSessionStore((state) => state);
   return (
     <Card className={cn("h-[80vh]", className)} {...props}>
-      <CardContent className="w-full pt-2">
+      <CardContent className="mb-4 w-full overflow-scroll pt-2">
         <div className="flex gap-4">
           <ul>
             <li className="pb-2 font-medium">Utilisateurs:</li>
@@ -51,6 +53,7 @@ export function Messages({ className, sendMessage, ...props }: MessagesProps) {
                 </div>
               </li>
             ))}
+            <div ref={messagesEndRef} />
           </ul>
         </div>
       </CardContent>

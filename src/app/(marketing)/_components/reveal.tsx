@@ -10,10 +10,11 @@ export function CanvasRevealEffectDemo3() {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="h-[40rem] flex flex-col lg:flex-row overflow-hidden items-center justify-center w-full gap-4 mx-auto px-8 relative"
+      className="relative mx-auto flex h-[40rem] w-full flex-col items-center justify-center gap-4 overflow-hidden px-8 lg:flex-row"
     >
-      <p className="md:text-2xl text-2xl font-medium text-center relative z-20 max-w-2xl mx-auto">
-        Connectée vous avec des centaines de fan qui comme vous partagent la même passion pour les séries
+      <p className="relative z-20 mx-auto max-w-2xl text-center text-2xl font-thin md:text-2xl">
+        Connectée vous avec des <span className="font-medium">centaines de fan</span> qui comme vous
+        partagent la même passion pour <span className="font-medium">les films.</span>
       </p>
       <AnimatePresence>
         {hovered && (
@@ -21,7 +22,7 @@ export function CanvasRevealEffectDemo3() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="h-full w-full absolute inset-0"
+            className="absolute inset-0 h-full w-full"
           >
             <CanvasRevealEffect
               animationSpeed={5}
@@ -37,7 +38,7 @@ export function CanvasRevealEffectDemo3() {
         )}
       </AnimatePresence>
       {/* Radial gradient for the cute fade */}
-      <div className="absolute inset-0 [mask-image:radial-gradient(400px_at_center,white,transparent)] bg-primary/10" />
+      <div className="absolute inset-0 bg-primary/10 [mask-image:radial-gradient(400px_at_center,white,transparent)]" />
     </div>
   );
 }

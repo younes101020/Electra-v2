@@ -27,7 +27,7 @@ export default function Accueil() {
             <CardTitle>Discutez</CardTitle>
           </CardHeader>
           <CardContent>
-            Grand admirateur d&apos;un film ou d&apos;une série en particulier ? Alors
+            Grand admirateur d&apos;un film en particulier ? Alors
             rejoignez un espace où vous trouverez d&apos;autres personnes partageant
             la même obsession que vous !
           </CardContent>
