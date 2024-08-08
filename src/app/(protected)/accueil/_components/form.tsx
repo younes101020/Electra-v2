@@ -43,7 +43,7 @@ export function Form() {
     queryFn: () => getBookmarkShowsFn({ accountId: account_id.toString() }),
   });
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col">
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}
