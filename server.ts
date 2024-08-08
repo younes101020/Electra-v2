@@ -20,9 +20,10 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     socket.on("newUser", (data) => {
+      console.log(data, "lll")
       socket.join(data.space);
       users.push(data);
-      socket.to(data.space).emit("newUserResponse", users);
+      io.to(data.space).emit("newUserResponse", users);
     });
     socket.on("message", async (data) => {
       socket.join(data.message.spaceId);

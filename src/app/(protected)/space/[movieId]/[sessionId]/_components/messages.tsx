@@ -18,11 +18,12 @@ type MessagesProps = React.ComponentProps<typeof Card> & {
 
 export function Messages({ className, sendMessage, messagesEndRef, ...props }: MessagesProps) {
   const { username, avatar, id } = useSessionStore((state) => state);
+  console.log(props.users, "USERS")
   return (
     <Card className={cn("h-[80vh]", className)} {...props}>
-      <CardContent className="mb-4 w-full overflow-scroll pt-2">
-        <div className="flex gap-4">
-          <ul>
+      <CardContent className="mb-4 w-full h-full pt-2">
+        <div className="flex gap-4 h-full">
+          <ul className="border-r-[.1rem] h-full pr-4">
             <li className="pb-2 font-medium">Utilisateurs:</li>
             {props.users.map((user) => (
               <li key={user!.id} className="text-sm">
@@ -30,7 +31,7 @@ export function Messages({ className, sendMessage, messagesEndRef, ...props }: M
               </li>
             ))}
           </ul>
-          <ul className="flex flex-1 flex-col gap-4">
+          <ul className="flex flex-1 flex-col gap-4 overflow-scroll overflow-x-hidden">
             {props.messages.map((msg) => (
               <li
                 key={msg.id}

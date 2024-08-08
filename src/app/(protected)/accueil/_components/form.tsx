@@ -50,7 +50,7 @@ export function Form() {
         onSubmit={onSubmit}
       />
       {queryShows ? (
-        <section className="grid w-full grid-cols-2 gap-4 pt-10 lg:grid-cols-4">
+        <section className="grid w-full grid-cols-1 md:grid-cols-2 gap-4 pt-10 lg:grid-cols-4">
           {queryShows.results.map((show) => (
             <div key={show.id}>
               <ShowCard

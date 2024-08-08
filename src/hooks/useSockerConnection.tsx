@@ -55,7 +55,7 @@ const useSocketConnection = (
     }
 
     socket.emit("newUser", {
-      username,
+      name: username,
       socketID: socket.id,
       space,
       id,
