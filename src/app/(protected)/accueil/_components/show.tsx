@@ -94,7 +94,7 @@ export function Shows() {
             className={
               pageIndex === 0
                 ? "grid w-full grid-cols-8 grid-rows-7 gap-4 lg:grid-cols-7 lg:grid-rows-4"
-                : "grid w-full grid-cols-2 gap-4 pt-10 lg:grid-cols-4"
+                : "grid w-full grid-cols-1 gap-4 pt-10 md:grid-cols-2 lg:grid-cols-4"
             }
             key={pageIndex}
           >
@@ -129,7 +129,7 @@ export function Shows() {
                 ) : index === 1 && pageIndex === 0 ? (
                   <div
                     key={show.id}
-                    className="col-span-4 col-start-1 row-span-2 row-start-4 lg:col-span-2 lg:col-start-4 lg:row-start-1"
+                    className="col-span-8 col-start-1 row-span-2 row-start-4 md:col-span-4 lg:col-span-2 lg:col-start-4 lg:row-start-1"
                   >
                     <ShowCard
                       refetch={refetch}
@@ -148,7 +148,7 @@ export function Shows() {
                 ) : index === 2 && pageIndex === 0 ? (
                   <div
                     key={show.id}
-                    className="col-span-4 col-start-5 row-span-2 row-start-4 lg:col-span-2 lg:col-start-6 lg:row-start-1"
+                    className="col-span-8 col-start-1 row-span-2 row-start-6 md:col-span-4 md:col-start-5 md:row-start-4 lg:col-span-2 lg:col-start-6 lg:row-start-1"
                   >
                     <ShowCard
                       refetch={refetch}
@@ -167,7 +167,7 @@ export function Shows() {
                 ) : index === 3 && pageIndex === 0 ? (
                   <div
                     key={show.id}
-                    className="col-span-4 col-start-1 row-span-2 row-start-6 lg:col-span-2 lg:col-start-4 lg:row-start-3"
+                    className="col-span-8 col-start-1 row-span-2 row-start-8 md:col-span-4 md:row-start-6 lg:col-span-2 lg:col-start-4 lg:row-start-3"
                   >
                     <ShowCard
                       refetch={refetch}
@@ -186,7 +186,7 @@ export function Shows() {
                 ) : index === 4 && pageIndex === 0 ? (
                   <div
                     key={show.id}
-                    className="col-span-4 col-start-5 row-span-2 row-start-6 lg:col-span-2 lg:col-start-6 lg:row-start-3"
+                    className="col-span-8 col-start-1 row-span-2 row-start-10 md:col-span-4 md:col-start-5 md:row-start-6 lg:col-span-2 lg:col-start-6 lg:row-start-3"
                   >
                     <ShowCard
                       refetch={refetch}
