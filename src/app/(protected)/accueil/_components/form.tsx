@@ -12,6 +12,7 @@ import {
 } from "@/utils/api/tmdb/favorite";
 import { useSessionStore } from "@/providers/session";
 import { ShowCard } from "./showcard";
+import { Spinner } from "@/components/ui/spinner";
 
 const placeholders = [
   "Spiderman",
@@ -36,7 +37,6 @@ export function Form() {
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submitted");
   };
   const { data: favoriteShowIds, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
@@ -68,6 +68,8 @@ export function Form() {
             </div>
           ))}
         </section>
+      ) : isLoading ? (
+        <Spinner />
       ) : (
         <Shows />
       )}

@@ -22,27 +22,14 @@ app.prepare().then(() => {
     socket.on("newUser", (data) => {
       socket.join(data.space);
       users.push(data);
-      console.log(users)
       socket.to(data.space).emit("newUserResponse", users);
     });
     socket.on("message", async (data) => {
-      console.log(data, "DATA")
+      socket.join(data.message.spaceId);
       await db.message.create({
-        data,
+        data: data.insertToDB,
       });
-      const allMessages = await db.message.findMany({
-        select: {
-          id: true,
-          content: true,
-          spaceId: true,
-          user: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      });
-      socket.to(data.space).emit("messageResponse", allMessages);
+      io.to(data.message.spaceId).emit("messageResponse", data.message);
     });
     socket.on("disconnect", () => {
       users = users.filter((user) => user.id.toString() !== socket.id);
