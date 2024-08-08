@@ -136,15 +136,15 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 ## Roadmap
 
-- [ ] Integrate figma model with local data
 - [x] Database modeling into prisma schema
-- [x] Create route for catching tmdb auth
+- [x] Setup auth with extending tmdb auth
 - [x] moove auth checking from layout to middleware
-- [ ] Perform full text entity research
-- [ ] Init text lounge <em>Space</em> on first click for each entity
+- [x] Perform full text show research
+- [x] Init text lounge <em>Space</em> on first click for each entity
+- [ ] Automate the creation of specialized ai for each <em>Space</em>, the ia must be able to answer all questions relating to the current show (more ai related feature should come in the future)
 - [ ] Multi-language Support
-  - [ ] Chinese
-  - [ ] Spanish
+  - [ ] English (urgent)
+  - [x] French
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
