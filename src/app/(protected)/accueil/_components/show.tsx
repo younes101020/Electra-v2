@@ -93,8 +93,8 @@ export function Shows() {
           <section
             className={
               pageIndex === 0
-                ? "grid w-full grid-cols-8 grid-rows-7 gap-4 lg:grid-cols-7 lg:grid-rows-4"
-                : "grid w-full grid-cols-1 gap-4 pt-10 md:grid-cols-2 lg:grid-cols-4"
+                ? "grid w-full grid-cols-8 grid-rows-7 gap-4 lg:grid-cols-7 lg:grid-rows-4 mb-4"
+                : "grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mb-4"
             }
             key={pageIndex}
           >
