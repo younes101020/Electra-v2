@@ -7,7 +7,7 @@ import { NextRequest } from "next/server";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { accountid: string } },
+  { params }: { params: { sessionid: string } },
 ) {
   const accountDetails = await fetcher<ITMDBAccoundDetails>(
     `${process.env.BASETMDBURL}/account`,
@@ -15,7 +15,7 @@ export async function GET(
     {
       tmdbContext: {
         api_key: process.env.TMDB_API_KEY!,
-        session_id: params.accountid,
+        session_id: params.sessionid,
       },
     },
   );

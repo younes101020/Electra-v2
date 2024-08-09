@@ -9,10 +9,13 @@ import { revalidateTag, unstable_cache } from "next/cache";
  */
 export async function GET(
   request: Request,
-  { params }: { params: { accountid: string } },
+  { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
-    const favIds = await getCachedFavoriteMovieIds(params.accountid);
+    const favIds = await getCachedFavoriteMovieIds(
+      params.sessionid,
+      params.accountid,
+    );
     return Response.json(favIds);
   } catch (error) {
     if (error instanceof Error) {
@@ -23,9 +26,12 @@ export async function GET(
   }
 }
 
-const getCachedFavoriteMovieIds = async (accountId: string) => {
+const getCachedFavoriteMovieIds = async (
+  sessionid: string,
+  accountId: string,
+) => {
   const cachedFavs = unstable_cache(
-    async (accountId) => getFavoriteMovieIds(accountId),
+    async (accountId) => getFavoriteMovieIds(sessionid, accountId),
     [accountId],
     { tags: [accountId, "favorite"] },
   );
@@ -33,7 +39,7 @@ const getCachedFavoriteMovieIds = async (accountId: string) => {
   return favs;
 };
 
-const getFavoriteMovieIds = async (accountId: string) => {
+const getFavoriteMovieIds = async (sessionid: string, accountId: string) => {
   try {
     const favShows = await fetcher<ITMDBShowResponse>(
       `${process.env.BASETMDBURL}/account/${accountId}/favorite/movies`,
@@ -43,9 +49,11 @@ const getFavoriteMovieIds = async (accountId: string) => {
       {
         tmdbContext: {
           api_key: process.env.TMDB_API_KEY!,
+          session_id: sessionid,
         },
       },
     );
+    console.log(`${process.env.BASETMDBURL}/account/${accountId}/favorite/movies`, "GET");
     const favIds = favShows.results.map((show) => show.id);
     return { ...favShows, results: favIds };
   } catch (error) {
@@ -61,11 +69,10 @@ const getFavoriteMovieIds = async (accountId: string) => {
  */
 export async function POST(
   request: Request,
-  { params }: { params: { accountid: string } },
+  { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
     const { media_id, media_type, favorite } = await request.json();
-    console.log("put into favorite ? ", favorite)
     const result = await fetcher<ITMDBShowResponse>(
       `${process.env.BASETMDBURL}/account/${params.accountid}/favorite`,
       {
@@ -78,9 +85,11 @@ export async function POST(
       {
         tmdbContext: {
           api_key: process.env.TMDB_API_KEY!,
+          session_id: params.sessionid,
         },
       },
     );
+    console.log(`${process.env.BASETMDBURL}/account/${params.accountid}/favorite`, media_id);
     [params.accountid, "favorite"].forEach((tag) => revalidateTag(tag));
     return Response.json({ revalidate: true, result });
   } catch (error) {

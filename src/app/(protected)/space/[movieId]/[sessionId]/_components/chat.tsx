@@ -13,11 +13,10 @@ interface ChatProps {
 }
 
 export function Chat({ message, space, user }: ChatProps) {
-  const { isConnected, users, messages, sendMessage, messagesEndRef } =
+  const { users, messages, sendMessage, messagesEndRef } =
     useSocketConnection(socket, message, user, space);
   return (
     <div className="px-10">
-      <p>Status: {isConnected ? "connected" : "disconnected"}</p>
       <div className="flex w-full justify-center">
         <Messages
           messages={messages}

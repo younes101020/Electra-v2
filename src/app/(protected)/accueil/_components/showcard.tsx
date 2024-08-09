@@ -15,6 +15,7 @@ const ShowCard = ({
   poster_path,
   isFav,
   id,
+  account_id,
   vote_average,
   refetch,
 }: {
@@ -24,6 +25,7 @@ const ShowCard = ({
   isFav: boolean;
   vote_average: number;
   id: number;
+  account_id: number;
   refetch: (options: {
     throwOnError: boolean;
     cancelRefetch: boolean;
@@ -89,6 +91,7 @@ const ShowCard = ({
                   size={20}
                   onClick={() => {
                     mutation.mutate({
+                      account_id,
                       showId: id,
                       favorite: false,
                     });
@@ -98,7 +101,9 @@ const ShowCard = ({
                 <Icons.addBookmark
                   size={20}
                   onClick={() => {
+                    console.log(id, "the fav id");
                     mutation.mutate({
+                      account_id,
                       showId: id,
                       favorite: true,
                     });
