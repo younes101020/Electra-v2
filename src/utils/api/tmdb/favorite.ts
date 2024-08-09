@@ -24,7 +24,7 @@ export const getBookmarkShowsFn = async ({
   accountId: string;
 }) => {
   const favIds = await fetcher<IRQFavoriteShowResponse>(
-    `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/favorite/movies`,
+    `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/favorite/${accountId}/movies`,
     {
       method: "GET",
     },
@@ -43,12 +43,14 @@ export const getBookmarkShowsFn = async ({
 export const toggleBookmarkShowsFn = async ({
   showId,
   favorite,
+  account_id,
 }: {
   showId: number;
   favorite: boolean;
+  account_id: number;
 }) => {
   const shows = await fetcher<ITMDBFavoriteMutationResponse>(
-    `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/favorite/movies`,
+    `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/favorite/${account_id}/movies`,
     {
       body: JSON.stringify({
         media_id: showId,

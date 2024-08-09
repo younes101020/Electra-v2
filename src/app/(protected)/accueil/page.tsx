@@ -30,6 +30,7 @@ export default async function Accueil() {
     },
   );
   const tmdbAccoundId = accountDetails.id.toString();
+  console.log(tmdbAccoundId, "tmdb account id")
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),

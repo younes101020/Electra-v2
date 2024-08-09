@@ -14,7 +14,7 @@ export const config = {
   matcher: [
     "/approved/:path*",
     "/accueil",
-    "/api/account/:path*",
+    '/(api/account/session_id_placeholder/.*)',
     "/",
     "/space/:path*",
   ],
@@ -100,11 +100,13 @@ export async function middleware(request: NextRequest) {
       );
     }
     if (shouldRewrite) {
+      
       const extractSessionIDPlaceholder = request.nextUrl.pathname
         .slice(request.nextUrl.pathname.indexOf("session_id_placeholder"))
         .split("/")
         .slice(1)
         .join("/");
+        console.log('should trigger', `/api/account/${user.session_id}/${extractSessionIDPlaceholder}`)
       return NextResponse.rewrite(
         new URL(
           `/api/account/${user.session_id}/${extractSessionIDPlaceholder}`,

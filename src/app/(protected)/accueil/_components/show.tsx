@@ -93,8 +93,8 @@ export function Shows() {
           <section
             className={
               pageIndex === 0
-                ? "grid w-full grid-cols-8 grid-rows-7 gap-4 lg:grid-cols-7 lg:grid-rows-4 mb-4"
-                : "grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mb-4"
+                ? "mb-4 grid w-full grid-cols-8 grid-rows-7 gap-4 lg:grid-cols-7 lg:grid-rows-4"
+                : "mb-4 grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
             }
             key={pageIndex}
           >
@@ -113,6 +113,7 @@ export function Shows() {
                     key={show.id}
                   >
                     <ShowCard
+                      account_id={account_id}
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
@@ -132,6 +133,7 @@ export function Shows() {
                     className="col-span-8 col-start-1 row-span-2 row-start-4 md:col-span-4 lg:col-span-2 lg:col-start-4 lg:row-start-1"
                   >
                     <ShowCard
+                      account_id={account_id}
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
@@ -151,6 +153,7 @@ export function Shows() {
                     className="col-span-8 col-start-1 row-span-2 row-start-6 md:col-span-4 md:col-start-5 md:row-start-4 lg:col-span-2 lg:col-start-6 lg:row-start-1"
                   >
                     <ShowCard
+                      account_id={account_id}
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
@@ -170,6 +173,7 @@ export function Shows() {
                     className="col-span-8 col-start-1 row-span-2 row-start-8 md:col-span-4 md:row-start-6 lg:col-span-2 lg:col-start-4 lg:row-start-3"
                   >
                     <ShowCard
+                      account_id={account_id}
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
@@ -189,6 +193,7 @@ export function Shows() {
                     className="col-span-8 col-start-1 row-span-2 row-start-10 md:col-span-4 md:col-start-5 md:row-start-6 lg:col-span-2 lg:col-start-6 lg:row-start-3"
                   >
                     <ShowCard
+                      account_id={account_id}
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
@@ -205,6 +210,7 @@ export function Shows() {
                 ) : (
                   <div key={show.id}>
                     <ShowCard
+                      account_id={account_id}
                       refetch={refetch}
                       isFav={
                         favoriteShowIds?.results! &&
