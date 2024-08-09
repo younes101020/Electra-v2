@@ -119,6 +119,7 @@ To get a local copy up and running follow these simple example steps.
 - [x] moove auth checking from layout to middleware
 - [x] Perform full text show research
 - [x] Init text lounge <em>Space</em> on first click for each entity
+- [ ] add movie page and display all related movie entity like actors..., we should be able to rate the movie from this page
 - [ ] Automate the creation of specialized ai for each <em>Space</em>, the ia must be able to answer all questions relating to the current show (more ai related feature should come in the future)
 - [ ] Multi-language Support
   - [ ] English (urgent)
