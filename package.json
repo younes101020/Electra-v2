@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "prod": "yarn migrate:deployonprod && node server.js",
+    "prod": "yarn migrate:deployonprod && yarn start",
     "commitlint": "commitlint --edit",
-    "start": "NODE_ENV=production node dist/server.js",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "migrate:deployonprod": "npx prisma migrate deploy",
     "migrate:deployondev": "docker-compose -f devdb.yml up -d && dotenv -e .env.development -- npx prisma migrate deploy",
