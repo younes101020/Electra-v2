@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
 import { Prisma, PrismaClient } from "@prisma/client";
+import { User } from "./src";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -16,16 +17,22 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
   const db = new PrismaClient();
 
-  let users: Prisma.UserCreateInput[] = [];
+  let users: User[] = [];
 
   io.on("connection", (socket) => {
     socket.on("newUser", (data) => {
-      console.log(data, "lll")
-      socket.join(data.space);
-      users.push(data);
-      io.to(data.space).emit("newUserResponse", users);
+      // Ignore new user subscription when user is Anonymous (initial zustand value for session context)
+      if (
+        data.name !== "Anonymous" &&
+        !users.some((user) => user.name === data.name)
+      ) {
+        socket.join(data.space);
+        users.push(data);
+        io.to(data.space).emit("newUserResponse", users);
+      }
     });
     socket.on("message", async (data) => {
+      // When new message is sended persist it into database and broadcast it into the space
       socket.join(data.message.spaceId);
       await db.message.create({
         data: data.insertToDB,
@@ -33,7 +40,16 @@ app.prepare().then(() => {
       io.to(data.message.spaceId).emit("messageResponse", data.message);
     });
     socket.on("disconnect", () => {
-      users = users.filter((user) => user.id.toString() !== socket.id);
+      // Remove user reference
+      users = users.map((user) => {
+        if (user.socketID === socket.id) {
+          return {
+            ...user,
+            socketID: false,
+          };
+        }
+        return user;
+      });
       io.emit("newUserResponse", users);
       socket.disconnect();
     });

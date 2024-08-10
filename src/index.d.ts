@@ -8,3 +8,5 @@ export type Message = {
     image: string | null;
   } | null;
 };
+
+export type User = Prisma.UserCreateInput & { socketID: string };
