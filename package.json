@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production node dist/server.js",
     "lint": "next lint",
     "migrate:deployonprod": "npx prisma migrate deploy",
-    "migrate:deployondev": "dotenv -e .env.development -- npx prisma migrate deploy",
+    "migrate:deployondev": "docker-compose -f devdb.yml up -d && dotenv -e .env.development -- npx prisma migrate deploy",
     "prepare": "husky"
   },
   "dependencies": {

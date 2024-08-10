@@ -8,13 +8,17 @@ import type { Message } from "@/index";
 
 interface ChatProps {
   space: number;
-  user: Message["user"][];
-  message: Message[];
+  user?: Message["user"][];
+  message?: Message[];
 }
 
-export function Chat({ message, space, user }: ChatProps) {
-  const { users, messages, sendMessage, messagesEndRef } =
-    useSocketConnection(socket, message, user, space);
+export function Chat({ message = [], space, user = [] }: ChatProps) {
+  const { users, messages, sendMessage, messagesEndRef } = useSocketConnection(
+    socket,
+    message,
+    user,
+    space,
+  );
   return (
     <div className="px-10">
       <div className="flex w-full justify-center">

@@ -6,28 +6,46 @@ import { cn } from "@/lib/utils";
 import { Card, CardFooter, CardContent } from "@/components/ui/card";
 import { useSessionStore } from "@/providers/session";
 import { UserAvatar } from "@/components/user-avatar";
-import { Message } from "@/index";
-import { MutableRefObject, useRef } from "react";
+import { Message, User } from "@/index";
+import { MutableRefObject } from "react";
+import { Badge } from "@/components/ui/badge";
 
 type MessagesProps = React.ComponentProps<typeof Card> & {
   messages: Message[];
   messagesEndRef: MutableRefObject<HTMLDivElement | null>;
-  users: Message["user"][];
+  users: User[];
   sendMessage: (message: string) => void;
 };
 
-export function Messages({ className, sendMessage, messagesEndRef, ...props }: MessagesProps) {
-  const { username, avatar, id } = useSessionStore((state) => state);
-  console.log(props.users, "USERS")
+export function Messages({
+  className,
+  sendMessage,
+  messagesEndRef,
+  ...props
+}: MessagesProps) {
+  const { username, id } = useSessionStore((state) => state);
+  console.log(props.users, "USERS");
   return (
     <Card className={cn("h-[80vh]", className)} {...props}>
-      <CardContent className="mb-4 w-full h-full pt-2">
-        <div className="flex gap-4 h-full">
-          <ul className="border-r-[.1rem] h-full pr-4">
-            <li className="pb-2 font-medium">Utilisateurs:</li>
+      <CardContent className="mb-4 h-full w-full pt-2">
+        <div className="flex h-full gap-4">
+          <ul className="flex h-full flex-col gap-2 border-r-[.1rem] pr-4">
+            <li className="pb-2 text-lg font-medium">Utilisateurs:</li>
             {props.users.map((user) => (
-              <li key={user!.id} className="text-sm">
+              <li
+                key={user!.id}
+                className="rounded-md bg-primary px-2 py-1 text-sm text-primary-foreground"
+              >
                 {user!.name}
+                {user.socketID ? (
+                  <Badge variant={"success"} className="ml-2">
+                    En ligne
+                  </Badge>
+                ) : (
+                  <Badge variant={"destructive"} className="ml-2">
+                    Hors ligne
+                  </Badge>
+                )}
               </li>
             ))}
           </ul>

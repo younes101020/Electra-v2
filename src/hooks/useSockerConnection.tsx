@@ -1,6 +1,6 @@
 "use client";
 
-import type { Message } from "@/index";
+import type { Message, User } from "@/index";
 import { useSessionStore } from "@/providers/session";
 import {
   useState,
@@ -38,6 +38,8 @@ const useSocketConnection = (
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  console.log(users, "UHJHISFDGOJKFSDGOJKFSDG");
+
   useEffect(scrollToBottom, [messages]);
 
   const onConnect = useCallback(() => {
@@ -63,7 +65,31 @@ const useSocketConnection = (
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("newUserResponse", (data: Message["user"][]) => setUsers(data));
+    socket.on("newUserResponse", (data: User[]) => {
+      setUsers((prevUsers) => {
+        const userList = prevUsers
+          .map((registeredUser) => {
+            if (
+              data.some(
+                (onlineUser) => onlineUser?.name === registeredUser?.name,
+              )
+            ) {
+              const overrideWithOnlineUser = data.filter(
+                (onlineUser) => onlineUser.name === registeredUser?.name,
+              );
+              return overrideWithOnlineUser[0];
+            }
+            return registeredUser;
+          })
+        const overrideDuplicateUserWithOnline = prevUsers.filter(
+          (registeredUser) =>
+            !data.some(
+              (onlineUser) => registeredUser?.name === onlineUser.name,
+            ),
+        );
+        return [...overrideDuplicateUserWithOnline, ...data];
+      });
+    });
 
     return () => {
       socket.off("connect", onConnect);
