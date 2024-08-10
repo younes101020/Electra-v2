@@ -25,12 +25,12 @@ interface UseSocketConnectionReturn {
 const useSocketConnection = (
   socket: Socket,
   initialMessages: Message[],
-  initialUsers: Message["user"][],
+  initialUsers: User[],
   space: number,
 ): UseSocketConnectionReturn => {
   const { id, username, avatar } = useSessionStore((state) => state);
   const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [users, setUsers] = useState<Message["user"][]>(initialUsers);
+  const [users, setUsers] = useState<User[]>(initialUsers);
   const [spaceState, setSpaceState] = useState(space);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
@@ -46,32 +46,32 @@ const useSocketConnection = (
   }, []);
 
   useEffect(() => {
+    console.log("client socket init state: ", { socketID: socket.id });
 
-    socket.emit("newUser", {
-      name: username,
-      socketID: socket.id,
-      space,
-      id,
+    socket.on("connect", () => {
+      socket.emit("newUser", {
+        name: username,
+        socketID: socket.id,
+        space,
+        id,
+      });
     });
-
+    
     socket.on("disconnect", onDisconnect);
     socket.on("newUserResponse", (data: User[]) => {
-      console.log(data, "init")
+      console.log(data, "init");
       setUsers((prevUsers) => {
-        const userList = prevUsers
-          .map((registeredUser) => {
-            if (
-              data.some(
-                (onlineUser) => onlineUser?.name === registeredUser?.name,
-              )
-            ) {
-              const overrideWithOnlineUser = data.filter(
-                (onlineUser) => onlineUser.name === registeredUser?.name,
-              );
-              return overrideWithOnlineUser[0];
-            }
-            return registeredUser;
-          })
+        const userList = prevUsers.map((registeredUser) => {
+          if (
+            data.some((onlineUser) => onlineUser?.name === registeredUser?.name)
+          ) {
+            const overrideWithOnlineUser = data.filter(
+              (onlineUser) => onlineUser.name === registeredUser?.name,
+            );
+            return overrideWithOnlineUser[0];
+          }
+          return registeredUser;
+        });
         const overrideDuplicateUserWithOnline = userList.filter(
           (registeredUser) =>
             !data.some(

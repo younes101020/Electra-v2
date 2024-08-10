@@ -3,7 +3,6 @@
 import useSocketConnection from "@/hooks/useSockerConnection";
 import { Messages } from "./messages";
 import { socket } from "@/lib/socket";
-import { useSessionStore } from "@/providers/session";
 import type { Message } from "@/index";
 
 interface ChatProps {
