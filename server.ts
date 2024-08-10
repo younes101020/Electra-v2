@@ -36,7 +36,10 @@ app.prepare().then(() => {
               return user;
             })
           : [...users, data];
-        io.to(data.space).emit("newUserResponse", users);
+        io.to(data.space).emit(
+          "newUserResponse",
+          users.filter((user) => user.space === data.space),
+        );
       }
     });
     socket.on("message", async (data) => {
