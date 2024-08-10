@@ -38,13 +38,7 @@ const useSocketConnection = (
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  console.log(users, "UHJHISFDGOJKFSDGOJKFSDG");
-
   useEffect(scrollToBottom, [messages]);
-
-  const onConnect = useCallback(() => {
-    setIsConnected(true);
-  }, [socket]);
 
   const onDisconnect = useCallback(() => {
     setIsConnected(false);
@@ -52,9 +46,6 @@ const useSocketConnection = (
   }, []);
 
   useEffect(() => {
-    if (socket.connected) {
-      onConnect();
-    }
 
     socket.emit("newUser", {
       name: username,
@@ -63,9 +54,9 @@ const useSocketConnection = (
       id,
     });
 
-    socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("newUserResponse", (data: User[]) => {
+      console.log(data, "init")
       setUsers((prevUsers) => {
         const userList = prevUsers
           .map((registeredUser) => {
@@ -81,7 +72,7 @@ const useSocketConnection = (
             }
             return registeredUser;
           })
-        const overrideDuplicateUserWithOnline = prevUsers.filter(
+        const overrideDuplicateUserWithOnline = userList.filter(
           (registeredUser) =>
             !data.some(
               (onlineUser) => registeredUser?.name === onlineUser.name,
@@ -92,11 +83,10 @@ const useSocketConnection = (
     });
 
     return () => {
-      socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
       socket.off("newUserResponse");
     };
-  }, [socket, username, onConnect, onDisconnect]);
+  }, [socket, username, onDisconnect]);
 
   useEffect(() => {
     const onMessageResponse = (value: Message) => {

@@ -24,10 +24,18 @@ app.prepare().then(() => {
       // Ignore new user subscription when user is Anonymous (initial zustand value for session context)
       if (
         data.name !== "Anonymous" &&
-        !users.some((user) => user.name === data.name)
+        (!users.some((user) => user.name === data.name) || data.socketID)
       ) {
         socket.join(data.space);
-        users.push(data);
+        // Update socket when duplicate is found elsewhere just push the new user
+        users = users.some((user) => user.name === data.name)
+          ? users.map((user) => {
+              if (user.name === data.name) {
+                return data;
+              }
+              return user;
+            })
+          : [...users, data];
         io.to(data.space).emit("newUserResponse", users);
       }
     });
