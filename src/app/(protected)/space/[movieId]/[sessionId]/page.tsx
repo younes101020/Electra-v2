@@ -34,7 +34,7 @@ export default async function SpacePage({
       movieId: params.movieId,
       userId: accountDetails.id,
     });
-    return <Chat space={newSpace.id} />;
+    return <Chat space={newSpace.id} user={newSpace.users} />;
   }
   // If user is not in the space, add it
   if (!space.users.some((user) => user.id === accountDetails.id)) {
