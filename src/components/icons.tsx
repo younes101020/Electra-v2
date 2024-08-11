@@ -32,6 +32,8 @@ import {
   Zap,
   type Icon as LucideIcon,
   BadgeAlert,
+  MoveLeft,
+  MoveRight,
 } from "lucide-react";
 
 export type Icon = typeof LucideIcon;
@@ -53,7 +55,9 @@ export const Icons = {
   settings: Settings,
   star: Star,
   billing: CreditCard,
+  shrink: MoveLeft,
   ellipsis: MoreVertical,
+  expand: MoveRight,
   zap: Zap,
   addBookmark: BookmarkPlus,
   rmvBookmark: BookmarkMinus,

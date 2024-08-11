@@ -46,7 +46,6 @@ const useSocketConnection = (
   }, []);
 
   useEffect(() => {
-    console.log("client socket init state: ", { socketID: socket.id });
 
     socket.on("connect", () => {
       socket.emit("newUser", {
@@ -56,10 +55,9 @@ const useSocketConnection = (
         id,
       });
     });
-    
+
     socket.on("disconnect", onDisconnect);
     socket.on("newUserResponse", (data: User[]) => {
-      console.log(data, "init");
       setUsers((prevUsers) => {
         const userList = prevUsers.map((registeredUser) => {
           if (
