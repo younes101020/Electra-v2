@@ -37,8 +37,7 @@ const ShowCard = ({
   });
   const [animation, setAnimation] = useState(false);
   const imageSize = placeNumber === 1 ? 550 : 225;
-  const starSize = placeNumber === 1 ? 40 : 20;
-  const fontSize = placeNumber === 1 ? "text-7xl" : "text-3xl";
+  const fontSize = placeNumber === 1 ? "text-4xl md:text-7xl" : "text-3xl";
   const rating = Math.floor(vote_average / 2);
   return (
     <Card className={cn("!relative h-full", className)}>
@@ -59,15 +58,14 @@ const ShowCard = ({
           {Array.from({ length: 5 }).map((_, index) => (
             <Icons.star
               key={index + 1}
-              size={starSize}
               strokeWidth={1}
               className={`${rating < index + 1 ? "fill-primary/25" : "fill-primary"} hover:scale-110`}
             />
           ))}
         </div>
-        <div className="flex gap-4">
+        <div className="flex w-full gap-4 justify-center md:justify-normal">
           {placeNumber && (
-            <h2 className={`${fontSize} font-semibold italic text-primary`}>
+            <h2 className={`${fontSize} font-semibold italic text-primary flex`}>
               #{placeNumber}{" "}
               {placeNumber === 1 && (
                 <span className={`${fontSize} font-thin`}>/</span>
@@ -75,7 +73,7 @@ const ShowCard = ({
             </h2>
           )}
 
-          <div className="mt-auto flex h-full gap-2">
+          <div className="mt-auto flex flex-col md:flex-row h-full gap-2">
             <Button asChild>
               <Link href={`/space/${id}`} className="flex gap-2">
                 <Icons.message size={20} /> / Space
