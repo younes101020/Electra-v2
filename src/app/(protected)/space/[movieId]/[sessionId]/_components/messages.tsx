@@ -8,7 +8,7 @@ import { useSessionStore } from "@/providers/session";
 import { UserAvatar } from "@/components/user-avatar";
 import { Message, User } from "@/index";
 import { MutableRefObject } from "react";
-import { Badge } from "@/components/ui/badge";
+import { UserList } from "./userlist";
 
 type MessagesProps = React.ComponentProps<typeof Card> & {
   messages: Message[];
@@ -28,26 +28,7 @@ export function Messages({
     <Card className={cn("h-[80vh]", className)} {...props}>
       <CardContent className="mb-4 h-full w-full pt-2">
         <div className="flex h-full gap-4">
-          <ul className="flex h-full flex-col gap-2 border-r-[.1rem] pr-4">
-            <li className="pb-2 text-lg font-medium">Utilisateurs:</li>
-            {props.users.map((user) => (
-              <li
-                key={user!.id}
-                className="rounded-md bg-primary px-2 py-1 text-sm text-primary-foreground"
-              >
-                {user!.name}
-                {user.socketID ? (
-                  <Badge variant={"success"} className="ml-2">
-                    En ligne
-                  </Badge>
-                ) : (
-                  <Badge variant={"destructive"} className="ml-2">
-                    Hors ligne
-                  </Badge>
-                )}
-              </li>
-            ))}
-          </ul>
+          <UserList users={props.users} />
           <ul className="flex flex-1 flex-col gap-4 overflow-scroll overflow-x-hidden">
             {props.messages.map((msg) => (
               <li
