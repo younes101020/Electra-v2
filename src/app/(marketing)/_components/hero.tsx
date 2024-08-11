@@ -12,7 +12,7 @@ const Hero = () => {
         alt="Picture of the hero banner"
         className="grayscale"
       />
-      <div className="absolute z-20 flex h-full w-full items-center bg-background/75 px-40 pb-20">
+      <div className="absolute z-20 flex h-full w-full items-center bg-background/75 px-4 md:px-40 pb-20">
         <div className="flex flex-col gap-4 lg:w-[70%]">
           <h2 className="inline-flex text-5xl font-normal text-foreground">
             La plateforme préférée des cinéphiles
