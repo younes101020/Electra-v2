@@ -1,7 +1,7 @@
 "use client";
 
 import { useIntersectionObserver } from "usehooks-ts";
-import { Fragment, ReactNode, useState } from "react";
+import { Fragment, ReactNode } from "react";
 import {
   FetchNextPageOptions,
   InfiniteQueryObserverResult,
@@ -21,7 +21,6 @@ import {
   favoriteShowQueryKeys,
   getBookmarkShowsFn,
 } from "@/utils/api/tmdb/favorite";
-import { Form } from "./form";
 import { useSessionStore } from "@/providers/session";
 
 const Section = ({

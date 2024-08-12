@@ -63,9 +63,11 @@ const ShowCard = ({
             />
           ))}
         </div>
-        <div className="flex w-full gap-4 justify-center md:justify-normal">
+        <div className="flex w-full justify-center gap-4 md:justify-normal">
           {placeNumber && (
-            <h2 className={`${fontSize} font-semibold italic text-primary flex`}>
+            <h2
+              className={`${fontSize} flex font-semibold italic text-primary`}
+            >
               #{placeNumber}{" "}
               {placeNumber === 1 && (
                 <span className={`${fontSize} font-thin`}>/</span>
@@ -73,7 +75,7 @@ const ShowCard = ({
             </h2>
           )}
 
-          <div className="mt-auto flex flex-col md:flex-row h-full gap-2">
+          <div className="mt-auto flex h-full flex-col gap-2 md:flex-row">
             <Button asChild>
               <Link href={`/space/${id}`} className="flex gap-2">
                 <Icons.message size={20} /> / Space
