@@ -12,7 +12,6 @@ import {
 import { Socket } from "socket.io-client";
 
 interface UseSocketConnectionReturn {
-  isConnected: boolean;
   users: Message["user"][];
   messagesEndRef: MutableRefObject<HTMLDivElement | null>;
   messages: Message[];
@@ -29,7 +28,6 @@ const useSocketConnection = (
   space: number,
 ): UseSocketConnectionReturn => {
   const { id, username, avatar } = useSessionStore((state) => state);
-  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [spaceState, setSpaceState] = useState(space);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -40,21 +38,23 @@ const useSocketConnection = (
 
   useEffect(scrollToBottom, [messages]);
 
+  const onConnect = useCallback(() => {
+    socket.emit("newUser", {
+      name: username,
+      socketID: socket.id,
+      space,
+      id,
+    });
+  }, [socket, id]);
+
   const onDisconnect = useCallback(() => {
-    setIsConnected(false);
     setSpaceState(0);
   }, []);
 
   useEffect(() => {
-
-    socket.on("connect", () => {
-      socket.emit("newUser", {
-        name: username,
-        socketID: socket.id,
-        space,
-        id,
-      });
-    });
+    if (socket.connected) {
+      onConnect();
+    }
 
     socket.on("disconnect", onDisconnect);
     socket.on("newUserResponse", (data: User[]) => {
@@ -117,7 +117,6 @@ const useSocketConnection = (
   );
 
   return {
-    isConnected,
     users,
     messagesEndRef,
     messages,
