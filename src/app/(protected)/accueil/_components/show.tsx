@@ -44,11 +44,9 @@ const Section = ({
   });
 
   return (
-    <Fragment>
-      <div ref={ref} className={className} key={Date.now()}>
-        {children}
-      </div>
-    </Fragment>
+    <section ref={ref} className={className}>
+      {children}
+    </section>
   );
 };
 
@@ -84,7 +82,7 @@ export function Shows() {
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id.toString() }),
   });
-
+  console.log(shows, "shows");
   return (
     <>
       {shows?.pages.map(({ results }, pageIndex) => (
