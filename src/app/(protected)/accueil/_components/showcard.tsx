@@ -1,6 +1,11 @@
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
@@ -41,6 +46,13 @@ const ShowCard = ({
   const rating = Math.floor(vote_average / 2);
   return (
     <Card className={cn("!relative h-full", className)}>
+      <CardHeader className="absolute right-0">
+        <Button asChild>
+          <Link href={`/movie/${id}`} className="space-x-2">
+            <p>Voir plus</p> <Icons.expand size={20} />
+          </Link>
+        </Button>
+      </CardHeader>
       <CardContent className="flex justify-center !p-0">
         <Image
           src={
@@ -48,6 +60,8 @@ const ShowCard = ({
               ? `https://image.tmdb.org/t/p/original${poster_path}`
               : defaultImage
           }
+          loading="eager"
+          priority
           width={poster_path ? imageSize : undefined}
           height={poster_path ? imageSize : undefined}
           alt="Picture of the show cover"
@@ -63,7 +77,7 @@ const ShowCard = ({
             />
           ))}
         </div>
-        <div className="flex w-full justify-center gap-4 md:justify-normal">
+        <div className="flex w-full gap-4 md:justify-normal">
           {placeNumber && (
             <h2
               className={`${fontSize} flex font-semibold italic text-primary`}
@@ -75,7 +89,7 @@ const ShowCard = ({
             </h2>
           )}
 
-          <div className="mt-auto flex h-full flex-col gap-2 md:flex-row">
+          <div className="mt-auto flex h-full gap-2">
             <Button asChild>
               <Link href={`/space/${id}`} className="flex gap-2">
                 <Icons.message size={20} /> / Space
