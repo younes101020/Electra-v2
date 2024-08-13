@@ -13,6 +13,12 @@ import { verifyAuth } from "@/lib/misc/auth";
 import fetcher from "@/utils/http";
 import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 import { Form } from "./_components/form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Films",
+  description: "Consultez des centaines de films directement depuis cette page",
+};
 
 export default async function Accueil() {
   // Prefetch movie list + user favorite list from server side
@@ -30,7 +36,7 @@ export default async function Accueil() {
     },
   );
   const tmdbAccoundId = accountDetails.id.toString();
-  console.log(tmdbAccoundId, "tmdb account id")
+  console.log(tmdbAccoundId, "tmdb account id");
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
@@ -44,7 +50,7 @@ export default async function Accueil() {
     }),
   ]);
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="flex min-h-screen flex-col items-center justify-between px-5 py-16 md:p-24">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Form />
       </HydrationBoundary>

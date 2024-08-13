@@ -1,12 +1,17 @@
 import fetcher from "@/utils/http";
 import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
-import { db } from "@/lib/db";
 import { Chat } from "./_components/chat";
 import {
   getSpaceEntities,
   setSpaceEntities,
   setUserToSpace,
 } from "@/services/space";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Space",
+  description: "Discutez à propos du film avec d'autres cinéphiles",
+};
 
 export default async function SpacePage({
   params,
