@@ -1,4 +1,4 @@
-export interface ITMDBErrorResponse {
+export interface ITMDBStatusResponse {
   success: boolean;
   status_code: number;
   status_message: string;

@@ -1,7 +1,7 @@
 import fetcher from "@/utils/http";
-import { IRQFavoriteShowResponse, ITMDBErrorResponse, Show } from ".";
+import { IRQFavoriteShowResponse, ITMDBStatusResponse } from ".";
 
-type ITMDBFavoriteMutationResponse = { result: ITMDBErrorResponse };
+type ITMDBFavoriteMutationResponse = { result: ITMDBStatusResponse };
 
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories

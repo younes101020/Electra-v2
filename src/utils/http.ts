@@ -1,4 +1,4 @@
-import { ITMDBErrorResponse, ITMDBShowResponse } from "./api/tmdb";
+import { ITMDBStatusResponse, ITMDBShowResponse } from "./api/tmdb";
 
 type IHeaders =
   | {
@@ -43,16 +43,16 @@ export default async function fetcher<IData>(
       }
       const tmdbResponse = await baseFetch<
         ITMDBShowResponse,
-        ITMDBErrorResponse
+        ITMDBStatusResponse
       >(showUrl, options, "tmdbContext");
-      const tmdbErrorResponse = tmdbResponse as ITMDBErrorResponse;
+      const tmdbErrorResponse = tmdbResponse as ITMDBStatusResponse;
       if (tmdbErrorResponse.success === false)
         throw Error(tmdbErrorResponse.status_message);
       return tmdbResponse as IData;
     }
     const showsResponse = await baseFetch<
       ITMDBShowResponse,
-      ITMDBErrorResponse
+      ITMDBStatusResponse
     >(url, options, "nextproxyContext");
     return showsResponse as IData;
   } catch (error) {
@@ -71,7 +71,7 @@ const baseFetch = async <IData, IError>(
       throw new Error(await response.text());
     }
     const result = await response.json();
-    return result;
+    return result as IData;
   } catch (error) {
     if (error instanceof Error) throw Error(error.message);
     throw Error(typeof error === "string" ? error : "Unhandled error");
