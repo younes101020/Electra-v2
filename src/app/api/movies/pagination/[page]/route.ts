@@ -33,8 +33,9 @@ const getCachedMovies = async (page: string) => {
 
 const getMovies = async (page: string) => {
   try {
+    // Get movies by prioritizing the most popular ones, each movie should have at least 300 ratings
     const shows = await fetcher<ITMDBShowResponse>(
-      `${process.env.BASETMDBURL}/discover/movie?language=fr-FR&page=${page}&sort_by=vote_average.desc`,
+      `${process.env.BASETMDBURL}/discover/movie?language=fr-FR&page=${page}&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=300`,
       { method: "GET" },
       {
         tmdbContext: {

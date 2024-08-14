@@ -17,7 +17,6 @@ export const initSessionStore = async (): Promise<ITMDBAccoundDetails> => {
         "/api/account/session_id_placeholder/details",
       { method: "GET" },
     );
-    console.log("USER FROM CLIENT STORE: ", user);
     return user;
   } catch (error) {
     console.error("Error fetching user account details:", error);
