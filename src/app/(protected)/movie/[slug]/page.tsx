@@ -6,6 +6,7 @@ import fetcher from "@/utils/http";
 import { Metadata } from "next";
 import Image from "next/image";
 import defaultImage from "@/../public/img/no-image.png";
+import { CardDetails } from "./_components/carddetails";
 
 type URLProps = {
   params: { slug: string };
@@ -48,28 +49,26 @@ export default async function SingleMoviePage({ params }: URLProps) {
       },
     },
   );
-  const trailerVideoSrc = trailerVideo.results.find((e) => e.site === "YouTube");
+  const trailerVideoSrc = trailerVideo.results.find(
+    (e) => e.site === "YouTube",
+  );
   return (
-    <div className="flex justify-center flex-wrap gap-2 px-5 py-16 *:rounded-lg">
-      <Image
-        className="object-cover object-center transition-opacity"
-        src={
-          showDetails.poster_path
-            ? `https://image.tmdb.org/t/p/original${showDetails.poster_path}`
-            : defaultImage
-        }
-        width={300}
-        height={300}
-        loading="eager"
-        priority
-        alt={`Full size image of ${showDetails.original_title} poster`}
-      />
+    <div className="flex flex-wrap justify-center gap-2 px-10 py-16 *:rounded-lg">
       {trailerVideoSrc && (
         <iframe
-          src={`https://www.youtube.com/watch?v=${trailerVideoSrc.key}`}
+          src={`https://www.youtube.com/embed/${trailerVideoSrc.key}`}
           allowFullScreen
+          className="w-full md:w-1/2"
+          height={300}
         />
       )}
+      <CardDetails
+        poster_path={showDetails.poster_path}
+        original_title={showDetails.original_title}
+        tagline={showDetails.tagline}
+        overview={showDetails.overview}
+        genres={showDetails.genres}
+      />
     </div>
   );
 }
