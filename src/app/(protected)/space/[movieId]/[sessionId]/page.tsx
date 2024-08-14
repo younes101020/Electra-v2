@@ -33,7 +33,6 @@ export default async function SpacePage({
   );
   let newSpace;
   const space = await getSpaceEntities({ movieId: params.movieId });
-  console.log(space);
   if (!space) {
     newSpace = await setSpaceEntities({
       movieId: params.movieId,

@@ -106,7 +106,6 @@ export async function middleware(request: NextRequest) {
         .split("/")
         .slice(1)
         .join("/");
-        console.log('should trigger', `/api/account/${user.session_id}/${extractSessionIDPlaceholder}`)
       return NextResponse.rewrite(
         new URL(
           `/api/account/${user.session_id}/${extractSessionIDPlaceholder}`,

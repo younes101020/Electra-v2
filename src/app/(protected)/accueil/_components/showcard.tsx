@@ -115,7 +115,6 @@ const ShowCard = ({
                 <Icons.addBookmark
                   size={20}
                   onClick={() => {
-                    console.log(id, "the fav id");
                     mutation.mutate({
                       account_id,
                       showId: id,

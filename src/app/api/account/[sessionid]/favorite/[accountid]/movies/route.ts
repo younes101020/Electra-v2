@@ -33,7 +33,7 @@ const getCachedFavoriteMovieIds = async (
   const cachedFavs = unstable_cache(
     async (accountId) => getFavoriteMovieIds(sessionid, accountId),
     [accountId],
-    { tags: [accountId, "favorite"] },
+    { tags: [`favorite:${accountId}`] },
   );
   const favs = await cachedFavs(accountId);
   return favs;
@@ -53,7 +53,6 @@ const getFavoriteMovieIds = async (sessionid: string, accountId: string) => {
         },
       },
     );
-    console.log(`${process.env.BASETMDBURL}/account/${accountId}/favorite/movies`, "GET");
     const favIds = favShows.results.map((show) => show.id);
     return { ...favShows, results: favIds };
   } catch (error) {
@@ -72,6 +71,7 @@ export async function POST(
   { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
+    
     const { media_id, media_type, favorite } = await request.json();
     const result = await fetcher<ITMDBShowResponse>(
       `${process.env.BASETMDBURL}/account/${params.accountid}/favorite`,
@@ -89,8 +89,7 @@ export async function POST(
         },
       },
     );
-    console.log(`${process.env.BASETMDBURL}/account/${params.accountid}/favorite`, media_id);
-    [params.accountid, "favorite"].forEach((tag) => revalidateTag(tag));
+    revalidateTag(`favorite:${params.accountid}`);
     return Response.json({ revalidate: true, result });
   } catch (error) {
     if (error instanceof Error)

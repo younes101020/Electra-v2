@@ -82,7 +82,6 @@ export function Shows() {
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id.toString() }),
   });
-  console.log(shows, "shows");
   return (
     <>
       {shows?.pages.map(({ results }, pageIndex) => (

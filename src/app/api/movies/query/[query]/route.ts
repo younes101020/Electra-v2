@@ -13,7 +13,6 @@ export async function GET(
   { params }: { params: { query: string } },
 ) {
   try {
-    console.log(typeof params.query);
     const movies = await getCachedMovies(params.query);
     return Response.json(movies);
   } catch (error) {
