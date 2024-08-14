@@ -57,7 +57,7 @@ const ShowCard = ({
         <Image
           src={
             poster_path
-              ? `https://image.tmdb.org/t/p/original${poster_path}`
+              ? `${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/original${poster_path}`
               : defaultImage
           }
           loading="eager"

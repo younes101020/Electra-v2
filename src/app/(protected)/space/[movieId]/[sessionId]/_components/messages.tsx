@@ -39,7 +39,7 @@ export function Messages({
                   user={{
                     name: username,
                     image: msg.user?.image
-                      ? "https://image.tmdb.org/t/p/w200" + msg.user?.image
+                      ? `${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/w200` + msg.user?.image
                       : null,
                   }}
                   className="mt-2 h-8 w-8"
