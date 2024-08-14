@@ -54,7 +54,7 @@ export default async function SingleMoviePage({ params }: URLProps) {
     (e) => e.site === "YouTube",
   );
   return (
-    <div className="flex flex-col justify-center gap-4 px-10 py-16 lg:py-32 lg:px-32 *:rounded-lg md:flex-row">
+    <div className="flex flex-col justify-center gap-4 px-10 py-16 *:rounded-lg md:flex-row lg:px-32 lg:py-32">
       <div className="w-full md:w-2/3">
         {trailerVideoSrc && (
           <iframe
@@ -70,6 +70,8 @@ export default async function SingleMoviePage({ params }: URLProps) {
           tagline={showDetails.tagline}
           overview={showDetails.overview}
           genres={showDetails.genres}
+          vote_average={showDetails.vote_average}
+          vote_count={showDetails.vote_count}
         />
       </div>
       {showDetails.credits?.cast && (

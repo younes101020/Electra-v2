@@ -20,9 +20,9 @@ export function Characters({ cast }: CharactersProps) {
       <Separator />
       <CardContent className="grid space-y-4 pt-2 md:grid-cols-2 xl:grid-cols-3">
         {cast.map((perso) => (
-          <div key={perso.id} className="space-y-2 flex flex-col items-center">
+          <div key={perso.id} className="flex flex-col items-center space-y-2">
             <div>
-              <Avatar className="h-20 w-20">
+              <Avatar className="h-12 w-12">
                 <AvatarImage
                   src={`${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/original${perso.profile_path}`}
                   alt={perso.original_name}
@@ -30,7 +30,6 @@ export function Characters({ cast }: CharactersProps) {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
-
             <div>
               <h3 className="leading-none tracking-tight">{perso.character}</h3>
               <CardDescription>{perso.original_name}</CardDescription>
