@@ -20,12 +20,12 @@ export function CardDetails({
   poster_path,
 }: CardDetailsProps) {
   return (
-    <Card className="w-full md:w-1/2">
+    <Card>
       <CardHeader className="flex-row space-x-2">
         {poster_path && (
           <Image
             className="rounded-md object-cover object-center transition-opacity"
-            src={`https://image.tmdb.org/t/p/original${poster_path}`}
+            src={`${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/original${poster_path}`}
             width={150}
             height={150}
             loading="eager"

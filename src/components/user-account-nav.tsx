@@ -24,7 +24,8 @@ export function UserAccountNav() {
           user={{
             name: username,
             image: avatar.tmdb.avatar_path
-              ? "https://image.tmdb.org/t/p/w200" + avatar.tmdb.avatar_path
+              ? `${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/w200` +
+                avatar.tmdb.avatar_path
               : null,
           }}
           className="h-8 w-8"

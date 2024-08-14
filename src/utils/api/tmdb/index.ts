@@ -48,6 +48,9 @@ export interface ITMDBShowDetailsResponse {
   tagline: string;
   title: string;
   video: boolean;
+  credits?: {
+    cast: Cast[];
+  };
   vote_average: number;
   vote_count: number;
 }
@@ -125,5 +128,20 @@ interface Spokenlanguage {
   iso_639_1: string;
   name: string;
 }
+
+export interface Cast {
+  adult: boolean;
+  gender: number;
+  id: string;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: null | string;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
+};
 
 export { getRQShowsFn, showQueryKeys } from "./shows";
