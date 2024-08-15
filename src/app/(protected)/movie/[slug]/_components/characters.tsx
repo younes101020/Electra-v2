@@ -18,9 +18,9 @@ export function Characters({ cast }: CharactersProps) {
         <CardTitle>Acteurs et actrices</CardTitle>
       </CardHeader>
       <Separator />
-      <CardContent className="grid space-y-4 pt-2 md:grid-cols-2 xl:grid-cols-3">
+      <CardContent className="grid pt-4 md:grid-cols-2 xl:grid-cols-3 gap-2">
         {cast.map((perso) => (
-          <div key={perso.id} className="flex flex-col items-center space-y-2">
+          <div key={perso.id} className="flex flex-col space-y-2">
             <div>
               <Avatar className="h-12 w-12">
                 <AvatarImage

@@ -25,7 +25,7 @@ export function CardDetails({
   return (
     <Card>
       <CardHeader className="flex-col md:flex-row space-x-2">
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           {poster_path && (
             <Image
               className="rounded-md object-cover object-center transition-opacity"

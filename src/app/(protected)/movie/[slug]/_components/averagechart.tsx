@@ -9,7 +9,7 @@ import {
 const chartConfig = {
   above: {
     label: "Note positive",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--chart-3))",
   },
   below: {
     label: "Note négative",
@@ -67,12 +67,12 @@ export function AverageChart({ vote_average, vote_count }: AverageChartProps) {
           dataKey="above"
           stackId="a"
           cornerRadius={5}
-          fill="var(--color-desktop)"
+          fill="var(--color-above)"
           className="stroke-transparent stroke-2"
         />
         <RadialBar
           dataKey="below"
-          fill="var(--color-mobile)"
+          fill="var(--color-below)"
           stackId="a"
           cornerRadius={5}
           className="stroke-transparent stroke-2"

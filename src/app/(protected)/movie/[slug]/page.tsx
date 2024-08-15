@@ -8,6 +8,7 @@ import Image from "next/image";
 import defaultImage from "@/../public/img/no-image.png";
 import { CardDetails } from "./_components/carddetails";
 import { Characters } from "./_components/characters";
+import { FinancialDetails } from "./_components/financialdetails";
 
 type URLProps = {
   params: { slug: string };
@@ -55,7 +56,7 @@ export default async function SingleMoviePage({ params }: URLProps) {
   );
   return (
     <div className="flex flex-col justify-center gap-4 px-10 py-16 *:rounded-lg md:flex-row lg:px-32 lg:py-32">
-      <div className="w-full md:w-2/3">
+      <div className="w-full md:w-2/3 flex flex-col gap-3">
         {trailerVideoSrc && (
           <iframe
             src={`https://www.youtube.com/embed/${trailerVideoSrc.key}`}
@@ -72,6 +73,10 @@ export default async function SingleMoviePage({ params }: URLProps) {
           genres={showDetails.genres}
           vote_average={showDetails.vote_average}
           vote_count={showDetails.vote_count}
+        />
+        <FinancialDetails
+          revenue={showDetails.revenue}
+          budget={showDetails.budget}
         />
       </div>
       {showDetails.credits?.cast && (
