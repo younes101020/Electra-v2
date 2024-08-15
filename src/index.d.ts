@@ -17,10 +17,21 @@ export type User = Prisma.UserCreateInput & { socketID: string };
 
 export type MovieDetails = Pick<
   ITMDBShowDetailsResponse,
-  "genres" | "original_title" | "overview" | "tagline" | "poster_path" | "vote_average" | "vote_count"
+  | "genres"
+  | "original_title"
+  | "overview"
+  | "tagline"
+  | "poster_path"
+  | "vote_average"
+  | "vote_count"
 >;
 
 export type Casting = Pick<
   Cast,
   "original_name" | "character" | "profile_path" | "id"
 >[];
+
+export type FinancialDetails = Pick<
+  ITMDBShowDetailsResponse,
+  "revenue" | "budget"
+>;
