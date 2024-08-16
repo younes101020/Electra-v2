@@ -9,6 +9,7 @@ import defaultImage from "@/../public/img/no-image.png";
 import { CardDetails } from "./_components/carddetails";
 import { Characters } from "./_components/characters";
 import { FinancialDetails } from "./_components/financialdetails";
+import getQueryClient from "@/lib/react-query";
 
 type URLProps = {
   params: { slug: string };
@@ -17,6 +18,12 @@ type URLProps = {
 export async function generateMetadata({
   params,
 }: URLProps): Promise<Metadata> {
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['posts-comments'],
+    queryFn: getComments,
+  })
+
   const showDetails = await fetcher<ITMDBShowDetailsResponse>(
     `${process.env.BASETMDBURL}/movie/${params.slug}`,
     { method: "GET" },
