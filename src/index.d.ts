@@ -22,8 +22,6 @@ export type MovieDetails = Pick<
   | "overview"
   | "tagline"
   | "poster_path"
-  | "vote_average"
-  | "vote_count"
 >;
 
 export type Casting = Pick<

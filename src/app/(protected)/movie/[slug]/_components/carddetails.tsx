@@ -9,7 +9,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { MovieDetails } from "@/index";
 import Image from "next/image";
-import { AverageChart } from "./averagechart";
 
 type CardDetailsProps = MovieDetails;
 
@@ -19,8 +18,6 @@ export function CardDetails({
   overview,
   tagline,
   poster_path,
-  vote_average,
-  vote_count,
 }: CardDetailsProps) {
   return (
     <Card>
@@ -53,7 +50,6 @@ export function CardDetails({
             </CardDescription>
           </div>
         </div>
-        <AverageChart vote_average={vote_average} vote_count={vote_count} />
       </CardHeader>
       <Separator />
       <CardContent className="grid gap-4 pt-4">
