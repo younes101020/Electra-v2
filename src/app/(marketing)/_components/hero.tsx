@@ -12,18 +12,21 @@ const Hero = () => {
         alt="Picture of the hero banner"
         className="grayscale"
       />
-      <div className="absolute z-20 flex h-full w-full items-center bg-background/75 px-4 md:px-40 pb-20">
+      <div className="absolute z-20 flex h-full w-full items-center bg-background/75 px-4 pb-20 md:px-40">
         <div className="flex flex-col gap-4 lg:w-[70%]">
-          <h2 className="inline-flex text-5xl font-normal text-foreground">
-            La plateforme préférée des cinéphiles
+          <h2 className="text-6xl font-light text-foreground">
+            La première application de{" "}
+            <span className="font-bold">rencontre entre cinéphiles</span>.
           </h2>
           <h3 className="text-2xl font-thin">
-            Rejoignez les différentes communautés autour de vos films et séries
-            favoris, créez votre watchlist, notez différents séries et films...
+            Rejoignez les différentes communautés autour de vos films favoris,
+            créez votre watchlist, notez différents films...
           </h3>
           <div>
             <form action={auth}>
-              <Button type="submit">Commencer</Button>
+              <Button type="submit" className="text-md text-primary-foreground">
+                Commencer
+              </Button>
             </form>
           </div>
         </div>

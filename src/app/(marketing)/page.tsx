@@ -63,7 +63,7 @@ export default function Accueil() {
           <CardContent>
             Influencez le référencement des différents contenus
             cinématographiques au sein de l&apos;application en donnant une notation
-            en étoiles. Plus un film ou une série obtient une haute note
+            en étoiles. Plus un film obtient une haute note
             d&apos;étoiles, mieux il est référencé.
           </CardContent>
         </CardComponent>
