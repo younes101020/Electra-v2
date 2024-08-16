@@ -71,8 +71,6 @@ export default async function SingleMoviePage({ params }: URLProps) {
           tagline={showDetails.tagline}
           overview={showDetails.overview}
           genres={showDetails.genres}
-          vote_average={showDetails.vote_average}
-          vote_count={showDetails.vote_count}
         />
         <FinancialDetails
           revenue={showDetails.revenue}

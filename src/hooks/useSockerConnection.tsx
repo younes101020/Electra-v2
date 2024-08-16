@@ -30,6 +30,7 @@ const useSocketConnection = (
   const { id, username, avatar } = useSessionStore((state) => state);
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [spaceState, setSpaceState] = useState(space);
+  const [socketConnection, setSocketConnection] = useState(socket.connected);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -51,36 +52,38 @@ const useSocketConnection = (
     setSpaceState(0);
   }, []);
 
+  const onNewUserResponse = (data: User[]) => {
+    setUsers((prevUsers) => {
+      const userList = prevUsers.map((registeredUser) => {
+        if (
+          data.some((onlineUser) => onlineUser?.name === registeredUser?.name)
+        ) {
+          const overrideWithOnlineUser = data.filter(
+            (onlineUser) => onlineUser.name === registeredUser?.name,
+          );
+          return overrideWithOnlineUser[0];
+        }
+        return registeredUser;
+      });
+      const overrideDuplicateUserWithOnline = userList.filter(
+        (registeredUser) =>
+          !data.some((onlineUser) => registeredUser?.name === onlineUser.name),
+      );
+      return [...overrideDuplicateUserWithOnline, ...data];
+    });
+  };
+
   useEffect(() => {
     if (socket.connected) {
       onConnect();
     }
 
+    socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("newUserResponse", (data: User[]) => {
-      setUsers((prevUsers) => {
-        const userList = prevUsers.map((registeredUser) => {
-          if (
-            data.some((onlineUser) => onlineUser?.name === registeredUser?.name)
-          ) {
-            const overrideWithOnlineUser = data.filter(
-              (onlineUser) => onlineUser.name === registeredUser?.name,
-            );
-            return overrideWithOnlineUser[0];
-          }
-          return registeredUser;
-        });
-        const overrideDuplicateUserWithOnline = userList.filter(
-          (registeredUser) =>
-            !data.some(
-              (onlineUser) => registeredUser?.name === onlineUser.name,
-            ),
-        );
-        return [...overrideDuplicateUserWithOnline, ...data];
-      });
-    });
+    socket.on("newUserResponse", onNewUserResponse);
 
     return () => {
+      socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
       socket.off("newUserResponse");
     };
