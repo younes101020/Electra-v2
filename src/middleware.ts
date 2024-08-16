@@ -99,8 +99,7 @@ export async function middleware(request: NextRequest) {
         new URL(`${request.nextUrl.pathname}/${user.session_id}`, request.url),
       );
     }
-    if (shouldRewrite) {
-      
+    if (shouldRewrite) { 
       const extractSessionIDPlaceholder = request.nextUrl.pathname
         .slice(request.nextUrl.pathname.indexOf("session_id_placeholder"))
         .split("/")

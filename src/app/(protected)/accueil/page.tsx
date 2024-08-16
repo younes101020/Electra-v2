@@ -1,6 +1,5 @@
 import {
   HydrationBoundary,
-  QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
 import { getRQShowsFn, showQueryKeys } from "@/utils/api/tmdb/shows";
@@ -14,6 +13,7 @@ import fetcher from "@/utils/http";
 import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 import { Form } from "./_components/form";
 import { Metadata } from "next";
+import getQueryClient from "@/lib/react-query";
 
 export const metadata: Metadata = {
   title: "Films",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function Accueil() {
   // Prefetch movie list + user favorite list from server side
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   const jwt = cookies().get("user_token")?.value!;
   const payload = await verifyAuth({ cookieValue: jwt });
   const accountDetails = await fetcher<ITMDBAccoundDetails>(

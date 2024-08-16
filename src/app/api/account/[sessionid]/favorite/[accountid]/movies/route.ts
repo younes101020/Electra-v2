@@ -5,7 +5,7 @@ import { revalidateTag, unstable_cache } from "next/cache";
 /**
  * This endpoint returns a list of ids, each id is related to a specific movie that has been added to favorites
  *
- * Note: The favorite ids movie is cached indefinitely
+ * Note: The favorite ids movie is cached and will be invalidate fon each user favorite movies mutation
  */
 export async function GET(
   request: Request,
@@ -64,7 +64,7 @@ const getFavoriteMovieIds = async (sessionid: string, accountId: string) => {
  * This endpoint remove/add movies to favorite
  * Three thing are required inside the body: `media_id`, `media_type` and a boolean which indicates whether or not we should include the content to the favorite
  *
- * Note: user favorite cache is reset each time this endpoint is reached
+ * Note: user favorite cache is reset each time this endpoint with post method is invoked
  */
 export async function POST(
   request: Request,
