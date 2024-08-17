@@ -35,7 +35,7 @@ export function Rating({ movie_id }: RatingProps) {
     onSuccess: () => refetch({ cancelRefetch: true, throwOnError: false }),
   });
   return (
-    <div className="flex w-full grow flex-col justify-center">
+    <div className="flex w-full grow flex-col justify-center py-6 md:py-0">
       <div className="inline-flex justify-center">
         <TooltipProvider>
           {Array.from({ length: 5 }).map((_, index) => (
