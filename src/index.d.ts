@@ -22,6 +22,7 @@ export type MovieDetails = Pick<
   | "overview"
   | "tagline"
   | "poster_path"
+  | "id"
 >;
 
 export type Casting = Pick<

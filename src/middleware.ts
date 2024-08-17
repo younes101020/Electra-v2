@@ -8,13 +8,14 @@ import {
 import { ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
 import { setUserCookie, verifyAuth } from "./lib/misc/auth";
 import { IGenericResp } from "./utils/api";
+import { getPathsAroundPlaceholder } from "./lib/utils";
 
 // Apply middleware on these path only
 export const config = {
   matcher: [
     "/approved/:path*",
     "/accueil",
-    '/(api/account/session_id_placeholder/.*)',
+    "/(api/[a-z]+/session_id_placeholder/.*)",
     "/",
     "/space/:path*",
   ],
@@ -22,7 +23,7 @@ export const config = {
 
 // Since these endpoint is reached we have to rewrite the url to include the `session_id`
 // Reminder:  `session_id` is a sensitive data (see: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id)
-const rewritingEndpoint = ["/details", "/movies"];
+const rewritingEndpoint = ["/details", "/movies", "/rating"];
 
 /**
  * Copy cookies from the Set-Cookie header of the response to the Cookie header of the request,
@@ -99,15 +100,13 @@ export async function middleware(request: NextRequest) {
         new URL(`${request.nextUrl.pathname}/${user.session_id}`, request.url),
       );
     }
-    if (shouldRewrite) { 
-      const extractSessionIDPlaceholder = request.nextUrl.pathname
-        .slice(request.nextUrl.pathname.indexOf("session_id_placeholder"))
-        .split("/")
-        .slice(1)
-        .join("/");
+    console.log("okaaay nop");
+    if (shouldRewrite) {
+      console.log("okaaay");
+      const pathname = getPathsAroundPlaceholder(request.nextUrl.pathname);
       return NextResponse.rewrite(
         new URL(
-          `/api/account/${user.session_id}/${extractSessionIDPlaceholder}`,
+          `/api/${pathname?.before}/${user.session_id}/${pathname?.after}`,
           request.url,
         ),
       );
