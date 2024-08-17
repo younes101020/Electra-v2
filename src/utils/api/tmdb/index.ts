@@ -82,6 +82,14 @@ export interface IRQFavoriteShowResponse {
   results: number[];
 }
 
+interface IRQRatedMovieResponse extends ITMDBShowDetailsResponse {
+  rating: string;
+}
+
+export interface IRQRatedMoviesResponse {
+  results: IRQRatedMovieResponse[];
+}
+
 export interface ITMDBShowResponse {
   page: number;
   results: Show[];
@@ -142,6 +150,6 @@ export interface Cast {
   character: string;
   credit_id: string;
   order: number;
-};
+}
 
 export { getRQShowsFn, showQueryKeys } from "./shows";

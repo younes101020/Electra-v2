@@ -1,4 +1,3 @@
-import { Icons } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -10,11 +9,13 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { MovieDetails } from "@/index";
 import Image from "next/image";
+import { Rating } from "./rating";
 
 type CardDetailsProps = MovieDetails;
 
 export function CardDetails({
   original_title,
+  id,
   genres,
   overview,
   tagline,
@@ -23,7 +24,7 @@ export function CardDetails({
   return (
     <Card>
       <CardHeader className="flex-col space-x-2 md:flex-row">
-        <div className="flex flex-col md:flex-row w-full gap-10 md:gap-0">
+        <div className="flex w-full flex-col gap-10 md:flex-row md:gap-0">
           <div>
             {poster_path && (
               <Image
@@ -38,22 +39,22 @@ export function CardDetails({
             )}
             <div className="space-y-3">
               <CardTitle>{original_title}</CardTitle>
-              <CardDescription className="flex flex-col space-x-1 space-y-1 *:w-fit">
-                <p className="w-[15%]">
+              <div className="flex flex-col space-x-1 space-y-1 *:w-fit">
+                <CardDescription>
                   {tagline.length === 0
                     ? "Aucune description disponible"
                     : tagline}
-                </p>
+                </CardDescription>
                 <div className="space-x-1 space-y-1">
                   {genres.map((genre) => (
                     <Badge key={genre.id}>{genre.name}</Badge>
                   ))}
                 </div>
-              </CardDescription>
+              </div>
             </div>
           </div>
-          
         </div>
+        <Rating movie_id={id} />
       </CardHeader>
       <Separator />
       <CardContent className="grid gap-4 pt-4">

@@ -80,7 +80,7 @@ export function Shows() {
   });
   const { data: favoriteShowIds, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
-    queryFn: () => getBookmarkShowsFn({ accountId: account_id.toString() }),
+    queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
   });
   return (
     <>

@@ -1,7 +1,4 @@
-import {
-  HydrationBoundary,
-  dehydrate,
-} from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getRQShowsFn, showQueryKeys } from "@/utils/api/tmdb/shows";
 import { cookies } from "next/headers";
 import {
@@ -14,6 +11,7 @@ import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 import { Form } from "./_components/form";
 import { Metadata } from "next";
 import getQueryClient from "@/lib/react-query";
+import { getTMDBAccountId } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "Films",
@@ -23,19 +21,7 @@ export const metadata: Metadata = {
 export default async function Accueil() {
   // Prefetch movie list + user favorite list from server side
   const queryClient = getQueryClient();
-  const jwt = cookies().get("user_token")?.value!;
-  const payload = await verifyAuth({ cookieValue: jwt });
-  const accountDetails = await fetcher<ITMDBAccoundDetails>(
-    `${process.env.BASETMDBURL}/account`,
-    { method: "GET" },
-    {
-      tmdbContext: {
-        api_key: process.env.TMDB_API_KEY!,
-        session_id: payload.session_id,
-      },
-    },
-  );
-  const tmdbAccoundId = accountDetails.id.toString();
+  const tmdbAccoundId = await getTMDBAccountId();
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: showQueryKeys.pagination({ pageIndex: 1, pageSize: 20 }),
