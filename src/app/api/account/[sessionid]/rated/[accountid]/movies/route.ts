@@ -26,10 +26,7 @@ export async function GET(
   }
 }
 
-const getCachedMoviesRating = async (
-  sessionid: string,
-  accountId: string,
-) => {
+const getCachedMoviesRating = async (sessionid: string, accountId: string) => {
   const cachedMoviesRating = unstable_cache(
     async (accountId) => getMoviesRating(sessionid, accountId),
     [accountId],
@@ -53,6 +50,7 @@ const getMoviesRating = async (sessionid: string, accountId: string) => {
         },
       },
     );
+    console.log(moviesRating);
     return moviesRating;
   } catch (error) {
     throw error;

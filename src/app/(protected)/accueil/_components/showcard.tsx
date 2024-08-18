@@ -46,27 +46,25 @@ const ShowCard = ({
   const rating = Math.floor(vote_average / 2);
   return (
     <Card className={cn("!relative h-full", className)}>
-      <CardHeader className="absolute right-0">
-        <Button asChild>
-          <Link href={`/movie/${id}`} className="space-x-2">
-            <p>Voir plus</p> <Icons.expand size={20} />
-          </Link>
-        </Button>
-      </CardHeader>
-      <CardContent className="flex justify-center !p-0">
-        <Image
-          src={
-            poster_path
-              ? `${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/original${poster_path}`
-              : defaultImage
-          }
-          loading="eager"
-          priority
-          width={poster_path ? imageSize : undefined}
-          height={poster_path ? imageSize : undefined}
-          alt="Picture of the show cover"
-        />
-      </CardContent>
+      <Link href={`/movie/${id}`}>
+        <CardHeader className="absolute right-0">
+          <Button asChild></Button>
+        </CardHeader>
+        <CardContent className="flex justify-center !p-0">
+          <Image
+            src={
+              poster_path
+                ? `${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/original${poster_path}`
+                : defaultImage
+            }
+            loading="eager"
+            priority
+            width={poster_path ? imageSize : undefined}
+            height={poster_path ? imageSize : undefined}
+            alt="Picture of the show cover"
+          />
+        </CardContent>
+      </Link>
       <CardFooter className="absolute bottom-0 flex w-full flex-col items-start gap-2 bg-background/50 p-4">
         <div className="flex cursor-pointer gap-1 text-primary">
           {Array.from({ length: 5 }).map((_, index) => (
