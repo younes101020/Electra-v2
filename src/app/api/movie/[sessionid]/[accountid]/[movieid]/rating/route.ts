@@ -17,9 +17,7 @@ export async function POST(
   }: { params: { sessionid: string; accountid: string; movieid: string } },
 ) {
   try {
-    
     const { value } = await request.json();
-    console.log(`${process.env.BASETMDBURL}/movie/${params.movieid}/rating`, value, params.sessionid)
     const result = await fetcher<ITMDBStatusResponse>(
       `${process.env.BASETMDBURL}/movie/${params.movieid}/rating`,
       {
@@ -34,7 +32,7 @@ export async function POST(
         },
       },
     );
-    revalidateTag(`rated:${params.accountid}`);
+    revalidateTag(`rated:${params.accountid}`)
     return Response.json({ revalidate: true, result });
   } catch (error) {
     if (error instanceof Error)
