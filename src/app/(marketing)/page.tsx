@@ -41,13 +41,13 @@ const promos: Promo[] = [
 export default function Accueil() {
   return (
     <>
-      <section className="w-full px-28 py-20 pt-28 md:pt-20">
+      <section className="w-full px-14 md:px-28 py-20 pt-28 md:pt-20">
         <Hero />
       </section>
-      <section className="pt-5">
+      <section className="pt-5 h-screen">
         <CanvasRevealEffectDemo3 />
       </section>
-      <section className="flex h-screen w-full p-28">
+      <section className="flex h-screen w-full p-10 md:p-28">
         <Promo />
       </section>
     </>

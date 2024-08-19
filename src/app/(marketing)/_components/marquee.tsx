@@ -80,7 +80,7 @@ function Marquee({
 
 export function Marquee3D() {
   return (
-    <div className="relative flex h-full w-96 flex-col items-center justify-center gap-4 overflow-hidden rounded-lg bg-background px-20 md:shadow-xl">
+    <div className="relative hidden md:flex h-full w-96 flex-col items-center justify-center gap-4 overflow-hidden rounded-lg bg-background px-20 md:shadow-xl">
       <div className="flex flex-row gap-4 [perspective:300px]">
         <Marquee
           className="h-96 justify-center overflow-hidden [--duration:60s] [--gap:1rem]"
