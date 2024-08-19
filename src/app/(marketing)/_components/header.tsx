@@ -4,7 +4,7 @@ import { auth } from "../_actions/auth";
 
 const Header = async () => {
   return (
-    <header className="flex w-full justify-between px-4 md:px-44 py-2 bg-black/50 fixed z-50">
+    <header className="flex w-full justify-between px-4 md:px-44 py-4 bg-black/50 fixed z-50">
       <Link href="/">
         <h1 className="text-4xl">Electra</h1>
       </Link>
