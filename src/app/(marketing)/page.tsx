@@ -11,10 +11,10 @@ import { CanvasRevealEffectDemo3 } from "./_components/reveal";
 export default function Accueil() {
   return (
     <>
-      <section className="w-full">
+      <section className="w-full px-28 py-20">
         <Hero />
       </section>
-      <section className="w-full px-7 pb-10 flex flex-col lg:flex-row gap-20 justify-center items-center">
+      <section className="w-full px-28 py-20 flex flex-col lg:flex-row gap-20 justify-center items-center">
         <CardComponent
           className={`w-[350px] z-50 relative after:absolute after:top-[-4rem] after:content-['1'] after:text-8xl after:text-primary-foreground/50 after:font-semibold`}
         >
