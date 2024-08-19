@@ -18,6 +18,8 @@ export async function POST(
 ) {
   try {
     const { value } = await request.json();
+
+    console.log("normalement sa invalide là");
     const result = await fetcher<ITMDBStatusResponse>(
       `${process.env.BASETMDBURL}/movie/${params.movieid}/rating`,
       {
@@ -32,7 +34,11 @@ export async function POST(
         },
       },
     );
-    revalidateTag(`rated:${params.accountid}`)
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(revalidateTag(`rated:${params.accountid}`));
+      }, 3000);
+    });
     return Response.json({ revalidate: true, result });
   } catch (error) {
     if (error instanceof Error)
