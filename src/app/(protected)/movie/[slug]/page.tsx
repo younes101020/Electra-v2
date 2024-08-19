@@ -11,6 +11,7 @@ import getQueryClient from "@/lib/react-query";
 import { getRatedShowsFn, ratedMovieQueryKeys } from "@/utils/api/tmdb/rated";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTMDBAccountId } from "@/lib/session";
+import { revalidateTag } from "next/cache";
 
 type URLProps = {
   params: { slug: string };
