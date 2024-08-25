@@ -48,7 +48,6 @@ const getFavoriteMovieIds = async (sessionid: string, accountId: string) => {
       },
       {
         tmdbContext: {
-          api_key: process.env.TMDB_API_KEY!,
           session_id: sessionid,
         },
       },
@@ -84,7 +83,6 @@ export async function POST(
       },
       {
         tmdbContext: {
-          api_key: process.env.TMDB_API_KEY!,
           session_id: params.sessionid,
         },
       },

@@ -12,7 +12,7 @@ interface ChatProps {
 }
 
 export function Chat({ message = [], space, user = [] }: ChatProps) {
-  const { users, messages, sendMessage, messagesEndRef } = useSocketConnection(
+  const { users, messages, sendMessage, messagesEndRef, formRef } = useSocketConnection(
     socket,
     message,
     user,
@@ -22,6 +22,7 @@ export function Chat({ message = [], space, user = [] }: ChatProps) {
     <div className="px-5 py-16 md:px-10">
       <div className="flex w-full justify-center">
         <Messages
+          formRef={formRef}
           messages={messages}
           messagesEndRef={messagesEndRef}
           users={users}

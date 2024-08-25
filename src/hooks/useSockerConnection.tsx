@@ -8,12 +8,14 @@ import {
   useEffect,
   useRef,
   MutableRefObject,
+  RefObject,
 } from "react";
 import { Socket } from "socket.io-client";
 
 interface UseSocketConnectionReturn {
   users: Message["user"][];
   messagesEndRef: MutableRefObject<HTMLDivElement | null>;
+  formRef: RefObject<HTMLFormElement>;
   messages: Message[];
   sendMessage: (message: string) => void;
 }
@@ -30,8 +32,8 @@ const useSocketConnection = (
   const { id, username, avatar } = useSessionStore((state) => state);
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [spaceState, setSpaceState] = useState(space);
-  const [socketConnection, setSocketConnection] = useState(socket.connected);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const formRef = useRef<null | HTMLFormElement>(null);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -115,6 +117,7 @@ const useSocketConnection = (
           userId: id,
         },
       });
+      formRef.current!.reset()
     },
     [socket, id],
   );
@@ -122,6 +125,7 @@ const useSocketConnection = (
   return {
     users,
     messagesEndRef,
+    formRef,
     messages,
     sendMessage,
   };

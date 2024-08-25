@@ -1,5 +1,5 @@
 import fetcher from "@/utils/http";
-import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
+import { ITMDBAccoundDetails, ITMDBShowDetailsResponse, ITMDBStatusResponse } from "@/utils/api/tmdb";
 import { Chat } from "./_components/chat";
 import {
   getSpaceEntities,
@@ -7,6 +7,7 @@ import {
   setUserToSpace,
 } from "@/services/space";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Space",
@@ -18,6 +19,21 @@ export default async function SpacePage({
 }: {
   params: { movieId: string; sessionId: string };
 }) {
+  console.log(params.movieId)
+  /**
+   * If movie didnt exist redirect to /accueil
+   */
+  const showDetails = await fetcher<ITMDBShowDetailsResponse>(
+    `${process.env.BASETMDBURL}/movie/${params.movieId}`,
+    { method: "GET" },
+    {
+      tmdbContext: {},
+    },
+  );
+  console.log(showDetails, "caca")
+  if("success" in showDetails && !showDetails.success) {
+    redirect("/accueil");
+  }
   /**
    * Retrieve user account detail and check if space already exist, if not create new one and bind the user into it
    */
@@ -26,7 +42,6 @@ export default async function SpacePage({
     { method: "GET" },
     {
       tmdbContext: {
-        api_key: process.env.TMDB_API_KEY!,
         session_id: params.sessionId,
       },
     },
