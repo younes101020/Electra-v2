@@ -38,9 +38,7 @@ const getMovies = async (page: string) => {
       `${process.env.BASETMDBURL}/discover/movie?language=fr-FR&page=${page}&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=300`,
       { method: "GET" },
       {
-        tmdbContext: {
-          api_key: process.env.TMDB_API_KEY!,
-        },
+        tmdbContext: {},
       },
     );
     const filteredShows = shows.results.map(

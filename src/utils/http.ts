@@ -9,7 +9,6 @@ type IHeaders =
 
 type ICtx = {
   tmdbContext?: {
-    api_key: string;
     session_id?: string;
     account_id?: string;
   };
@@ -35,7 +34,7 @@ export default async function fetcher<IData>(
   try {
     if (ctx && ctx.tmdbContext) {
       const showUrl = new URL(url);
-      showUrl.searchParams.set("api_key", ctx?.tmdbContext?.api_key);
+      showUrl.searchParams.set("api_key", process.env.TMDB_API_KEY!);
       // In the case of account id retrieval, we need to supply the session id
       // reminder: session_id is only needed for mutation purpose like adding ratings
       if (ctx?.tmdbContext?.session_id) {
@@ -46,7 +45,8 @@ export default async function fetcher<IData>(
         ITMDBStatusResponse
       >(showUrl, options, "tmdbContext");
       const tmdbErrorResponse = tmdbResponse as ITMDBStatusResponse;
-      if (tmdbErrorResponse.success === false)
+      // Throw error except when we cannot found movie details because we will redirect user for this specific case
+      if (tmdbErrorResponse.success === false && tmdbErrorResponse.status_code !== 34)
         throw Error(tmdbErrorResponse.status_message);
       return tmdbResponse as IData;
     }
@@ -65,17 +65,9 @@ const baseFetch = async <IData, IError>(
   options: IHeaders,
   ctxName: ICtxName,
 ): Promise<IData | IError> => {
-  try {
     const response = await fetch(url, updateOptions(options, ctxName));
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
     const result = await response.json();
     return result as IData;
-  } catch (error) {
-    if (error instanceof Error) throw Error(error.message);
-    throw Error(typeof error === "string" ? error : "Unhandled error");
-  }
 };
 
 const updateOptions = (options: IHeaders, ctxName: ICtxName) => {

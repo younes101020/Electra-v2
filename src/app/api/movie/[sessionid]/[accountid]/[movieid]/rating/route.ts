@@ -18,8 +18,6 @@ export async function POST(
 ) {
   try {
     const { value } = await request.json();
-
-    console.log("normalement sa invalide là");
     const result = await fetcher<ITMDBStatusResponse>(
       `${process.env.BASETMDBURL}/movie/${params.movieid}/rating`,
       {
@@ -29,11 +27,11 @@ export async function POST(
       },
       {
         tmdbContext: {
-          api_key: process.env.TMDB_API_KEY!,
           session_id: params.sessionid,
         },
       },
     );
+    // see: https://github.com/vercel/next.js/issues/69064
     await new Promise((resolve) => {
       setTimeout(() => {
         resolve(revalidateTag(`rated:${params.accountid}`));

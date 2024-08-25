@@ -24,9 +24,7 @@ export async function generateMetadata({
     `${process.env.BASETMDBURL}/movie/${params.slug}`,
     { method: "GET" },
     {
-      tmdbContext: {
-        api_key: process.env.TMDB_API_KEY!,
-      },
+      tmdbContext: {},
     },
   );
   return {
@@ -46,18 +44,14 @@ export default async function SingleMoviePage({ params }: URLProps) {
     `${process.env.BASETMDBURL}/movie/${params.slug}?language=fr-FR&append_to_response=credits`,
     { method: "GET" },
     {
-      tmdbContext: {
-        api_key: process.env.TMDB_API_KEY!,
-      },
+      tmdbContext: {},
     },
   );
   const trailerVideo = await fetcher<ITMDBTrailerShowResponse>(
     `${process.env.BASETMDBURL}/movie/${params.slug}/videos?language=fr-FR`,
     { method: "GET" },
     {
-      tmdbContext: {
-        api_key: process.env.TMDB_API_KEY!,
-      },
+      tmdbContext: {},
     },
   );
   const trailerVideoSrc = trailerVideo.results.find(

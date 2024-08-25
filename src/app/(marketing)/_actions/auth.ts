@@ -12,9 +12,7 @@ export async function auth() {
       method: "GET",
     },
     {
-      tmdbContext: {
-        api_key: process.env.TMDB_API_KEY!,
-      },
+      tmdbContext: {},
     },
   );
   cookies().set("request_token", data.request_token);

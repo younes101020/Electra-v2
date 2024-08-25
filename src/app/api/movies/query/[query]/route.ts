@@ -41,9 +41,7 @@ const getMovies = async (query: string) => {
       `${process.env.BASETMDBURL}/search/movie?query=${encodedQuery}`,
       { method: "GET" },
       {
-        tmdbContext: {
-          api_key: process.env.TMDB_API_KEY!,
-        },
+        tmdbContext: {},
       },
     );
     const filteredShows = shows.results.map(

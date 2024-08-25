@@ -65,9 +65,7 @@ export async function middleware(request: NextRequest) {
         `${process.env.BASETMDBURL}/authentication/session/new`,
         { body: JSON.stringify({ request_token: request_token }) },
         {
-          tmdbContext: {
-            api_key: process.env.TMDB_API_KEY!,
-          },
+          tmdbContext: {},
         },
       );
       const response = NextResponse.redirect(new URL("/accueil", request.url));

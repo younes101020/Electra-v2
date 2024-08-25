@@ -7,12 +7,13 @@ import { Card, CardFooter, CardContent } from "@/components/ui/card";
 import { useSessionStore } from "@/providers/session";
 import { UserAvatar } from "@/components/user-avatar";
 import { Message, User } from "@/index";
-import { MutableRefObject } from "react";
+import { MutableRefObject, RefObject } from "react";
 import { UserList } from "./userlist";
 
 type MessagesProps = React.ComponentProps<typeof Card> & {
   messages: Message[];
   messagesEndRef: MutableRefObject<HTMLDivElement | null>;
+  formRef: RefObject<HTMLFormElement>;
   users: User[];
   sendMessage: (message: string) => void;
 };
@@ -60,6 +61,7 @@ export function Messages({
         </CardContent>
       </Card>
       <form
+        ref={props.formRef}
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage((e.target as HTMLFormElement).message.value);

@@ -14,7 +14,6 @@ export async function getTMDBAccountId() {
     { method: "GET" },
     {
       tmdbContext: {
-        api_key: process.env.TMDB_API_KEY!,
         session_id: payload.session_id,
       },
     },

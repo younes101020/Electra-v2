@@ -87,7 +87,7 @@ To get a local copy up and running follow these simple example steps.
 
 - Docker-compose
 - Yarn
-- NodeJS
+- Node.js version >=16.13.2.
 
 ### Installation (dev)
 
