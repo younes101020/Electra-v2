@@ -49,7 +49,7 @@ export default async function SingleMoviePage({ params }: URLProps) {
   );
   const trailerVideo = await fetcher<ITMDBTrailerShowResponse>(
     `${process.env.BASETMDBURL}/movie/${params.slug}/videos?language=fr-FR`,
-    { method: "GET" },
+    { method: "GET", credentials: "include" },
     {
       tmdbContext: {},
     },
