@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Consultez des centaines de films directement depuis cette page",
 };
 
-export default async function Accueil() {
+export default async function Movies() {
   // Prefetch movie list + user favorite list from server side
   const queryClient = getQueryClient();
   const tmdbAccoundId = await getTMDBAccountId();
@@ -31,7 +31,7 @@ export default async function Accueil() {
     }),
   ]);
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between px-5 py-16 md:p-24">
+    <div className="flex min-h-screen flex-col items-center justify-between px-5 py-28 md:p-24">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Form />
       </HydrationBoundary>

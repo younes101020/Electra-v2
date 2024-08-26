@@ -27,7 +27,7 @@ export function Messages({
   const { username, id } = useSessionStore((state) => state)
   return (
     <div className="w-full space-y-3">
-      <Card className={cn("h-[80vh]", className)} {...props}>
+      <Card className={cn("h-[70vh]", className)} {...props}>
         <CardContent className="h-full w-full pt-2 pb-0">
           <div className="flex h-full gap-4">
             <UserList users={props.users} />

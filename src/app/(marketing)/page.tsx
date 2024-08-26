@@ -38,7 +38,7 @@ const promos: Promo[] = [
   },
 ];
 
-export default function Accueil() {
+export default function Landing() {
   return (
     <>
       <section className="w-full px-14 md:px-28 py-20 pt-28 md:pt-20">

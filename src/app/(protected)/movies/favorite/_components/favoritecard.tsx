@@ -12,7 +12,9 @@ export function FavoriteCards() {
   const { data: favoriteMovies, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
-    enabled: !!account_id
+    enabled: !!account_id,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
   const mutation = useMutation({
     mutationFn: toggleBookmarkShowsFn,
@@ -37,7 +39,7 @@ function FavoriteCard({ title, mutate, id, account_id, posterPath }: FavoriteCar
       <CardHeader className="relative p-0">
         <div className="relative w-full">
           <Image
-            src={`${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/w500${posterPath}`}
+            src={`${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/w200${posterPath}`}
             alt={`Poster for ${title}`}
             width={500}
             height={750}

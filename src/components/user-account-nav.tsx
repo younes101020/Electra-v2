@@ -39,10 +39,10 @@ export function UserAccountNav() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild disabled>
-          <Link href="/space">Space</Link>
+          <Link href="/movies/space">Space</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/favorite">Mes favoris</Link>
+          <Link href="/movies/favorite">Mes favoris</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild disabled>
           <Link href="/settings">Paramétres</Link>

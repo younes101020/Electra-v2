@@ -70,7 +70,6 @@ export async function POST(
   { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
-    console.log("MUTATION BROTHER", params.accountid, params.sessionid)
     const { media_id, media_type, favorite } = await request.json();
     const result = await fetcher<ITMDBShowResponse>(
       `${process.env.BASETMDBURL}/account/${params.accountid}/favorite`,

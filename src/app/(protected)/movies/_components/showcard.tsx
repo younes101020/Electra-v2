@@ -46,7 +46,7 @@ const ShowCard = ({
   const rating = Math.floor(vote_average / 2);
   return (
     <Card className={cn("!relative h-full", className)}>
-      <Link href={`/movie/${id}`}>
+      <Link href={`/movies/${id}`}>
         <CardHeader className="absolute right-0">
           <Button asChild></Button>
         </CardHeader>
@@ -89,7 +89,7 @@ const ShowCard = ({
 
           <div className="mt-auto flex h-full gap-2">
             <Button asChild>
-              <Link href={`/space/${id}`} className="flex gap-2">
+              <Link href={`/movies/space/${id}`} className="flex gap-2">
                 <Icons.message size={20} /> / Space
               </Link>
             </Button>

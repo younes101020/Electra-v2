@@ -7,7 +7,6 @@ import {
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next/types";
 import { FavoriteCards } from "./_components/favoritecard";
-import { revalidateTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Favoris",
@@ -18,13 +17,12 @@ export const metadata: Metadata = {
 export default async function FavoritePage() {
   const queryClient = getQueryClient();
   const tmdbAccoundId = await getTMDBAccountId();
-  revalidateTag(`favorite:${tmdbAccoundId}`)
   await queryClient.prefetchQuery({
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: tmdbAccoundId }),
   });
   return (
-    <section className="grid grid-cols-1 gap-2 px-5 py-16 md:grid-cols-3 md:px-10 lg:grid-cols-4">
+    <section className="grid grid-cols-1 gap-2 px-5 py-28 md:grid-cols-3 md:px-24 lg:grid-cols-4">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <FavoriteCards />
       </HydrationBoundary>
