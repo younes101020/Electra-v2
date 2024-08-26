@@ -19,6 +19,7 @@ export interface IRQErrorResponse {
 export interface Show {
   id: number;
   title: string;
+  original_title: string;
   vote_average: string;
   poster_path: string;
 }
@@ -79,7 +80,7 @@ export interface IRQShowResponse {
 }
 
 export interface IRQFavoriteShowResponse {
-  results: number[];
+  results: Show[];
 }
 
 interface IRQRatedMovieResponse extends ITMDBShowDetailsResponse {

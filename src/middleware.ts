@@ -98,9 +98,7 @@ export async function middleware(request: NextRequest) {
         new URL(`${request.nextUrl.pathname}/${user.session_id}`, request.url),
       );
     }
-    console.log("okaaay nop");
     if (shouldRewrite) {
-      console.log("okaaay");
       const pathname = getPathsAroundPlaceholder(request.nextUrl.pathname);
       return NextResponse.rewrite(
         new URL(

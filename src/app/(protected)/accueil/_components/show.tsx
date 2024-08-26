@@ -14,6 +14,7 @@ import {
   getRQShowsFn,
   showQueryKeys,
   IRQErrorResponse,
+  Show,
 } from "@/utils/api/tmdb";
 import { ShowCard } from "./showcard";
 import { Spinner } from "@/components/ui/spinner";
@@ -78,7 +79,7 @@ export function Shows() {
       return firstPageParam - 1;
     },
   });
-  const { data: favoriteShowIds, refetch } = useQuery({
+  const { data: favoriteMovies, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
   });
@@ -112,9 +113,9 @@ export function Shows() {
                       account_id={account_id}
                       refetch={refetch}
                       isFav={
-                        favoriteShowIds?.results! &&
-                        favoriteShowIds.results.some(
-                          (favId: number) => show.id === favId,
+                        favoriteMovies?.results! &&
+                        favoriteMovies.results.some(
+                          (favMovies: Show) => show.id === favMovies.id,
                         )
                       }
                       id={show.id}
@@ -132,9 +133,9 @@ export function Shows() {
                       account_id={account_id}
                       refetch={refetch}
                       isFav={
-                        favoriteShowIds?.results! &&
-                        favoriteShowIds.results.some(
-                          (favId: number) => show.id === favId,
+                        favoriteMovies?.results! &&
+                        favoriteMovies.results.some(
+                          (favMovies: Show) => show.id === favMovies.id,
                         )
                       }
                       id={show.id}
@@ -152,9 +153,9 @@ export function Shows() {
                       account_id={account_id}
                       refetch={refetch}
                       isFav={
-                        favoriteShowIds?.results! &&
-                        favoriteShowIds.results.some(
-                          (favId: number) => show.id === favId,
+                        favoriteMovies?.results! &&
+                        favoriteMovies.results.some(
+                          (favMovies: Show) => show.id === favMovies.id,
                         )
                       }
                       id={show.id}
@@ -172,9 +173,9 @@ export function Shows() {
                       account_id={account_id}
                       refetch={refetch}
                       isFav={
-                        favoriteShowIds?.results! &&
-                        favoriteShowIds.results.some(
-                          (favId: number) => show.id === favId,
+                        favoriteMovies?.results! &&
+                        favoriteMovies.results.some(
+                          (favMovies: Show) => show.id === favMovies.id,
                         )
                       }
                       id={show.id}
@@ -192,9 +193,9 @@ export function Shows() {
                       account_id={account_id}
                       refetch={refetch}
                       isFav={
-                        favoriteShowIds?.results! &&
-                        favoriteShowIds.results.some(
-                          (favId: number) => show.id === favId,
+                        favoriteMovies?.results! &&
+                        favoriteMovies.results.some(
+                          (favMovies: Show) => show.id === favMovies.id,
                         )
                       }
                       id={show.id}
@@ -209,9 +210,9 @@ export function Shows() {
                       account_id={account_id}
                       refetch={refetch}
                       isFav={
-                        favoriteShowIds?.results! &&
-                        favoriteShowIds.results.some(
-                          (favId: number) => show.id === favId,
+                        favoriteMovies?.results! &&
+                        favoriteMovies.results.some(
+                          (favMovies: Show) => show.id === favMovies.id,
                         )
                       }
                       id={show.id}

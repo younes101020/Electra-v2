@@ -54,6 +54,7 @@ export default async function SingleMoviePage({ params }: URLProps) {
       tmdbContext: {},
     },
   );
+  console.log(trailerVideo)
   const trailerVideoSrc = trailerVideo.results.find(
     (e) => e.site === "YouTube",
   );

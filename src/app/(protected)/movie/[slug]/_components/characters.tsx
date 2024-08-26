@@ -25,6 +25,7 @@ export function Characters({ cast }: CharactersProps) {
               <Avatar className="h-12 w-12">
                 <AvatarImage
                   src={`${process.env.NEXT_PUBLIC_BASETMDBIMAGEURL}/original${perso.profile_path}`}
+                  className="object-contain"
                   alt={perso.original_name}
                 />
                 <AvatarFallback>CN</AvatarFallback>

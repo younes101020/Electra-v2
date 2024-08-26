@@ -19,7 +19,7 @@ export function Chat({ message = [], space, user = [] }: ChatProps) {
     space,
   );
   return (
-    <div className="px-5 py-16 md:px-10">
+    <div className="px-5 py-16 md:px-10 h-[90vh]">
       <div className="flex w-full justify-center">
         <Messages
           formRef={formRef}
