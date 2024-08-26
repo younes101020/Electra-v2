@@ -41,7 +41,7 @@ export function UserAccountNav() {
         <DropdownMenuItem asChild disabled>
           <Link href="/space">Space</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild disabled>
+        <DropdownMenuItem asChild>
           <Link href="/favorite">Mes favoris</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild disabled>
