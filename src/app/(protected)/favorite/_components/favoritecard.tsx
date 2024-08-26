@@ -18,7 +18,6 @@ export function FavoriteCards() {
     mutationFn: toggleBookmarkShowsFn,
     onSuccess: () => refetch({ cancelRefetch: true, throwOnError: false }),
   });
-  console.log(favoriteMovies, "lkfdsllk")
   return favoriteMovies?.results.map(movie => (
     <FavoriteCard key={movie.id} title={movie.original_title} id={movie.id} account_id={account_id} mutate={mutation.mutate} posterPath={movie.poster_path} />
   ))

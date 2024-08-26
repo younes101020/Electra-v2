@@ -55,6 +55,7 @@ function applySetCookie(req: NextRequest, res: NextResponse) {
 }
 
 export async function middleware(request: NextRequest) {
+  console.log("middleware pathname to: ", request.nextUrl.pathname)
   if (request.nextUrl.pathname.startsWith("/approved")) {
     /**
      * Application of this procedure: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id
