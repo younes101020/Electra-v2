@@ -19,7 +19,6 @@ export default async function SpacePage({
 }: {
   params: { movieId: string; sessionId: string };
 }) {
-  console.log(params.movieId)
   /**
    * If movie didnt exist redirect to /accueil
    */

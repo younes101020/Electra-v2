@@ -12,6 +12,7 @@ import { getRatedShowsFn, ratedMovieQueryKeys } from "@/utils/api/tmdb/rated";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTMDBAccountId } from "@/lib/session";
 import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 
 type URLProps = {
   params: { slug: string };
@@ -40,6 +41,8 @@ export default async function SingleMoviePage({ params }: URLProps) {
     queryKey: ratedMovieQueryKeys.all,
     queryFn: () => getRatedShowsFn({ accountId: tmdbAccoundId }),
   });
+  const cookieStore = cookies()
+  const user_token = cookieStore.get('user_token')
   const showDetails = await fetcher<ITMDBShowDetailsResponse>(
     `${process.env.BASETMDBURL}/movie/${params.slug}?language=fr-FR&append_to_response=credits`,
     { method: "GET" },
@@ -49,12 +52,11 @@ export default async function SingleMoviePage({ params }: URLProps) {
   );
   const trailerVideo = await fetcher<ITMDBTrailerShowResponse>(
     `${process.env.BASETMDBURL}/movie/${params.slug}/videos?language=fr-FR`,
-    { method: "GET", credentials: "include" },
+    { method: "GET" },
     {
       tmdbContext: {},
     },
   );
-  console.log(trailerVideo)
   const trailerVideoSrc = trailerVideo.results.find(
     (e) => e.site === "YouTube",
   );

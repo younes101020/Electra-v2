@@ -12,7 +12,6 @@ export async function GET(
   { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
-    console.log("GET:", [`rated:${params.accountid}`])
     const moviesRating = await getCachedMoviesRating(
       params.sessionid,
       params.accountid,

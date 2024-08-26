@@ -17,6 +17,7 @@ export const ratedMovieQueryKeys = {
  *
  */
 export const getRatedShowsFn = async ({ accountId }: { accountId: number }) => {
+  console.log(document.cookie)
   const favIds = await fetcher<IRQRatedMoviesResponse>(
     `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/rated/${accountId}/movies`,
     {
