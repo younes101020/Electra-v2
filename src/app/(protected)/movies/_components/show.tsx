@@ -82,6 +82,8 @@ export function Shows() {
   const { data: favoriteMovies, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
   return (
     <>

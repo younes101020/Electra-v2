@@ -30,6 +30,8 @@ export function Form() {
     queryKey: showQueryKeys.detail(debouncedFilter),
     queryFn: () => getRQShowsFn({ type: "query", value: debouncedFilter }),
     enabled: Boolean(debouncedFilter),
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

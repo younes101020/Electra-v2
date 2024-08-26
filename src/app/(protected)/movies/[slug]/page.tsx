@@ -41,8 +41,6 @@ export default async function SingleMoviePage({ params }: URLProps) {
     queryKey: ratedMovieQueryKeys.all,
     queryFn: () => getRatedShowsFn({ accountId: tmdbAccoundId }),
   });
-  const cookieStore = cookies()
-  const user_token = cookieStore.get('user_token')
   const showDetails = await fetcher<ITMDBShowDetailsResponse>(
     `${process.env.BASETMDBURL}/movie/${params.slug}?language=fr-FR&append_to_response=credits`,
     { method: "GET" },

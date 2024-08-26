@@ -20,7 +20,7 @@ export default async function SpacePage({
   params: { movieId: string; sessionId: string };
 }) {
   /**
-   * If movie didnt exist redirect to /accueil
+   * If movie didnt exist redirect to /movies
    */
   const showDetails = await fetcher<ITMDBShowDetailsResponse>(
     `${process.env.BASETMDBURL}/movie/${params.movieId}`,
@@ -30,7 +30,7 @@ export default async function SpacePage({
     },
   );
   if("success" in showDetails && !showDetails.success) {
-    redirect("/accueil");
+    redirect("/movies");
   }
   /**
    * Retrieve user account detail and check if space already exist, if not create new one and bind the user into it

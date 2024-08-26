@@ -2,6 +2,7 @@ import RQCProviders from "@/providers/reactquery";
 import { SessionStoreProvider } from "@/providers/session";
 import { Metadata } from "next/types";
 import { Header } from "./_components/header";
+import Breadcrumbs from "./_components/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Electra",
@@ -13,10 +14,11 @@ export default function AccueilLayout({
   children,
 }: {
   children: React.ReactNode;
+  breadcrumbs: React.ReactNode;
 }) {
   return (
     <SessionStoreProvider>
-      <Header />
+      <Header><Breadcrumbs /></Header>
       <main>
         <RQCProviders>{children}</RQCProviders>
       </main>

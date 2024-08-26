@@ -14,10 +14,10 @@ import { getPathsAroundPlaceholder } from "./lib/utils";
 export const config = {
   matcher: [
     "/approved/:path*",
-    "/accueil",
+    "/movies/:path*",
+    "/movies",
     "/(api/[a-z]+/session_id_placeholder/.*)",
     "/",
-    "/space/:path*",
   ],
 };
 
@@ -55,7 +55,6 @@ function applySetCookie(req: NextRequest, res: NextResponse) {
 }
 
 export async function middleware(request: NextRequest) {
-  console.log("middleware pathname to: ", request.nextUrl.pathname)
   if (request.nextUrl.pathname.startsWith("/approved")) {
     /**
      * Application of this procedure: https://developer.themoviedb.org/reference/authentication-how-do-i-generate-a-session-id
@@ -69,7 +68,7 @@ export async function middleware(request: NextRequest) {
           tmdbContext: {},
         },
       );
-      const response = NextResponse.redirect(new URL("/accueil", request.url));
+      const response = NextResponse.redirect(new URL("/movies", request.url));
       const responseWithJWT = await setUserCookie(response, session.session_id);
       // Apply those cookies to the request
       applySetCookie(request, responseWithJWT);
@@ -99,7 +98,7 @@ export async function middleware(request: NextRequest) {
         new URL(`${request.nextUrl.pathname}/${user.session_id}`, request.url),
       );
     }
-    if (shouldRewrite) {
+    if (shouldRewrite && request.nextUrl.pathname.includes("/api")) {
       const pathname = getPathsAroundPlaceholder(request.nextUrl.pathname);
       return NextResponse.rewrite(
         new URL(
@@ -109,9 +108,9 @@ export async function middleware(request: NextRequest) {
       );
     } else if (request.nextUrl.pathname === "/") {
       /**
-       * Redirect user to `accueil` if he tried to access landing page while being authentified
+       * Redirect user to `movies` if he tried to access landing page while being authentified
        */
-      return NextResponse.rewrite(new URL(`/accueil`, request.url));
+      return NextResponse.rewrite(new URL(`/movies`, request.url));
     }
   } catch (error) {
     if (error instanceof Error) console.error(error.message);

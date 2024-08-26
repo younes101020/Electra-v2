@@ -27,6 +27,8 @@ export function Rating({ movie_id }: RatingProps) {
     queryKey: ratedMovieQueryKeys.all,
     queryFn: () => getRatedShowsFn({ accountId: account_id }),
     enabled: !!account_id,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
   console.log(data);
   const currentMovieRating = data?.results.find(
