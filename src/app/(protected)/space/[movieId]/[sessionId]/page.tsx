@@ -30,7 +30,6 @@ export default async function SpacePage({
       tmdbContext: {},
     },
   );
-  console.log(showDetails, "caca")
   if("success" in showDetails && !showDetails.success) {
     redirect("/accueil");
   }

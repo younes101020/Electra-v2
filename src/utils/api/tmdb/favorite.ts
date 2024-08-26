@@ -12,10 +12,10 @@ export const favoriteShowQueryKeys = {
 };
 
 /**
- * This function get all the favorites shows ids of a specific account
+ * This function get all the favorites shows of a specific account
  *
  * @param accountId - The account identifier
- * @returns All the favorite shows ids
+ * @returns All the favorite shows including ids, titles and poster
  *
  */
 export const getBookmarkShowsFn = async ({
@@ -23,13 +23,14 @@ export const getBookmarkShowsFn = async ({
 }: {
   accountId: number;
 }) => {
-  const favIds = await fetcher<IRQFavoriteShowResponse>(
+  console.log(document.cookie)
+  const favMovies = await fetcher<IRQFavoriteShowResponse>(
     `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/favorite/${accountId}/movies`,
     {
       method: "GET",
     },
   );
-  return favIds;
+  return favMovies;
 };
 
 /**

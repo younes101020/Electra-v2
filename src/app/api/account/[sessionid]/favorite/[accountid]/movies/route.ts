@@ -3,9 +3,9 @@ import fetcher from "@/utils/http";
 import { revalidateTag, unstable_cache } from "next/cache";
 
 /**
- * This endpoint returns a list of ids, each id is related to a specific movie that has been added to favorites
+ * This endpoint returns a list of favorite movies for a specific tmdb account
  *
- * Note: The favorite ids movie is cached and will be invalidate fon each user favorite movies mutation
+ * Note: The favorite movies is cached and will be invalidate for each user favorite movies mutation
  */
 export async function GET(
   request: Request,
@@ -52,8 +52,8 @@ const getFavoriteMovieIds = async (sessionid: string, accountId: string) => {
         },
       },
     );
-    const favIds = favShows.results.map((show) => show.id);
-    return { ...favShows, results: favIds };
+    const favShowsMinimalData = favShows.results.map((show) => ({id: show.id, poster_path: show.poster_path, original_title: show.original_title}));
+    return { results: favShowsMinimalData };
   } catch (error) {
     throw error;
   }
@@ -70,7 +70,7 @@ export async function POST(
   { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
-    
+    console.log("MUTATION BROTHER", params.accountid, params.sessionid)
     const { media_id, media_type, favorite } = await request.json();
     const result = await fetcher<ITMDBShowResponse>(
       `${process.env.BASETMDBURL}/account/${params.accountid}/favorite`,
@@ -87,7 +87,7 @@ export async function POST(
         },
       },
     );
-    revalidateTag(`favorite:${params.accountid}`);
+    revalidateTag(`favorite:${params.accountid}`)
     return Response.json({ revalidate: true, result });
   } catch (error) {
     if (error instanceof Error)

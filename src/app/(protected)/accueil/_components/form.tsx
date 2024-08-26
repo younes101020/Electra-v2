@@ -1,7 +1,7 @@
 "use client";
 
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
-import { getRQShowsFn, showQueryKeys } from "@/utils/api/tmdb";
+import { getRQShowsFn, Show, showQueryKeys } from "@/utils/api/tmdb";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useState } from "react";
@@ -38,7 +38,7 @@ export function Form() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
-  const { data: favoriteShowIds, refetch } = useQuery({
+  const { data: favoriteMovies, refetch } = useQuery({
     queryKey: favoriteShowQueryKeys.all,
     queryFn: () => getBookmarkShowsFn({ accountId: account_id }),
   });
@@ -57,10 +57,10 @@ export function Form() {
                 account_id={account_id}
                 refetch={refetch}
                 isFav={
-                  favoriteShowIds?.results! &&
-                  favoriteShowIds.results.some(
-                    (favId: number) => show.id === favId,
-                  )
+                  favoriteMovies?.results! &&
+                        favoriteMovies.results.some(
+                          (favMovies: Show) => show.id === favMovies.id,
+                        )
                 }
                 id={show.id}
                 poster_path={show.poster_path}

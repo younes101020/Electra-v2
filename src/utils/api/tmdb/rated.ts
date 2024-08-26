@@ -21,7 +21,6 @@ export const getRatedShowsFn = async ({ accountId }: { accountId: number }) => {
     `${process.env.NEXT_PUBLIC_BASEURL}/api/account/session_id_placeholder/rated/${accountId}/movies`,
     {
       method: "GET",
-      cache: "no-store"
     },
   );
   return favIds;

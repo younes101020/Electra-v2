@@ -1,13 +1,9 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getRQShowsFn, showQueryKeys } from "@/utils/api/tmdb/shows";
-import { cookies } from "next/headers";
 import {
   favoriteShowQueryKeys,
   getBookmarkShowsFn,
 } from "@/utils/api/tmdb/favorite";
-import { verifyAuth } from "@/lib/misc/auth";
-import fetcher from "@/utils/http";
-import { ITMDBAccoundDetails } from "@/utils/api/tmdb";
 import { Form } from "./_components/form";
 import { Metadata } from "next";
 import getQueryClient from "@/lib/react-query";
