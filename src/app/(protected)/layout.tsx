@@ -18,10 +18,12 @@ export default function AccueilLayout({
 }) {
   return (
     <SessionStoreProvider>
-      <Header><Breadcrumbs /></Header>
-      <main>
-        <RQCProviders>{children}</RQCProviders>
-      </main>
+      <RQCProviders>
+        <Header><Breadcrumbs /></Header>
+        <main>
+          {children}
+        </main>
+      </RQCProviders>
     </SessionStoreProvider>
   );
 }

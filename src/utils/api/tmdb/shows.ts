@@ -1,5 +1,5 @@
 import fetcher from "@/utils/http";
-import { ITMDBShowResponse } from ".";
+import { ITMDBShowDetailsResponse, ITMDBShowResponse } from ".";
 
 // Effective React Query Keys
 // https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
@@ -7,7 +7,8 @@ import { ITMDBShowResponse } from ".";
 
 export const showQueryKeys = {
   all: ["shows"] as const,
-  detail: (query: string) => [...showQueryKeys.all, query] as const,
+  query: (query: string) => [...showQueryKeys.all, query] as const,
+  detail: (movieId: string | null) => [...showQueryKeys.all, movieId] as const,
   pagination: (options: { pageIndex: number; pageSize: number }) =>
     [...showQueryKeys.all, options] as const,
   infinite: () => [...showQueryKeys.all, "infinite"] as const,
