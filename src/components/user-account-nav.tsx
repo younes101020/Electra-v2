@@ -38,14 +38,11 @@ export function UserAccountNav() {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild disabled>
-          <Link href="/movies/space">Space</Link>
+        <DropdownMenuItem asChild>
+          <Link href="/movies/space">Mes Space</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/movies/favorite">Mes favoris</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild disabled>
-          <Link href="/settings">Paramétres</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
