@@ -11,8 +11,11 @@ import {
 } from "@/components/ui/breadcrumb"
 
 export default function Breadcrumbs() {
-  const segments = useSelectedLayoutSegments().reduce((acc, segment) => {
+  const segments = useSelectedLayoutSegments().reduce((acc, segment, index, array) => {
     if (acc.includes('space')) {
+      if (index === array.indexOf('space') + 1) {
+        acc.push(segment);
+      }
       return acc;
     }
     acc.push(segment);

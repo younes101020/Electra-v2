@@ -27,7 +27,7 @@ export function Form() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedFilter = useDebounce(searchTerm, 500);
   const { data: queryShows, isLoading } = useQuery({
-    queryKey: showQueryKeys.detail(debouncedFilter),
+    queryKey: showQueryKeys.query(debouncedFilter),
     queryFn: () => getRQShowsFn({ type: "query", value: debouncedFilter }),
     enabled: Boolean(debouncedFilter),
     refetchOnMount: false,

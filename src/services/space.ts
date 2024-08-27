@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { ITMDBShowDetailsResponse } from "@/utils/api/tmdb";
+import fetcher from "@/utils/http";
 
 /**
  * This function return all related space entities including: users, messages and movie reference
@@ -94,4 +96,51 @@ export const setUserToSpace = async ({
       },
     },
   });
+};
+
+/**
+ * This function retrieves all spaces that a user is attached to
+ *
+ * @param userId The ID of the user
+ * @returns An array of spaces with their details
+ */
+export const getUserSpaces = async (userId: number) => {
+  const spaces = await db.space.findMany({
+    where: {
+      users: {
+        some: {
+          id: userId,
+        },
+      },
+    },
+    select: {
+      id: true,
+      showId: true,
+      users: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+  // Fetch movie details for each space
+  const spacesWithMovieDetails = await Promise.all(
+    spaces.map(async (space) => {
+      const movie = await fetcher<ITMDBShowDetailsResponse>(
+        `${process.env.BASETMDBURL}/movie/${space.showId}?language=fr-FR`,
+        { method: "GET", next: { revalidate: 3600 } },
+        {
+          tmdbContext: {},
+        }
+      );
+      return {
+        ...space,
+        movie_title: movie.original_title,
+        movie_poster: movie.poster_path,
+      };
+    })
+  );
+  return spacesWithMovieDetails;
 };

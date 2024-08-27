@@ -93,7 +93,7 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname.endsWith(endpoint),
     );
     // Since `space` is the only rewritingEndpoint of type page and not route handler, we managed it separately
-    if (request.nextUrl.pathname.includes("/space")) {
+    if (request.nextUrl.pathname.includes("/space") && !request.nextUrl.pathname.endsWith("/space")) {
       return NextResponse.rewrite(
         new URL(`${request.nextUrl.pathname}/${user.session_id}`, request.url),
       );
