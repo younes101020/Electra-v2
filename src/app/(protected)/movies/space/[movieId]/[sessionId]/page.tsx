@@ -1,5 +1,8 @@
 import fetcher from "@/utils/http";
-import { ITMDBAccoundDetails, ITMDBShowDetailsResponse, ITMDBStatusResponse } from "@/utils/api/tmdb";
+import {
+  ITMDBAccoundDetails,
+  ITMDBShowDetailsResponse,
+} from "@/utils/api/tmdb";
 import { Chat } from "./_components/chat";
 import {
   getSpaceEntities,
@@ -29,7 +32,7 @@ export default async function SpacePage({
       tmdbContext: {},
     },
   );
-  if("success" in showDetails && !showDetails.success) {
+  if ("success" in showDetails && !showDetails.success) {
     redirect("/movies");
   }
   /**
@@ -51,16 +54,33 @@ export default async function SpacePage({
       movieId: params.movieId,
       userId: accountDetails.id,
     });
-    return <Chat space={newSpace.id} user={newSpace.users} />;
+    return (
+      <Chat
+        space={newSpace.id}
+        user={newSpace.users}
+        movieId={params.movieId}
+      />
+    );
   }
   // If user is not in the space, add it
   if (!space.users.some((user) => user.id === accountDetails.id)) {
-    await setUserToSpace({ spaceId: space.id, userId: accountDetails.id });
+    await setUserToSpace({
+      spaceId: space.id,
+      userId: accountDetails.id,
+      movieId: params.movieId,
+    });
     space.users.push({
       name: accountDetails.username,
       id: accountDetails.id,
       image: accountDetails.avatar.tmdb.avatar_path,
     });
   }
-  return <Chat message={space.message} user={space.users} space={space.id} />;
+  return (
+    <Chat
+      message={space.message}
+      user={space.users}
+      space={space.id}
+      movieId={params.movieId}
+    />
+  );
 }

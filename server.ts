@@ -21,7 +21,6 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     socket.on("newUser", (data) => {
-      console.log("from server side newuser event:", data)
       // Ignore new user subscription when user is Anonymous (initial zustand value for session context)
       if (
         data.name !== "Anonymous" &&
@@ -44,7 +43,6 @@ app.prepare().then(() => {
       }
     });
     socket.on("message", async (data) => {
-      console.log("from server side message event:", data)
       // When new message is sended persist it into database and broadcast it into the space
       socket.join(data.message.spaceId);
       await db.message.create({
