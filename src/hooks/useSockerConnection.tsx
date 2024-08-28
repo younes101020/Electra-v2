@@ -28,6 +28,7 @@ const useSocketConnection = (
   initialMessages: Message[],
   initialUsers: User[],
   space: number,
+  formEl: RefObject<HTMLFormElement>,
 ): UseSocketConnectionReturn => {
   const { id, username, avatar } = useSessionStore((state) => state);
   const [users, setUsers] = useState<User[]>(initialUsers);
@@ -117,7 +118,11 @@ const useSocketConnection = (
           userId: id,
         },
       });
-      formRef.current!.reset()
+      formRef.current!.reset();
+      // Revalidate cached space data
+      formEl?.current!.dispatchEvent(
+        new Event("submit", { cancelable: true, bubbles: true }),
+      );
     },
     [socket, id],
   );

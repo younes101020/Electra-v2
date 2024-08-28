@@ -1,6 +1,5 @@
 import { ITMDBShowResponse } from "@/utils/api/tmdb";
 import fetcher from "@/utils/http";
-import { unstable_cache } from "next/cache";
 
 /**
  * This endpoint returns all the ratings that a specific user has assigned to a range of movies
@@ -12,9 +11,17 @@ export async function GET(
   { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
-    const moviesRating = await getCachedMoviesRating(
-      params.sessionid,
-      params.accountid,
+    const moviesRating = await fetcher<ITMDBShowResponse>(
+      `${process.env.BASETMDBURL}/account/${params.accountid}/rated/movies`,
+      {
+        method: "GET",
+        next: { tags: [`rated:${params.accountid}`] },
+      },
+      {
+        tmdbContext: {
+          session_id: params.sessionid,
+        },
+      },
     );
     return Response.json(moviesRating);
   } catch (error) {
@@ -25,32 +32,3 @@ export async function GET(
     return Response.json({ error }, { status: 502 });
   }
 }
-
-const getCachedMoviesRating = async (sessionid: string, accountId: string) => {
-  const cachedMoviesRating = unstable_cache(
-    async (accountId) => getMoviesRating(sessionid, accountId),
-    [accountId],
-    { tags: [`rated:${accountId}`] },
-  );
-  const favs = await cachedMoviesRating(accountId);
-  return favs;
-};
-
-const getMoviesRating = async (sessionid: string, accountId: string) => {
-  try {
-    const moviesRating = await fetcher<ITMDBShowResponse>(
-      `${process.env.BASETMDBURL}/account/${accountId}/rated/movies`,
-      {
-        method: "GET",
-      },
-      {
-        tmdbContext: {
-          session_id: sessionid,
-        },
-      },
-    );
-    return moviesRating;
-  } catch (error) {
-    throw error;
-  }
-};

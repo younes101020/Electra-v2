@@ -1,6 +1,6 @@
 import { ITMDBShowResponse } from "@/utils/api/tmdb";
 import fetcher from "@/utils/http";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 /**
  * This endpoint returns a list of favorite movies for a specific tmdb account
@@ -12,11 +12,24 @@ export async function GET(
   { params }: { params: { sessionid: string; accountid: string } },
 ) {
   try {
-    const favIds = await getCachedFavoriteMovieIds(
-      params.sessionid,
-      params.accountid,
+    const favShows = await fetcher<ITMDBShowResponse>(
+      `${process.env.BASETMDBURL}/account/${params.accountid}/favorite/movies`,
+      {
+        method: "GET",
+        next: { tags: [`favorite:${params.accountid}`] },
+      },
+      {
+        tmdbContext: {
+          session_id: params.sessionid,
+        },
+      },
     );
-    return Response.json(favIds);
+    const favShowsMinimalData = favShows.results.map((show) => ({
+      id: show.id,
+      poster_path: show.poster_path,
+      original_title: show.original_title,
+    }));
+    return Response.json({ results: favShowsMinimalData });
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
@@ -25,39 +38,6 @@ export async function GET(
     return Response.json({ error }, { status: 502 });
   }
 }
-
-const getCachedFavoriteMovieIds = async (
-  sessionid: string,
-  accountId: string,
-) => {
-  const cachedFavs = unstable_cache(
-    async (accountId) => getFavoriteMovieIds(sessionid, accountId),
-    [accountId],
-    { tags: [`favorite:${accountId}`] },
-  );
-  const favs = await cachedFavs(accountId);
-  return favs;
-};
-
-const getFavoriteMovieIds = async (sessionid: string, accountId: string) => {
-  try {
-    const favShows = await fetcher<ITMDBShowResponse>(
-      `${process.env.BASETMDBURL}/account/${accountId}/favorite/movies`,
-      {
-        method: "GET",
-      },
-      {
-        tmdbContext: {
-          session_id: sessionid,
-        },
-      },
-    );
-    const favShowsMinimalData = favShows.results.map((show) => ({id: show.id, poster_path: show.poster_path, original_title: show.original_title}));
-    return { results: favShowsMinimalData };
-  } catch (error) {
-    throw error;
-  }
-};
 
 /**
  * This endpoint remove/add movies to favorite
@@ -86,7 +66,7 @@ export async function POST(
         },
       },
     );
-    revalidateTag(`favorite:${params.accountid}`)
+    revalidateTag(`favorite:${params.accountid}`);
     return Response.json({ revalidate: true, result });
   } catch (error) {
     if (error instanceof Error)
