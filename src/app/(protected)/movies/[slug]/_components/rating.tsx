@@ -30,7 +30,6 @@ export function Rating({ movie_id }: RatingProps) {
     refetchOnMount: false,
     refetchOnReconnect: false,
   });
-  console.log(data);
   const currentMovieRating = data?.results.find(
     (movie) => movie.id === movie_id,
   );

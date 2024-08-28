@@ -59,7 +59,7 @@ export default async function SingleMoviePage({ params }: URLProps) {
     (e) => e.site === "YouTube",
   );
   return (
-    <div className="flex flex-col justify-center gap-4 px-10 py-16 *:rounded-lg md:flex-row lg:px-32 lg:py-32">
+    <div className="flex flex-col justify-center gap-4 px-5 py-20 *:rounded-lg md:flex-row md:px-24 lg:py-32">
       <div className="flex w-full flex-col gap-3 md:w-2/3">
         {trailerVideoSrc && (
           <iframe
