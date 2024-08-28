@@ -60,9 +60,9 @@ export function Form() {
                 refetch={refetch}
                 isFav={
                   favoriteMovies?.results! &&
-                        favoriteMovies.results.some(
-                          (favMovies: Show) => show.id === favMovies.id,
-                        )
+                  favoriteMovies.results.some(
+                    (favMovies: Show) => show.id === favMovies.id,
+                  )
                 }
                 id={show.id}
                 poster_path={show.poster_path}
@@ -72,7 +72,9 @@ export function Form() {
           ))}
         </section>
       ) : isLoading ? (
-        <Spinner />
+        <div className="flex w-full justify-center">
+          <Spinner />
+        </div>
       ) : (
         <Shows />
       )}
