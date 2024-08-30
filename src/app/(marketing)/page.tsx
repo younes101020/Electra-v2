@@ -47,7 +47,7 @@ export default function Landing() {
       <section className="pt-5 h-screen">
         <CanvasRevealEffectDemo3 />
       </section>
-      <section className="flex h-screen w-full p-10 md:p-28">
+      <section className="flex w-full p-10 md:p-28">
         <Promo />
       </section>
     </>
