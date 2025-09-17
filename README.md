@@ -9,7 +9,7 @@
 
   <h3 align="center">Electra</h3>
 
-  <p align="center">
+  <p align="center">ddsds
     The first meeting platform for film lovers
     <br />
   </p>
