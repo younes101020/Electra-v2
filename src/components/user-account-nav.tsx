@@ -42,6 +42,13 @@ export function UserAccountNav() {
           <Link href="/profile">Mon profil</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
+          <Link href="/friends">Mes amis</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/messages">Messages</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
           <Link href="/movies/space">Mes Space</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

@@ -5,7 +5,7 @@ import {
   RequestCookies,
   ResponseCookies,
 } from "next/dist/server/web/spec-extension/cookies";
-import { ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
+import { ITMDBAccoundDetails, ITMDBNewAuthSessionResp } from "./utils/api/tmdb";
 import { setUserCookie, verifyAuth } from "./lib/misc/auth";
 import { IGenericResp } from "./utils/api";
 import { getPathsAroundPlaceholder } from "./lib/utils";
@@ -17,6 +17,12 @@ export const config = {
     "/movies/:path*",
     "/movies",
     "/profile",
+    "/friends",
+    "/messages",
+    "/users/:path*",
+    "/api/users/:path*",
+    "/api/friends/:path*",
+    "/api/conversations/:path*",
     "/(api/[a-z]+/session_id_placeholder/.*)",
     "/",
   ],
@@ -70,7 +76,17 @@ export async function middleware(request: NextRequest) {
         },
       );
       const response = NextResponse.redirect(new URL("/movies", request.url));
-      const responseWithJWT = await setUserCookie(response, session.session_id);
+      // Fetch account details to embed user_id in the JWT for fast lookup
+      const accountDetails = await fetcher<ITMDBAccoundDetails>(
+        `${process.env.BASETMDBURL}/account`,
+        { method: "GET" },
+        { tmdbContext: { session_id: session.session_id } },
+      );
+      const responseWithJWT = await setUserCookie(
+        response,
+        session.session_id,
+        accountDetails.id,
+      );
       // Apply those cookies to the request
       applySetCookie(request, responseWithJWT);
       // Check if user is persisted into our database if not insert it
@@ -94,7 +110,10 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname.endsWith(endpoint),
     );
     // Since `space` is the only rewritingEndpoint of type page and not route handler, we managed it separately
-    if (request.nextUrl.pathname.includes("/space") && !request.nextUrl.pathname.endsWith("/space")) {
+    if (
+      request.nextUrl.pathname.includes("/space") &&
+      !request.nextUrl.pathname.endsWith("/space")
+    ) {
       return NextResponse.rewrite(
         new URL(`${request.nextUrl.pathname}/${user.session_id}`, request.url),
       );

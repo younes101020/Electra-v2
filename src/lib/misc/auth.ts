@@ -24,7 +24,10 @@ export async function verifyAuth({
       token,
       new TextEncoder().encode(getJwtSecretKey()),
     );
-    return verified.payload as JWTPayload & { session_id: string };
+    return verified.payload as JWTPayload & {
+      session_id: string;
+      user_id?: number;
+    };
   } catch (err) {
     throw new AuthError("Your token has expired.");
   }
@@ -32,9 +35,21 @@ export async function verifyAuth({
 
 /**
  * Adds the user token cookie to a response.
+ *
+ * @param res - The NextResponse to attach the cookie to
+ * @param session_id - The TMDB session ID
+ * @param user_id - The TMDB account ID (stored in JWT for fast lookup)
  */
-export async function setUserCookie(res: NextResponse, session_id: string) {
-  const token = await new SignJWT({ session_id })
+export async function setUserCookie(
+  res: NextResponse,
+  session_id: string,
+  user_id?: number,
+) {
+  const payload: { session_id: string; user_id?: number } = { session_id };
+  if (user_id !== undefined) {
+    payload.user_id = user_id;
+  }
+  const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setJti(nanoid())
     .setIssuedAt()

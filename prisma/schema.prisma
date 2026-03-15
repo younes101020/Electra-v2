@@ -19,6 +19,12 @@ model User {
   image   String?
   spaces  Space[]
   messages Message[]
+
+  // Social system relations
+  sentFriendships     Friendship[] @relation("FriendshipSender")
+  receivedFriendships Friendship[] @relation("FriendshipReceiver")
+  conversationUsers   ConversationUser[]
+  directMessages      DirectMessage[]
 }
 
 model Space {
@@ -35,4 +41,58 @@ model Message {
   space     Space? @relation(fields: [spaceId], references: [id])
   userId    Int?
   user      User? @relation(fields: [userId], references: [id])
+}
+
+// ─── Social System ───────────────────────────────────────────
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model Friendship {
+  id         Int              @id @default(autoincrement())
+  senderId   Int
+  sender     User             @relation("FriendshipSender", fields: [senderId], references: [id])
+  receiverId Int
+  receiver   User             @relation("FriendshipReceiver", fields: [receiverId], references: [id])
+  status     FriendshipStatus @default(PENDING)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([senderId, receiverId])
+  @@index([receiverId])
+}
+
+model Conversation {
+  id        Int                @id @default(autoincrement())
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  users     ConversationUser[]
+  messages  DirectMessage[]
+}
+
+model ConversationUser {
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  user           User         @relation(fields: [userId], references: [id])
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  joinedAt       DateTime     @default(now())
+
+  @@unique([userId, conversationId])
+  @@index([conversationId])
+}
+
+model DirectMessage {
+  id             Int          @id @default(autoincrement())
+  content        String
+  userId         Int
+  user           User         @relation(fields: [userId], references: [id])
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
 }
