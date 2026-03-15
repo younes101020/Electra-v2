@@ -16,6 +16,7 @@ export const config = {
     "/approved/:path*",
     "/movies/:path*",
     "/movies",
+    "/profile",
     "/(api/[a-z]+/session_id_placeholder/.*)",
     "/",
   ],

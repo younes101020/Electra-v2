@@ -39,6 +39,9 @@ export function UserAccountNav() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
+          <Link href="/profile">Mon profil</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/movies/space">Mes Space</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
