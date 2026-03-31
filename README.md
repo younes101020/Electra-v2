@@ -191,7 +191,6 @@ Younes Fakallah - [@untilsw](https://twitter.com/untilsw)
 [Yarn]: https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white
 [Next-url]: https://nextjs.org/
 [Context-API]: https://img.shields.io/badge/Context--Api-000000?style=for-the-badge&logo=react
-[Nodemon]: https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD
 [TailwindCSS]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
 [React-Query]: https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white
 [React-url]: https://reactjs.org/
