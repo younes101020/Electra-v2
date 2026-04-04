@@ -7,7 +7,7 @@
     <img src="public/img/logo.jpg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Electra</h3>
+  <h3 align="center">Electra</h3>ssss
 
   <p align="center">
     The first meeting platform for film lovers
